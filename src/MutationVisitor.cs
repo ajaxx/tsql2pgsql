@@ -20,7 +20,7 @@ namespace tsql2pgsql
         /// <summary>
         /// The collection of lines.
         /// </summary>
-        private List<string> _lines;
+        private readonly List<string> _lines;
 
         /// <summary>
         /// A collection functions that when applied to a line, apply any transformations to
@@ -32,7 +32,7 @@ namespace tsql2pgsql
         /// <summary>
         /// Creates a common mutation engine.
         /// </summary>
-        public MutationVisitor(IList<string> procedureLines)
+        public MutationVisitor(IEnumerable<string> procedureLines)
             : base()
         {
             _lines = new List<string>(procedureLines);
@@ -394,34 +394,6 @@ namespace tsql2pgsql
         }
 
         /// <summary>
-        /// Returns true if the child has a parent of type T.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="child"></param>
-        /// <returns></returns>
-        internal bool HasParent<T>(IParseTree child)
-        {
-            return FindParent<T>(child) != null;
-        }
-
-        /// <summary>
-        /// Returns the first parent of type T.
-        /// Returns null if no type is found.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="child"></param>
-        /// <returns></returns>
-        internal IParseTree FindParent<T>(IParseTree child)
-        {
-            if (child.Parent == null)
-                return null;
-            else if (child.Parent is T)
-                return child.Parent;
-            else
-                return FindParent<T>(child.Parent);
-        }
-
-        /// <summary>
         /// Called when we encounter a type that has been quoted according to TSQL convention.
         /// </summary>
         /// <param name="context"></param>
@@ -450,12 +422,15 @@ namespace tsql2pgsql
         /// <returns></returns>
         public override TSQLParser.CompileUnitContext VisitQualifiedNamePart(TSQLParser.QualifiedNamePartContext context)
         {
+            var identifierTree = context.Identifier();
+            var identifierToken = identifierTree.Symbol;
             var identifier = context.Identifier().GetText().Trim();
             if ((identifier.Length > 2) &&
                 (identifier[0] == '[') &&
                 (identifier[identifier.Length - 1] == ']'))
             {
                 identifier = string.Format("\"{0}\"", identifier.Substring(1, identifier.Length - 2));
+                ReplaceToken(identifierToken, identifier);
             }
 
             return base.VisitQualifiedNamePart(context);
