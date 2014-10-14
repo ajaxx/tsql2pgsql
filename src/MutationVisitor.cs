@@ -438,14 +438,13 @@ namespace tsql2pgsql
         public override TSQLParser.CompileUnitContext VisitQualifiedNamePart(TSQLParser.QualifiedNamePartContext context)
         {
             var identifierTree = context.Identifier();
-            var identifierToken = identifierTree.Symbol;
-            var identifier = context.Identifier().GetText().Trim();
+            var identifier = identifierTree.GetText().Trim();
             if ((identifier.Length > 2) &&
                 (identifier[0] == '[') &&
                 (identifier[identifier.Length - 1] == ']'))
             {
                 identifier = string.Format("\"{0}\"", identifier.Substring(1, identifier.Length - 2));
-                ReplaceToken(identifierToken, identifier);
+                ReplaceToken(identifierTree.Symbol, identifier);
             }
 
             return base.VisitQualifiedNamePart(context);
