@@ -14,9 +14,12 @@
 //   limitations under the License.
 // --------------------------------------------------------------------------------
 
+using System;
+
+using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
-namespace tsql2pgsql
+namespace tsql2pgsql.antlr
 {
     public static class ParseTreeExtensions
     {
@@ -27,6 +30,7 @@ namespace tsql2pgsql
         /// <param name="child"></param>
         /// <returns></returns>
         public static bool HasParent<T>(this IParseTree child)
+            where T : IParseTree
         {
             return FindParent<T>(child) != null;
         }
@@ -38,12 +42,13 @@ namespace tsql2pgsql
         /// <typeparam name="T"></typeparam>
         /// <param name="child"></param>
         /// <returns></returns>
-        public static IParseTree FindParent<T>(this IParseTree child)
+        public static T FindParent<T>(this IParseTree child)
+            where T : IParseTree
         {
             if (child.Parent == null)
-                return null;
+                return default(T);
             else if (child.Parent is T)
-                return child.Parent;
+                return (T) child.Parent;
             else
                 return FindParent<T>(child.Parent);
         }
@@ -59,5 +64,34 @@ namespace tsql2pgsql
                 return context;
             return RightMostChild(context.GetChild(context.ChildCount - 1));
         }
+
+        /// <summary>
+        /// Gets the range.
+        /// </summary>
+        /// <param name="tree">The tree.</param>
+        /// <returns></returns>
+        /// <exception cref="System.InvalidOperationException"></exception>
+        public static string ToRangeString(this IParseTree tree)
+        {
+            if (tree is TerminalNodeImpl)
+            {
+                var terminalNode = (TerminalNodeImpl)tree;
+                return
+                    terminalNode.Symbol.Line + "." +
+                    terminalNode.Symbol.Column;
+            }
+            else if (tree is ParserRuleContext)
+            {
+                var ruleContext = (ParserRuleContext)tree;
+                return
+                    ruleContext.Start.Line + "." +
+                    ruleContext.Start.Column + " -> " +
+                    ruleContext.Stop.Line + "." +
+                    (ruleContext.Stop.Column + ruleContext.Stop.Text.Length - ruleContext.Start.Column);
+            }
+
+            throw new InvalidOperationException();
+        }
+
     }
 }

@@ -16,6 +16,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 
 using Nito.KitchenSink.OptionParsing;
 
@@ -39,9 +40,23 @@ namespace tsql2pgsql
         {
             Console.WriteLine("> {0}", filePath);
 
-            var source = File.ReadAllLines(filePath);
-            var mutation = new MutationVisitor(source);
-            mutation.Mutate();
+            var fileContent = File.ReadAllLines(filePath);
+
+            fileContent = (new FormattingVisitor(
+                fileContent)).Process();
+            _log.Debug("MutationVisitor: Start");
+            fileContent = (new MutationVisitor(
+                fileContent)).Process();
+
+            var prevLine = string.Empty;
+            foreach (var line in fileContent)
+            {
+                var trimLine = line.TrimEnd();
+                if (trimLine != string.Empty || prevLine != string.Empty)
+                    Console.WriteLine(trimLine);
+
+                prevLine = trimLine;
+            }
         }
 
         static void Main(string[] args)

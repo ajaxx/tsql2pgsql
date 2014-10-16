@@ -310,10 +310,7 @@ type
 	|	numericType
 	|	identityType
 	|	integerType
-	|	(	VARCHAR
-		|	NVARCHAR
-		|	NCHAR
-		) characterStringTypeLength?
+	|	characterStringType
 	|	XML
 	|	CURSOR
 	|	typeInBracket
@@ -452,8 +449,12 @@ dml
 	|	COMMIT TRANSACTION? qualifiedName?
 	|	GOTO qualifiedName?
 	|	ROLLBACK TRANSACTION? qualifiedName?
-	|	RETURN expression?
+	|	returnExpression
 	|	Identifier COLON  /* Label */
+	;
+
+returnExpression
+	:	RETURN expression?
 	;
 
 ifStatement
@@ -553,9 +554,13 @@ declareStatement
 
 variableDeclaration
 	:	variable
-		(	AS? type ('=' expression)?
+		(	AS? type variableDeclarationAssignment?
 		|	TABLE LPAREN columnDefinitionList (',' tableDeclarationOptions)? (',')? RPAREN
 		)
+	;
+
+variableDeclarationAssignment
+	:	('=' expression)?
 	;
 
 columnList
@@ -590,16 +595,26 @@ partitionName
 	;
 
 setStatement
-	:	SET setStatementRest
+	:	SET
+	(	setVariableAssignment
+	|	setVariableToCursor
+	|	setSessionOther
+	)
 	;
 
-setStatementRest
-	:	variable propertyOrField? assignmentOperator expression
-	|	variable propertyOrField? EQUALS CURSOR FOR	selectStatement
-	|	ROWCOUNT integerValue
+setSessionOther
+	:	ROWCOUNT integerValue
 	|	TRANSACTION ISOLATION LEVEL transactionIsolationLevel
 	|	qualifiedName+ (ON|OFF)
 	|	qualifiedName
+	;
+
+setVariableAssignment
+	:	variable propertyOrField? assignmentOperator expression
+	;
+
+setVariableToCursor
+	:	variable propertyOrField? EQUALS CURSOR FOR	selectStatement
 	;
 
 transactionIsolationLevel
@@ -1329,6 +1344,24 @@ USED			:	'used';
 OPTIMIZE		:	'optimize';
 ROWCOUNT		:	'rowcount';
 
+
+LT				:	'<';
+LTE				:	'<=';
+GT				:	'>';
+GTE				:	'>=';
+GT_LT			:	'<>';
+
+EQUAL_EQUAL		:	'==';
+NOT_EQUAL		:	'!=';
+ADD_ASSIGN		:	'+=';
+SUB_ASSIGN		:	'-=';
+MUL_ASSIGN      :	'*=';
+DIV_ASSIGN      :	'/=';
+AND_ASSIGN      :	'&=';
+OR_ASSIGN       :	'|=';
+XOR_ASSIGN      :	'^=';
+MOD_ASSIGN      :	'%=';
+
 HASH			:	'#';
 LPAREN			:	'(';
 RPAREN			:	')';
@@ -1348,23 +1381,6 @@ PLUS			:	'+';
 MINUS			:	'-';
 DOT				:	'.';
 COMMA			:	',';
-
-LT				:	'<';
-LTE				:	'<=';
-GT				:	'>';
-GTE				:	'>=';
-GT_LT			:	'<>';
-
-EQUAL_EQUAL		:	'==';
-NOT_EQUAL		:	'!=';
-ADD_ASSIGN		:	'+=';
-SUB_ASSIGN		:	'-=';
-MUL_ASSIGN      :	'*=';
-DIV_ASSIGN      :	'/=';
-AND_ASSIGN      :	'&=';
-OR_ASSIGN       :	'|=';
-XOR_ASSIGN      :	'^=';
-MOD_ASSIGN      :	'%=';
 
 fragment
 DecimalIntegerLiteral

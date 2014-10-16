@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Deploy-Grammar">
+	<ItemGroup>
+		<Antlr4 Include="TSQL.g4">
+			<TargetLanguage>CSharp</TargetLanguage>
+			<CustomToolNamespace>tsql2pgsql.grammar</CustomToolNamespace>
+		</Antlr4>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<IntermediateOutputPath>$(MSBuildProjectDirectory)</IntermediateOutputPath>
+		<AntlrVersion>4.4.3.0</AntlrVersion>
+	</PropertyGroup>
+
+	<Import Project="$(MSBuildProjectDirectory)\..\src\packages\Antlr$(AntlrVersion)\build\Antlr4.props" />
+	<Import Project="$(MSBuildProjectDirectory)\..\src\packages\Antlr$(AntlrVersion)\build\Antlr4.targets" />
+	
+	<Target Name="Info">
+		<Message Text="MSBuildToolsPath: $(MSBuildToolsPath)" />
+	</Target>
+
+	<Target Name="Build-Grammar">
+		<PropertyGroup>
+			<TargetDir>$(MSBuildProjectDirectory)\..\src\grammar</TargetDir>		
+			<Antlr4AbstractGrammar>TSQL.g4</Antlr4AbstractGrammar>
+		</PropertyGroup>
+		
+		<CallTarget Condition="'$(BuildingProject)' != 'true'" Targets="Antlr4Compile" ContinueOnError="false" />
+	</Target>
+	
+	<Target Name="Deploy-Grammar" DependsOnTargets="Build-Grammar">
+		<ItemGroup>
+			<SourceFiles Include="$(MSBuildProjectDirectory)\*.cs" />
+		</ItemGroup>
+
+		<ItemGroup>
+			<TokenFiles Include="$(MSBuildProjectDirectory)\*.tokens" />
+		</ItemGroup>
+
+		<Message Text="Copying NEsper Generated Grammar Files: @(SourceFiles, ' ')" />
+
+		<Copy SourceFiles="@(SourceFiles)"
+			  DestinationFolder="$(TargetDir)"
+			  SkipUnchangedFiles="True" />
+
+		<Delete Files="@(SourceFiles)" />
+		<Delete Files="@(TokenFiles)" />
+	</Target>
+</Project>

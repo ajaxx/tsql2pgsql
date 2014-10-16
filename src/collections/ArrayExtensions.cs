@@ -14,40 +14,19 @@
 //   limitations under the License.
 // --------------------------------------------------------------------------------
 
-using System;
-using System.IO;
-
-using Antlr4.Runtime;
-
-namespace tsql2pgsql
+namespace tsql2pgsql.collections
 {
-    class CaseInsensitiveStream : AntlrInputStream
+    public static class ArrayExtensions
     {
-        public CaseInsensitiveStream(String s)
-            : base(new StringReader(s))
+        /// <summary>
+        /// Determines whether the array is null or empty.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">The array.</param>
+        /// <returns></returns>
+        public static bool IsNullOrEmpty<T>(this T[] array)
         {
-        }
-
-        public override int La(int i)
-        {
-            if (i == 0)
-            {
-                return 0; // undefined
-            }
-            if (i < 0)
-            {
-                i++; // e.g., translate LA(-1) to use offset i=0; then data[p+0-1]
-                if ((p + i - 1) < 0)
-                {
-                    return IntStreamConstants.Eof;
-                }
-            }
-            // invalid; no char before first char
-            if ((p + i - 1) >= n)
-            {
-                return (int)IntStreamConstants.Eof;
-            }
-            return Char.ToLower(data[p + i - 1]);
+            return array == null || array.Length == 0;
         }
     }
 }

@@ -26,6 +26,8 @@ namespace tsql2pgsql
         public AppOptions()
         {
             Files = new List<string>();
+            OutputDir = Environment.CurrentDirectory;
+            Extension = ".pgsql";
         }
 
 		[Option("threads", 't')]
@@ -35,6 +37,12 @@ namespace tsql2pgsql
         public bool Echo { get; set; }
         [Option("tokens", OptionArgument.None)]
         public bool Tokens { get; set; }
+
+        [Option("outdir", OptionArgument.Required)]
+        public string OutputDir { get; set; }
+
+        [Option("extension", OptionArgument.Required)]
+        public string Extension { get; set; }
 
         [PositionalArguments]
         public List<string> Files { get; private set; }

@@ -39,17 +39,13 @@
       <HintPath>packages\Antlr4.Runtime.4.3.0\lib\net40-client\Antlr4.Runtime.net40.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Common.Logging">
-      <HintPath>packages\Common.Logging.2.2.0\lib\net40\Common.Logging.dll</HintPath>
+    <Reference Include="Common.Logging, Version=2.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Common.Logging.2.0.0\lib\2.0\Common.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging.Core">
-      <HintPath>packages\Common.Logging.Core.2.2.0\lib\net40\Common.Logging.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging.Log4Net">
-      <HintPath>packages\Common.Logging.Log4Net.2.0.1\lib\net20\Common.Logging.Log4Net.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    <Reference Include="Common.Logging.NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Common.Logging.NLog.2.0.0\lib\2.0\Common.Logging.NLog.dll</HintPath>
     </Reference>
     <Reference Include="Nito.KitchenSink.Dynamic, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -63,6 +59,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\Nito.KitchenSink.SimpleParsers.1.1.0\lib\net40-Client\Nito.KitchenSink.SimpleParsers.dll</HintPath>
     </Reference>
+    <Reference Include="NLog">
+      <HintPath>packages\NLog.3.1.0.0\lib\net40\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,26 +71,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="antlr\DisplacementVisitor.cs" />
     <Compile Include="AppOptions.cs" />
-    <Compile Include="CaseInsensitiveStream.cs" />
+    <Compile Include="collections\ArrayExtensions.cs" />
+    <Compile Include="antlr\CaseInsensitiveStream.cs" />
+    <Compile Include="FormattingVisitor.cs" />
+    <Compile Include="grammar\TSQLBaseListener.cs" />
+    <Compile Include="grammar\TSQLBaseVisitor.cs" />
+    <Compile Include="grammar\TSQLLexer.cs" />
+    <Compile Include="grammar\TSQLListener.cs" />
+    <Compile Include="grammar\TSQLParser.cs" />
+    <Compile Include="grammar\TSQLVisitor.cs" />
     <Compile Include="MutationVisitor.cs" />
     <Compile Include="Mutator.cs" />
-    <Compile Include="ParseTreeExtensions.cs" />
+    <Compile Include="antlr\ParseTreeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TSQL.g4.lexer.cs">
-      <DependentUpon>TSQL.g4</DependentUpon>
-    </Compile>
-    <Compile Include="TSQL.g4.parser.cs">
-      <DependentUpon>TSQL.g4</DependentUpon>
-    </Compile>
+    <Compile Include="ReturnTypeVisitor.cs" />
+    <Compile Include="visitors\VariablesVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
-    <Antlr4 Include="TSQL.g4">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>tsql2pgsql</CustomToolNamespace>
-    </Antlr4>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
