@@ -24,6 +24,8 @@ using Common.Logging;
 
 namespace tsql2pgsql
 {
+    using visitors;
+
     public class Mutator
     {
         /// <summary>

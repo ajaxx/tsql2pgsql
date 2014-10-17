@@ -40,6 +40,11 @@ namespace tsql2pgsql
         /// </summary>
         private static readonly ILog _log = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Collection of all known parameters.
+        /// </summary>
+        private readonly ISet<string> _parameters = new HashSet<string>();
+
         private IDictionary<string, TSQLParser.VariableDeclarationContext> _variables;
         private string _returnType;
 
@@ -49,11 +54,23 @@ namespace tsql2pgsql
         private int _declareBlockAfter;
 
         /// <summary>
+        /// Defines the string that will be used to replace the '@' in front of parameters.
+        /// </summary>
+        public string ParameterPrefix { get; set; }
+
+        /// <summary>
+        /// Defines the string that will be used to replace the '@' in front of variables.
+        /// </summary>
+        public string VariablePrefix { get; set; }
+
+        /// <summary>
         /// Creates a common mutation engine.
         /// </summary>
         public MutationVisitor(IEnumerable<string> lines) : base(lines)
         {
             _variables = null;
+            ParameterPrefix = "_p";
+            VariablePrefix = "_v";
         }
 
         /// <summary>
@@ -67,7 +84,7 @@ namespace tsql2pgsql
             variableVisitor.Visit(UnitContext);
             _variables = variableVisitor.Variables;
 
-            // Apply the mutationt
+            // Apply the mutation
             Visit(UnitContext);
 
             // Get the content
@@ -77,6 +94,69 @@ namespace tsql2pgsql
             result.AddRange(Lines.Skip(_declareBlockAfter));
 
             return result.ToArray();
+        }
+
+        /// <summary>
+        /// Unwraps a string that may have been bound with TSQL brackets for quoting.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private string Unwrap(string value)
+        {
+            if (value.StartsWith("[") && value.EndsWith("]"))
+            {
+                value = value.Substring(1, value.Length - 2);
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Unwraps a variable context and returns the variable name.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private string Unwrap(TSQLParser.VariableContext context)
+        {
+            var parameterName = context;
+            var parameterPart = Unwrap(
+                parameterName.Identifier() != null ?
+                parameterName.Identifier().GetText() :
+                parameterName.keyword().GetText());
+
+            return string.Join("", context.AT().Select(a => "@")) + parameterPart;
+        }
+
+        /// <summary>
+        /// Unwraps a qualified name part.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private string Unwrap(TSQLParser.QualifiedNamePartContext context)
+        {
+            var identifier = context.Identifier();
+            if (identifier != null)
+            {
+                return Unwrap(identifier.GetText());
+            }
+
+            return string.Join(" ", context.keyword().Select(k => k.GetText()));
+        }
+
+        /// <summary>
+        /// Unwraps the qualified name.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private string Unwrap(TSQLParser.QualifiedNameContext context)
+        {
+            var nameParts = context.qualifiedNamePart();
+            if (nameParts != null)
+            {
+                return string.Join(".", context.qualifiedNamePart().Select(Unwrap));
+            }
+
+            return context.keyword().GetText();
         }
 
         /// <summary>
@@ -107,8 +187,27 @@ namespace tsql2pgsql
         private string PortVariableName(string variableName)
         {
             if (variableName[0] == '@')
-                return "_v" + variableName.Substring(1);
+            {
+                return 
+                    (_parameters.Contains(variableName)) ?
+                    ParameterPrefix + variableName.Substring(1) : 
+                    VariablePrefix + variableName.Substring(1) ;
+            }
             return variableName;
+        }
+
+        /// <summary>
+        /// Ports the name of a table.
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <returns></returns>
+        private string PortTableName(string tableName)
+        {
+            if (tableName.StartsWith("#tmp"))
+                return "_tmp" + tableName.Substring(4);
+            if (tableName.StartsWith("#"))
+                return "_tmp" + tableName.Substring(1);
+            return tableName;
         }
 
         /// <summary>
@@ -411,20 +510,74 @@ namespace tsql2pgsql
         /// <returns></returns>
         public override object VisitProcedureParameter(TSQLParser.ProcedureParameterContext context)
         {
+            _parameters.Add(Unwrap(context.procedureParameterName().variable()));
             return base.VisitProcedureParameter(context);
         }
 
         #endregion
 
+
+        public override object VisitIfStatement(TSQLParser.IfStatementContext context)
+        {
+            return base.VisitIfStatement(context);
+        }
+
         public override object VisitStatement(TSQLParser.StatementContext context)
         {
-            var dml = context.dml();
-            if (dml != null && context.SEMICOLON() == null)
+            if (context.SEMICOLON() == null)
             {
-                InsertAfter(dml, ";");
+                var dml = context.dml();
+                if (dml != null)
+                {
+                    InsertAfter(dml, ";");
+                }
+
+                var ddl = context.ddl();
+                if (ddl != null)
+                {
+                    InsertAfter(ddl, ";");
+                }
             }
 
             return base.VisitStatement(context);
+        }
+
+        public override object VisitTempTable(TSQLParser.TempTableContext context)
+        {
+            // We need to determine which type of temporary table reference this is.
+            // The first kind is the traditional #name or ##name.
+            // The second kind is qualified by schema like app.#name
+            //
+            // We will only concern ourselves with the first kind since the second
+            // kind will be handled in a recursive visit.
+            
+            var hash = context.HASH();
+            if (hash != null && hash.Length > 0)
+            {
+                var tmpTablePrefix = string.Join("", hash.Select(h => "#"));
+                var tmpTableSuffix = string.Empty;
+                if (context.qualifiedNamePart() != null) {
+                    tmpTableSuffix = Unwrap(context.qualifiedNamePart());
+                } else {
+                    tmpTableSuffix = Unwrap(context.keyword().GetText());
+                }
+
+                if (ConfirmConsistency(context))
+                {
+                    ReplaceText(
+                        context.Start.Line,
+                        context.Start.Column,
+                        context.GetText(),
+                        PortTableName(tmpTablePrefix + tmpTableSuffix),
+                        true);
+                }
+                else
+                {
+                    Console.WriteLine("FAILED: {0}", context.GetText());
+                }
+            }
+
+            return base.VisitTempTable(context);
         }
     }
 }

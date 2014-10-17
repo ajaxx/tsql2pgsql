@@ -75,7 +75,7 @@
     <Compile Include="AppOptions.cs" />
     <Compile Include="collections\ArrayExtensions.cs" />
     <Compile Include="antlr\CaseInsensitiveStream.cs" />
-    <Compile Include="FormattingVisitor.cs" />
+    <Compile Include="visitors\FormattingVisitor.cs" />
     <Compile Include="grammar\TSQLBaseListener.cs" />
     <Compile Include="grammar\TSQLBaseVisitor.cs" />
     <Compile Include="grammar\TSQLLexer.cs" />
@@ -86,7 +86,7 @@
     <Compile Include="Mutator.cs" />
     <Compile Include="antlr\ParseTreeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReturnTypeVisitor.cs" />
+    <Compile Include="visitors\ReturnTypeVisitor.cs" />
     <Compile Include="visitors\VariablesVisitor.cs" />
   </ItemGroup>
   <ItemGroup>

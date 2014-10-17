@@ -22,7 +22,7 @@ using System.Text;
 
 using Common.Logging;
 
-namespace tsql2pgsql
+namespace tsql2pgsql.visitors
 {
     using antlr;
     using collections;
