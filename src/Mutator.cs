@@ -46,7 +46,6 @@ namespace tsql2pgsql
 
             fileContent = (new FormattingVisitor(
                 fileContent)).Process();
-            _log.Debug("MutationVisitor: Start");
             fileContent = (new MutationVisitor(
                 fileContent)).Process();
 
@@ -54,6 +53,8 @@ namespace tsql2pgsql
             foreach (var line in fileContent)
             {
                 var trimLine = line.TrimEnd();
+                if (trimLine.TrimStart() == ";")
+                    trimLine = string.Empty;
                 if (trimLine != string.Empty || prevLine != string.Empty)
                     Console.WriteLine(trimLine);
 

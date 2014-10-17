@@ -53,32 +53,56 @@ namespace tsql2pgsql.visitors
         /// <returns></returns>
         public override object VisitProcedureParameters(TSQLParser.ProcedureParametersContext context)
         {
+            var previousContext = (TSQLParser.CreateProcedureContext)context.parent;
             var parameters = context.procedureParameter();
             if (parameters.Length != 0)
             {
-                var previousContext = (TSQLParser.CreateProcedureContext) context.parent;
                 var previousItemLine = previousContext.qualifiedName().Stop.Line;
                 if (context.LPAREN() != null)
                 {
                     previousItemLine = context.LPAREN().Symbol.Line;
+                }
+                else if (parameters[0].Start.Line != previousItemLine)
+                {
+                    InsertAfter(previousContext.qualifiedName(), "\n(", false);
+                }
+                else
+                {
+                    InsertAfter(previousContext.qualifiedName(), "\n(", false);
+                    previousItemLine = parameters[0].Start.Line;
                 }
 
                 foreach (var parameter in parameters)
                 {
                     if (parameter.Start.Line == previousItemLine)
                     {
-                        InsertBefore(parameter, "\n    ", false);
+                        InsertBefore(parameter, "\n\t", false);
                     }
 
                     previousItemLine = parameter.Start.Line;
                 }
 
-                if (context.RPAREN() != null && context.RPAREN().Symbol.Line == previousItemLine)
+                if (context.RPAREN() != null)
                 {
-                    InsertBefore(context.RPAREN(), "\n", false);
+                    if (context.RPAREN().Symbol.Line == previousItemLine)
+                    {
+                        InsertBefore(context.RPAREN(), "\n", false);
+                    }
+                }
+                else
+                {
+                    InsertAfter(context.Stop, "\n)", false);
                 }
             }
-            
+            else
+            {
+                if (context.LPAREN() == null)
+                {
+                    InsertAfter(previousContext.qualifiedName(), "()", false);
+                }
+            }
+
+
             return base.VisitProcedureParameters(context);
         }
 

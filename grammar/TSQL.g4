@@ -167,9 +167,9 @@ primary
 	:	literalValue
 	|	qualifiedColumnName collate?
 	|	variable collate?
+	|	convertExpression
 	|	functionCall
 	|	CAST '(' expression AS type ')'
-	|	CONVERT '(' type ',' expression (',' Style = integerValue)? ')'
 	|	(	COUNT 
 		|	COUNT_BIG
 		)
@@ -186,6 +186,10 @@ primary
 expression
 	:	primary
 	|	conditionalExpression
+	;
+
+convertExpression
+	:	CONVERT LPAREN type ',' expression (',' Style = integerValue)? RPAREN
 	;
 
 conditionalExpression

@@ -39,7 +39,7 @@ namespace tsql2pgsql.antlr
         /// <summary>
         /// Returns an enumeration of lines.
         /// </summary>
-        public IEnumerable<string> Lines
+        public IList<string> Lines
         {
             get { return _lines; }
         }

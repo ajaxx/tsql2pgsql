@@ -64,6 +64,22 @@ namespace tsql2pgsql
         public string VariablePrefix { get; set; }
 
         /// <summary>
+        /// Gets the basic function map table.
+        /// </summary>
+        /// <value>
+        /// The basic function map table.
+        /// </value>
+        public IDictionary<string, string> BasicFunctionMapTable { get; private set; }
+
+        /// <summary>
+        /// Gets the advanced function map table.
+        /// </summary>
+        /// <value>
+        /// The advanced function map table.
+        /// </value>
+        public IDictionary<string, Func<string, string>> AdvancedFunctionMapTable { get; private set; }
+
+        /// <summary>
         /// Creates a common mutation engine.
         /// </summary>
         public MutationVisitor(IEnumerable<string> lines) : base(lines)
@@ -71,6 +87,13 @@ namespace tsql2pgsql
             _variables = null;
             ParameterPrefix = "_p";
             VariablePrefix = "_v";
+
+            // basic function mapping
+            BasicFunctionMapTable = new Dictionary<string, string>();
+            BasicFunctionMapTable["getdate"] = "utcnow";
+
+            // advanced function mapping
+            AdvancedFunctionMapTable = new Dictionary<string, Func<string, string>>();
         }
 
         /// <summary>
@@ -91,7 +114,13 @@ namespace tsql2pgsql
             var result = new List<string>();
             result.AddRange(Lines.Take(_declareBlockAfter));
             result.AddRange(GetDeclareBlock());
-            result.AddRange(Lines.Skip(_declareBlockAfter));
+            result.Add("BEGIN");
+
+            var bodyLines = string.Join("\n", Lines.Skip(_declareBlockAfter)).Split('\n');
+
+            result.AddRange(bodyLines.Select(l => "\t" + l));
+            result.Add("END;");
+            result.Add("$$ LANGUAGE plpgsql");
 
             return result.ToArray();
         }
@@ -109,6 +138,21 @@ namespace tsql2pgsql
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// Unwraps a function name
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private string Unwrap(TSQLParser.FunctionNameContext context)
+        {
+            var functionName = 
+                context.qualifiedName() != null ?
+                Unwrap(context.qualifiedName()) :
+                Unwrap(context.keyword().GetText());
+
+            return functionName;
         }
 
         /// <summary>
@@ -255,6 +299,26 @@ namespace tsql2pgsql
             {
                 RemoveLeaves(statementContext);
             }
+        }
+
+        /// <summary>
+        /// Gets the indentation for a given parse tree.
+        /// </summary>
+        /// <param name="parseTree">The parse tree.</param>
+        public string GetIndentationFor(IParseTree parseTree)
+        {
+            if (parseTree is TerminalNodeImpl)
+            {
+                var terminalNode = (TerminalNodeImpl)parseTree;
+                return base.Lines[terminalNode.Symbol.Line - 1].Substring(0, terminalNode.Symbol.Column);
+            }
+            else if (parseTree is ParserRuleContext)
+            {
+                var ruleContext = (ParserRuleContext)parseTree;
+                return base.Lines[ruleContext.Start.Line - 1].Substring(0, ruleContext.Start.Column);
+            }
+
+            throw new InvalidOperationException();
         }
 
         #region return
@@ -492,18 +556,6 @@ namespace tsql2pgsql
         }
 
         /// <summary>
-        /// Visits the procedure parameters.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <returns></returns>
-        public override object VisitProcedureParameters(TSQLParser.ProcedureParametersContext context)
-        {
-            Console.WriteLine("LPAREN: {0}", context.LPAREN());
-            Console.WriteLine("RPAREN: {0}", context.RPAREN());
-            return base.VisitProcedureParameters(context);
-        }
-
-        /// <summary>
         /// Visits the procedure parameter.
         /// </summary>
         /// <param name="context">The context.</param>
@@ -516,30 +568,86 @@ namespace tsql2pgsql
 
         #endregion
 
-
-        public override object VisitIfStatement(TSQLParser.IfStatementContext context)
+        private void WrapInParenthesis(IParseTree parseTree)
         {
-            return base.VisitIfStatement(context);
+            var lMostToken = parseTree.LeftMostToken();
+            var rMostToken = parseTree.RightMostToken();
+            if (lMostToken != null && lMostToken.Type == TSQLParser.LPAREN &&
+                rMostToken != null && rMostToken.Type == TSQLParser.RPAREN)
+            {
+                // wrapped
+            }
+            else
+            {
+                InsertBefore(
+                    parseTree, "(", false);
+                InsertAfter(
+                    parseTree, ")", false);
+            }
         }
 
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.ifStatement" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitIfStatement(TSQLParser.IfStatementContext context)
+        {
+            // lets make sure the statement contains has parenthesis ...
+            WrapInParenthesis(context.predicateList().expression());
+
+            var result = base.VisitIfStatement(context);
+
+            // lets find out what our indentation looks like.. sucks, but we like to
+            // ensure consistent indentation on the line.
+            var indentation = GetIndentationFor(context.IF());
+            var endIfText = string.Format("\n{0}{1}", indentation, "END IF");
+            var thenText = string.Format("\n{0}{1}\n{0}\t", indentation, "THEN");
+
+            InsertAfter(context.predicateList(), thenText, false);
+
+            if (context.ELSE() == null)
+            {
+                InsertAfter(context.statement(0), endIfText, false);
+            }
+            else
+            {
+                InsertAfter(context.statement(1), endIfText, false);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.statement" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
         public override object VisitStatement(TSQLParser.StatementContext context)
         {
+            var result = base.VisitStatement(context);
+
             if (context.SEMICOLON() == null)
             {
                 var dml = context.dml();
                 if (dml != null)
                 {
                     InsertAfter(dml, ";");
+                    return result;
                 }
 
                 var ddl = context.ddl();
                 if (ddl != null)
                 {
                     InsertAfter(ddl, ";");
+                    return result;
                 }
             }
 
-            return base.VisitStatement(context);
+            return result;
         }
 
         public override object VisitTempTable(TSQLParser.TempTableContext context)
@@ -573,11 +681,62 @@ namespace tsql2pgsql
                 }
                 else
                 {
-                    Console.WriteLine("FAILED: {0}", context.GetText());
+                    Console.WriteLine("FAILED: \"{0}\" | \"{1}\"", context.GetText(), GetTextFor(context));
                 }
             }
 
             return base.VisitTempTable(context);
+        }
+
+        /// <summary>
+        /// Visits the convert expression.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override object VisitConvertExpression(TSQLParser.ConvertExpressionContext context)
+        {
+            var result = base.VisitConvertExpression(context);
+
+            // CONVERT is a SQL Server specific conversion
+            // CAST is an ANSI-SQL conversion.
+
+            if (context.integerValue() == null)
+            {
+                var expressionText = GetTextFor(context.expression());
+                var typeText = GetTextFor(context.type());
+                var newText = expressionText + " AS " + typeText;
+
+                ReplaceToken(context.CONVERT(), "CAST");
+                RemoveBetween(context.LPAREN().Symbol, context.RPAREN().Symbol);
+                InsertAfter(context.LPAREN().Symbol, newText);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.functionCall" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitFunctionCall(TSQLParser.FunctionCallContext context)
+        {
+            var functionName = Unwrap(context.functionName()).ToLowerInvariant();
+            var functionArgs = context.argumentList();
+            
+            // use a lookup table to determine how we map from T-SQL functions to PL/PGSQL functions
+            string remapFunctionName;
+            if (BasicFunctionMapTable.TryGetValue(functionName, out remapFunctionName))
+            {
+                ReplaceText(
+                    context.functionName().Start.Line,
+                    context.functionName().Start.Column,
+                    context.functionName().GetText(),     // for soundness
+                    remapFunctionName);
+            }
+
+            return base.VisitFunctionCall(context);
         }
     }
 }

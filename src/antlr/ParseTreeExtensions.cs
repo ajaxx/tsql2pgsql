@@ -54,6 +54,60 @@ namespace tsql2pgsql.antlr
         }
 
         /// <summary>
+        /// Returns the left most token.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public static IToken LeftMostToken(this IParseTree context)
+        {
+            if (context is TerminalNodeImpl)
+            {
+                var terminalNode = (TerminalNodeImpl)context;
+                return terminalNode.Symbol;
+            }
+            else
+            {
+                for (int ii = 0; ii < context.ChildCount; ii++)
+                {
+                    var token = LeftMostToken(context.GetChild(ii));
+                    if (token != null)
+                    {
+                        return token;
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns the right most token.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public static IToken RightMostToken(this IParseTree context)
+        {
+            if (context is TerminalNodeImpl)
+            {
+                var terminalNode = (TerminalNodeImpl)context;
+                return terminalNode.Symbol;
+            }
+            else
+            {
+                for (int ii = context.ChildCount - 1; ii >= 0; ii--)
+                {
+                    var token = RightMostToken(context.GetChild(ii));
+                    if (token != null)
+                    {
+                        return token;
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        /// <summary>
         /// Returns the rightmost leaf node.
         /// </summary>
         /// <param name="context"></param>
