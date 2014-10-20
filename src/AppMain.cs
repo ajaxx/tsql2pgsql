@@ -16,7 +16,6 @@
 
 using System;
 using System.IO;
-using System.Linq;
 
 using Nito.KitchenSink.OptionParsing;
 
@@ -25,8 +24,9 @@ using Common.Logging;
 namespace tsql2pgsql
 {
     using visitors;
+    using pipeline;
 
-    public class Mutator
+    public class AppMain
     {
         /// <summary>
         /// Logger for instance
@@ -38,27 +38,23 @@ namespace tsql2pgsql
         /// </summary>
         private static AppOptions _options;
 
-        static void MutateFile(string filePath)
+        /// <summary>
+        /// Converts the contents of the file.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        public static void ConvertFile(string filePath)
         {
             Console.WriteLine("> {0}", filePath);
 
             var fileContent = File.ReadAllLines(filePath);
-
-            fileContent = (new FormattingVisitor(
-                fileContent)).Process();
-            fileContent = (new MutationVisitor(
-                fileContent)).Process();
-
-            var prevLine = string.Empty;
-            foreach (var line in fileContent)
+            var pipelineDirector = new PipelineDirector(fileContent)
+                .Process<ParentheticalRepairVisitor>()
+                .Process<VariableNameConverter>()
+                .Process<PgsqlConverter>();
+            
+            foreach (var line in pipelineDirector.Contents)
             {
-                var trimLine = line.TrimEnd();
-                if (trimLine.TrimStart() == ";")
-                    trimLine = string.Empty;
-                if (trimLine != string.Empty || prevLine != string.Empty)
-                    Console.WriteLine(trimLine);
-
-                prevLine = trimLine;
+                Console.WriteLine(line);
             }
         }
 
@@ -71,7 +67,7 @@ namespace tsql2pgsql
 				if (_options.Threads == 0)
 					_options.Threads = Environment.ProcessorCount;
 
-                _options.Files.ForEach(MutateFile);
+                _options.Files.ForEach(ConvertFile);
 
                 Console.WriteLine();
             } catch( OptionParsingException e ) {

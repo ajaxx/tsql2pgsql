@@ -25,27 +25,30 @@ using Antlr4.Runtime.Tree;
 
 using Common.Logging;
 
-using tsql2pgsql.visitors;
-
-namespace tsql2pgsql
+namespace tsql2pgsql.visitors
 {
     using antlr;
     using collections;
     using grammar;
+    using pipeline;
 
-    internal class MutationVisitor : DisplacementVisitor<object>
+    internal class PgsqlConverter : PipelineVisitor
     {
         /// <summary>
         /// Logger for instance
         /// </summary>
-        private static readonly ILog _log = LogManager.GetCurrentClassLogger();
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Collection of all known parameters.
         /// </summary>
         private readonly ISet<string> _parameters = new HashSet<string>();
 
-        private IDictionary<string, TSQLParser.VariableDeclarationContext> _variables;
+        /// <summary>
+        /// Map of all variables.
+        /// </summary>
+        private IDictionary<string, TSQLParser.VariableDeclarationContext> Variables;
+
         private string _returnType;
 
         /// <summary>
@@ -80,13 +83,13 @@ namespace tsql2pgsql
         public IDictionary<string, Func<string, string>> AdvancedFunctionMapTable { get; private set; }
 
         /// <summary>
-        /// Creates a common mutation engine.
+        /// Creates a pgsql converter.
         /// </summary>
-        public MutationVisitor(IEnumerable<string> lines) : base(lines)
+        public PgsqlConverter()
         {
-            _variables = null;
-            ParameterPrefix = "_p";
+            Variables = new Dictionary<string, TSQLParser.VariableDeclarationContext>();
             VariablePrefix = "_v";
+            ParameterPrefix = "_p";
 
             // basic function mapping
             BasicFunctionMapTable = new Dictionary<string, string>();
@@ -96,48 +99,56 @@ namespace tsql2pgsql
             AdvancedFunctionMapTable = new Dictionary<string, Func<string, string>>();
         }
 
-        /// <summary>
-        /// Processes this instance.
-        /// </summary>
-        /// <returns></returns>
-        public override string[] Process()
+        public override PipelineResult Visit(Pipeline pipeline)
         {
-            // Collect the variables prior to executing
-            var variableVisitor = new VariablesVisitor();
-            variableVisitor.Visit(UnitContext);
-            _variables = variableVisitor.Variables;
-
-            // Apply the mutation
-            Visit(UnitContext);
-
-            // Get the content
-            var result = new List<string>();
-            result.AddRange(Lines.Take(_declareBlockAfter));
-            result.AddRange(GetDeclareBlock());
-            result.Add("BEGIN");
-
-            var bodyLines = string.Join("\n", Lines.Skip(_declareBlockAfter)).Split('\n');
-
-            result.AddRange(bodyLines.Select(l => "\t" + l));
-            result.Add("END;");
-            result.Add("$$ LANGUAGE plpgsql");
-
-            return result.ToArray();
+            base.Visit(pipeline.ParseTree);
+            return new PipelineResult
+            {
+                RebuildPipeline = false,
+                Contents = GetContent()
+            };
         }
 
         /// <summary>
-        /// Unwraps a string that may have been bound with TSQL brackets for quoting.
+        /// Gets the refined and filtered content for the procedure.
         /// </summary>
-        /// <param name="value"></param>
         /// <returns></returns>
-        private string Unwrap(string value)
+        private IEnumerable<string> GetContent()
         {
-            if (value.StartsWith("[") && value.EndsWith("]"))
+            var prevLine = string.Empty;
+            foreach (var line in GetRawContent())
             {
-                value = value.Substring(1, value.Length - 2);
-            }
+                var trimLine = line.TrimEnd();
+                if (trimLine.TrimStart() == ";")
+                    trimLine = string.Empty;
+                if (trimLine != string.Empty || prevLine != string.Empty)
+                    yield return trimLine;
 
-            return value;
+                prevLine = trimLine;
+            }
+        }
+
+        /// <summary>
+        /// Gets the unfiltered raw content for the procedure.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerable<string> GetRawContent()
+        {
+            var contents = Pipeline.Contents;
+
+            foreach (var line in contents.Take(_declareBlockAfter))
+                yield return line;
+            foreach (var line in GetDeclareBlock())
+                yield return line;
+
+            yield return "BEGIN";
+
+            var bodyLines = string.Join("\n", contents.Skip(_declareBlockAfter)).Split('\n');
+            foreach (var line in bodyLines.Select(l => "\t" + l))
+                yield return line;
+
+            yield return "END";
+            yield return "$$ LANGUAGE plpgsql";
         }
 
         /// <summary>
@@ -153,54 +164,6 @@ namespace tsql2pgsql
                 Unwrap(context.keyword().GetText());
 
             return functionName;
-        }
-
-        /// <summary>
-        /// Unwraps a variable context and returns the variable name.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private string Unwrap(TSQLParser.VariableContext context)
-        {
-            var parameterName = context;
-            var parameterPart = Unwrap(
-                parameterName.Identifier() != null ?
-                parameterName.Identifier().GetText() :
-                parameterName.keyword().GetText());
-
-            return string.Join("", context.AT().Select(a => "@")) + parameterPart;
-        }
-
-        /// <summary>
-        /// Unwraps a qualified name part.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private string Unwrap(TSQLParser.QualifiedNamePartContext context)
-        {
-            var identifier = context.Identifier();
-            if (identifier != null)
-            {
-                return Unwrap(identifier.GetText());
-            }
-
-            return string.Join(" ", context.keyword().Select(k => k.GetText()));
-        }
-
-        /// <summary>
-        /// Unwraps the qualified name.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private string Unwrap(TSQLParser.QualifiedNameContext context)
-        {
-            var nameParts = context.qualifiedNamePart();
-            if (nameParts != null)
-            {
-                return string.Join(".", context.qualifiedNamePart().Select(Unwrap));
-            }
-
-            return context.keyword().GetText();
         }
 
         /// <summary>
@@ -260,11 +223,11 @@ namespace tsql2pgsql
         /// <returns></returns>
         private IEnumerable<string> GetDeclareBlock()
         {
-            if (_variables.Values.Count > 0)
+            if (Variables.Values.Count > 0)
             {
                 yield return "DECLARE";
 
-                foreach (var variableDeclarationContext in _variables.Values)
+                foreach (var variableDeclarationContext in Variables.Values)
                 {
                     var pgsqlDeclaration = new StringBuilder();
                     pgsqlDeclaration.Append('\t');
@@ -310,30 +273,16 @@ namespace tsql2pgsql
             if (parseTree is TerminalNodeImpl)
             {
                 var terminalNode = (TerminalNodeImpl)parseTree;
-                return base.Lines[terminalNode.Symbol.Line - 1].Substring(0, terminalNode.Symbol.Column);
+                return GetLine(terminalNode.Symbol.Line).Substring(0, terminalNode.Symbol.Column);
             }
             else if (parseTree is ParserRuleContext)
             {
                 var ruleContext = (ParserRuleContext)parseTree;
-                return base.Lines[ruleContext.Start.Line - 1].Substring(0, ruleContext.Start.Column);
+                return GetLine(ruleContext.Start.Line).Substring(0, ruleContext.Start.Column);
             }
 
             throw new InvalidOperationException();
         }
-
-        #region return
-
-        /// <summary>
-        /// Visits the return expression.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <returns></returns>
-        public override object VisitReturnExpression(TSQLParser.ReturnExpressionContext context)
-        {
-            return base.VisitReturnExpression(context);
-        }
-
-        #endregion
 
         /// <summary>
         /// Visits the variable declaration.
@@ -342,6 +291,8 @@ namespace tsql2pgsql
         /// <returns></returns>
         public override object VisitVariableDeclaration(TSQLParser.VariableDeclarationContext context)
         {
+            Variables[Unwrap(context.variable())] = context;
+
             if (context.TABLE() != null)
             {
 
@@ -453,26 +404,6 @@ namespace tsql2pgsql
 
         #endregion
 
-        public override object VisitVariable(TSQLParser.VariableContext context)
-        {
-            var tsqlVariableName = context.GetText();
-            if (tsqlVariableName.StartsWith("@@"))
-            {
-
-            }
-            else if (ConfirmConsistency(context))
-            {
-                ReplaceText(
-                    context.Start.Line,
-                    context.Start.Column,
-                    context.GetText(),
-                    PortVariableName(tsqlVariableName),
-                    true);
-            }
-
-            return base.VisitVariable(context);
-        }
-
         #region variable assignment
 
         /// <summary>
@@ -485,15 +416,64 @@ namespace tsql2pgsql
             var setContext = (TSQLParser.SetStatementContext) context.Parent;
             var setAssignment = context.assignmentOperator();
 
-            Remove(setContext.SET());
-
-            var tokEquals = setAssignment.GetToken(TSQLParser.EQUALS, 0);
-            if (tokEquals != null)
+            // see if the target expression is using @@ROWCOUNT as this requires use of the
+            // get diagnostics function
+            if (IsUsingRowCount(context.expression()))
             {
-                ReplaceToken(tokEquals, ":=", false);
+                var expression = context.expression();
+                if (expression.primary() != null &&
+                    expression.primary().variable() != null)
+                {
+                    // this means that the expression is a direct assignment from the @@ROWCOUNT - this
+                    // can be translated directly into a GET DIAGNOSTIC call rather than needing an
+                    // intermediary
+                    ReplaceToken(setContext.SET(), "GET DIAGNOSTICS");
+                    Replace(expression.primary().variable(), "ROW_COUNT");
+                }
+            }
+            else
+            {
+                Remove(setContext.SET());
+
+                var tokEquals = setAssignment.GetToken(TSQLParser.EQUALS, 0);
+                if (tokEquals != null)
+                {
+                    ReplaceToken(tokEquals, ":=", false);
+                }
             }
 
             return base.VisitSetVariableAssignment(context);
+        }
+
+        /// <summary>
+        /// Determines whether the parse tree is using @@ROWCOUNT
+        /// </summary>
+        /// <param name="parseTree">The parse tree.</param>
+        /// <returns></returns>
+        private static bool IsUsingRowCount(IParseTree parseTree)
+        {
+            if (parseTree is TSQLParser.VariableContext)
+            {
+                var variableContext = (TSQLParser.VariableContext) parseTree;
+                if (variableContext.IsRowCountVariable())
+                    return true;
+            }
+            else if (parseTree is ITerminalNode)
+            {
+                return false; // @@ROWCOUNT is not a terminal
+            }
+            else
+            {
+                for (int ii = 0; ii < parseTree.ChildCount; ii++)
+                {
+                    if (IsUsingRowCount(parseTree.GetChild(ii)))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -530,6 +510,73 @@ namespace tsql2pgsql
         }
         
         #endregion
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.createTable" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitCreateTable(TSQLParser.CreateTableContext context)
+        {
+            if (context.qualifiedName() != null)
+            {
+                var tableName = Unwrap(context.qualifiedName());
+                if (tableName.StartsWith("_tmp"))
+                {
+                    InsertAfter(context.CREATE(), " TEMPORARY ", false);
+                }
+            }
+
+            return base.VisitCreateTable(context);
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.tempTable" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitTempTable(TSQLParser.TempTableContext context)
+        {
+            // We need to determine which type of temporary table reference this is.
+            // The first kind is the traditional #name or ##name.
+            // The second kind is qualified by schema like app.#name
+            //
+            // We will only concern ourselves with the first kind since the second
+            // kind will be handled in a recursive visit.
+
+            var hash = context.HASH();
+            if (hash != null && hash.Length > 0)
+            {
+                var tmpTablePrefix = string.Join("", hash.Select(h => "#"));
+                var tmpTableSuffix = string.Empty;
+                if (context.qualifiedNamePart() != null)
+                {
+                    tmpTableSuffix = Unwrap(context.qualifiedNamePart());
+                }
+                else
+                {
+                    tmpTableSuffix = Unwrap(context.keyword().GetText());
+                }
+
+                if (ConfirmConsistency(context))
+                {
+                    ReplaceText(
+                        context.Start.Line,
+                        context.Start.Column,
+                        context.GetText(),
+                        PortTableName(tmpTablePrefix + tmpTableSuffix),
+                        true);
+                }
+                else
+                {
+                    Console.WriteLine("FAILED: \"{0}\" | \"{1}\"", context.GetText(), GetTextFor(context));
+                }
+            }
+
+            return base.VisitTempTable(context);
+        }
 
         #region create procedure
 
@@ -568,25 +615,6 @@ namespace tsql2pgsql
 
         #endregion
 
-        private void WrapInParenthesis(IParseTree parseTree)
-        {
-            var lMostToken = parseTree.LeftMostToken();
-            var rMostToken = parseTree.RightMostToken();
-            if (lMostToken != null && lMostToken.Type == TSQLParser.LPAREN &&
-                rMostToken != null && rMostToken.Type == TSQLParser.RPAREN)
-            {
-                // wrapped
-            }
-            else
-            {
-                InsertBefore(
-                    parseTree, "(", false);
-                InsertAfter(
-                    parseTree, ")", false);
-            }
-        }
-
-
         /// <summary>
         /// Visit a parse tree produced by <see cref="TSQLParser.ifStatement" />.
         /// </summary>
@@ -595,9 +623,6 @@ namespace tsql2pgsql
         /// <return>The visitor result.</return>
         public override object VisitIfStatement(TSQLParser.IfStatementContext context)
         {
-            // lets make sure the statement contains has parenthesis ...
-            WrapInParenthesis(context.predicateList().expression());
-
             var result = base.VisitIfStatement(context);
 
             // lets find out what our indentation looks like.. sucks, but we like to
@@ -648,44 +673,6 @@ namespace tsql2pgsql
             }
 
             return result;
-        }
-
-        public override object VisitTempTable(TSQLParser.TempTableContext context)
-        {
-            // We need to determine which type of temporary table reference this is.
-            // The first kind is the traditional #name or ##name.
-            // The second kind is qualified by schema like app.#name
-            //
-            // We will only concern ourselves with the first kind since the second
-            // kind will be handled in a recursive visit.
-            
-            var hash = context.HASH();
-            if (hash != null && hash.Length > 0)
-            {
-                var tmpTablePrefix = string.Join("", hash.Select(h => "#"));
-                var tmpTableSuffix = string.Empty;
-                if (context.qualifiedNamePart() != null) {
-                    tmpTableSuffix = Unwrap(context.qualifiedNamePart());
-                } else {
-                    tmpTableSuffix = Unwrap(context.keyword().GetText());
-                }
-
-                if (ConfirmConsistency(context))
-                {
-                    ReplaceText(
-                        context.Start.Line,
-                        context.Start.Column,
-                        context.GetText(),
-                        PortTableName(tmpTablePrefix + tmpTableSuffix),
-                        true);
-                }
-                else
-                {
-                    Console.WriteLine("FAILED: \"{0}\" | \"{1}\"", context.GetText(), GetTextFor(context));
-                }
-            }
-
-            return base.VisitTempTable(context);
         }
 
         /// <summary>

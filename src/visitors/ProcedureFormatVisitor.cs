@@ -20,19 +20,20 @@ using System.Linq;
 using System.Net.Mime;
 using System.Text;
 
+using Antlr4.Runtime.Tree;
+
 using Common.Logging;
 
 namespace tsql2pgsql.visitors
 {
-    using antlr;
-    using collections;
     using grammar;
+    using pipeline;
 
     /// <summary>
     /// This class is used to rearrange and otherwise clean up a TSQL grammar prior to running
     /// it through the mutation visitor.
     /// </summary>
-    internal class FormattingVisitor : DisplacementVisitor<object>
+    internal class ProcedureFormatVisitor : PipelineVisitor
     {
         /// <summary>
         /// Logger for instance
@@ -42,7 +43,7 @@ namespace tsql2pgsql.visitors
         /// <summary>
         /// Creates a common mutation engine.
         /// </summary>
-        public FormattingVisitor(IEnumerable<string> lines) : base(lines)
+        public ProcedureFormatVisitor()
         {
         }
 

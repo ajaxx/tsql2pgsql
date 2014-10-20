@@ -7,7 +7,7 @@ namespace tsql2pgsql.visitors
 {
     using grammar;
 
-    internal class VariablesVisitor : TSQLBaseVisitor<object>
+    internal class VariableScanner : TSQLBaseVisitor<object>
     {
         /// <summary>
         /// Gets or sets the variables.
@@ -18,9 +18,9 @@ namespace tsql2pgsql.visitors
         public IDictionary<string, TSQLParser.VariableDeclarationContext> Variables { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="VariablesVisitor"/> class.
+        /// Initializes a new instance of the <see cref="VariableScanner"/> class.
         /// </summary>
-        public VariablesVisitor()
+        public VariableScanner()
         {
             Variables = new SortedDictionary<string, TSQLParser.VariableDeclarationContext>();
         }
