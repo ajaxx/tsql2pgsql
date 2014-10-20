@@ -94,11 +94,18 @@ namespace tsql2pgsql.visitors
             // basic function mapping
             BasicFunctionMapTable = new Dictionary<string, string>();
             BasicFunctionMapTable["getdate"] = "utcnow";
+            BasicFunctionMapTable["ERROR_NUMBER"] = "SQLSTATE";
+            BasicFunctionMapTable["ERROR_MESSAGE"] = "SQLERRM";
 
             // advanced function mapping
             AdvancedFunctionMapTable = new Dictionary<string, Func<string, string>>();
         }
 
+        /// <summary>
+        /// Visits the specified pipeline.
+        /// </summary>
+        /// <param name="pipeline">The pipeline.</param>
+        /// <returns></returns>
         public override PipelineResult Visit(Pipeline pipeline)
         {
             base.Visit(pipeline.ParseTree);
@@ -312,6 +319,7 @@ namespace tsql2pgsql.visitors
                 }
                 else
                 {
+                    Log.DebugFormat("VisitVariableDeclaration: Removing declaration {0}", context);
                     RemoveStatement(context);
                 }
             }
@@ -512,6 +520,42 @@ namespace tsql2pgsql.visitors
         #endregion
 
         /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.raiseError" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitRaiseError(TSQLParser.RaiseErrorContext context)
+        {
+            ReplaceToken(context.RAISE_ERROR().Symbol, "RAISE NOTICE");
+            return base.VisitRaiseError(context);
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.tryBlock" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitTryBlock(TSQLParser.TryBlockContext context)
+        {
+            RemoveToken(context.TRY(0).Symbol, false);
+            RemoveToken(context.TRY(1).Symbol, false);
+            RemoveToken(context.END(0).Symbol, false);
+            RemoveToken(context.CATCH(0).Symbol, false);
+            RemoveToken(context.CATCH(1).Symbol, false);
+
+            // exception handling in PLPGSQL is exception specific, much like
+            // try catch blocks in other languages.  however, SQL Server provides
+            // the error details in variables that are exposed to the exception
+            // handler.
+
+            ReplaceToken(context.BEGIN(1).Symbol, "EXCEPTION WHEN OTHERS THEN ");
+
+            return base.VisitTryBlock(context);
+        }
+
+        /// <summary>
         /// Visit a parse tree produced by <see cref="TSQLParser.createTable" />.
         /// </summary>
         /// <param name="context">The parse tree.</param>
@@ -519,16 +563,28 @@ namespace tsql2pgsql.visitors
         /// <return>The visitor result.</return>
         public override object VisitCreateTable(TSQLParser.CreateTableContext context)
         {
-            if (context.qualifiedName() != null)
+            if (context.tempTable() != null)
             {
-                var tableName = Unwrap(context.qualifiedName());
-                if (tableName.StartsWith("_tmp"))
-                {
-                    InsertAfter(context.CREATE(), " TEMPORARY ", false);
-                }
+                InsertAfter(context.CREATE(), " TEMPORARY", false);
             }
 
             return base.VisitCreateTable(context);
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.createIndex" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitCreateIndex(TSQLParser.CreateIndexContext context)
+        {
+            if (context.clusterType() != null)
+            {
+                RemoveLeaves(context.clusterType());
+            }
+            
+            return base.VisitCreateIndex(context);
         }
 
         /// <summary>
@@ -593,9 +649,10 @@ namespace tsql2pgsql.visitors
             // we need to add a return value for this function... assuming there is one, is there
             // any way that we can introspect the rest of the file to determine the return type?
             // in the absence of a return type, we're returning SETOF RECORD
-            var functionReturnType = "VOID";
+            var returnTypeVisitor = new ReturnTypeVisitor();
+            var returnType = returnTypeVisitor.Visit(context.procedureBody());
 
-            ReplaceToken(context.AS(), string.Format("RETURNS {0} AS\n$$", functionReturnType));
+            ReplaceToken(context.AS(), string.Format("RETURNS {0} AS\n$$", returnType));
 
             _declareBlockAfter = context.AS().Symbol.Line;
 
@@ -629,7 +686,7 @@ namespace tsql2pgsql.visitors
             // ensure consistent indentation on the line.
             var indentation = GetIndentationFor(context.IF());
             var endIfText = string.Format("\n{0}{1}", indentation, "END IF");
-            var thenText = string.Format("\n{0}{1}\n{0}\t", indentation, "THEN");
+            var thenText = string.Format("{1}\n{0}\t", indentation, " THEN");
 
             InsertAfter(context.predicateList(), thenText, false);
 

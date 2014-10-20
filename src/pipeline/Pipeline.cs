@@ -353,18 +353,9 @@ namespace tsql2pgsql.pipeline
         /// </summary>
         /// <param name="tree"></param>
         /// <param name="eatTrailingWhitespace"></param>
-        internal void RemoveLeaves(IParseTree tree, int depth = 0)
+        internal void RemoveLeaves(IParseTree tree)
         {
-            Log.DebugFormat("RemoveLeaves: depth = {0} | {1}", depth, tree.GetText());
-
-            if (tree.ChildCount != 0)
-            {
-                for (int ii = 0; ii < tree.ChildCount; ii++)
-                {
-                    RemoveLeaves(tree.GetChild(ii), depth + 1);
-                }
-            }
-            else if (tree is TerminalNodeImpl)
+            if (tree is TerminalNodeImpl)
             {
                 Log.DebugFormat("RemoveLeaves: TerminalNodeImpl | {0}", tree);
                 RemoveToken(
@@ -373,8 +364,20 @@ namespace tsql2pgsql.pipeline
             else if (tree is ParserRuleContext)
             {
                 Log.DebugFormat("RemoveLeaves: ParserRuleContext | {0}", tree);
-                //RemoveToken(
-                //    ((ParserRuleContext) tree).Start);
+                var ruleContext = (ParserRuleContext)tree;
+                if (ruleContext.Start.Line == ruleContext.Stop.Line)
+                {
+                    ReplaceText(
+                        ruleContext.Start.Line,
+                        ruleContext.Start.Column,
+                        ruleContext.Stop.Column + ruleContext.Stop.Text.Length - ruleContext.Start.Column,
+                        string.Empty);
+                }
+                else
+                {
+                    // currently not supporting multiline trees
+                    throw new NotSupportedException();
+                }
             }
             else
             {

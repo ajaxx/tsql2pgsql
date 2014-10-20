@@ -12,26 +12,54 @@ namespace tsql2pgsql.visitors
     /// </summary>
     internal class ReturnTypeVisitor : TSQLBaseVisitor<string>
     {
-        private string _returnType;
+        /// <summary>
+        /// Gets or sets the type of the return.
+        /// </summary>
+        /// <value>
+        /// The type of the return.
+        /// </value>
+        internal string ReturnType { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReturnTypeVisitor"/> class.
+        /// Prevents a default instance of the <see cref="ReturnTypeVisitor"/> class from being created.
         /// </summary>
-        public ReturnTypeVisitor()
+        internal ReturnTypeVisitor()
         {
-            _returnType = "VOID";
+            ReturnType = "void";
         }
 
+        /// <summary>
+        /// Visits the specified tree.
+        /// </summary>
+        /// <param name="tree">The tree.</param>
+        /// <returns></returns>
+        public override string Visit(Antlr4.Runtime.Tree.IParseTree tree)
+        {
+            base.Visit(tree);
+            return ReturnType;
+        }
+
+        /// <summary>
+        /// Visits the return expression.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
         public override string VisitReturnExpression(TSQLParser.ReturnExpressionContext context)
         {
-            if (context.expression() == null)
-            {
-                _returnType = "VOID";
-                return null;
-            }
+            var expressionTypeVisitor = new ExpressionTypeVisitor();
+            var expressionType = expressionTypeVisitor.VisitExpression(context.expression());
+            if (expressionType == typeof(string))
+                ReturnType = "text";
+            else if (expressionType == typeof(decimal))
+                ReturnType = "numeric";
+            else if (expressionType == typeof(int))
+                ReturnType = "int";
+            else if (expressionType == typeof(DateTime))  // how do we capture date vs timestamp
+                ReturnType = "timestamp";
+            else if (expressionType == typeof(bool))
+                ReturnType = "boolean";
 
-            // guess we're going to have to unwrap this expression to see what we can introspect
-            return base.VisitReturnExpression(context);
+            return null;
         }
     }
 }

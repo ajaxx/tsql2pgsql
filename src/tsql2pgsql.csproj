@@ -73,13 +73,13 @@
   <ItemGroup>
     <Compile Include="antlr\VariableContextExtensions.cs" />
     <Compile Include="pipeline\Pipeline.cs" />
-    <Compile Include="antlr\DisplacementVisitor.cs" />
     <Compile Include="pipeline\PipelineDirector.cs" />
     <Compile Include="pipeline\PipelineResult.cs" />
     <Compile Include="pipeline\PipelineVisitor.cs" />
     <Compile Include="AppOptions.cs" />
     <Compile Include="collections\ArrayExtensions.cs" />
     <Compile Include="antlr\CaseInsensitiveStream.cs" />
+    <Compile Include="visitors\ExpressionTypeVisitor.cs" />
     <Compile Include="visitors\ParentheticalRepairVisitor.cs" />
     <Compile Include="visitors\ProcedureFormatVisitor.cs" />
     <Compile Include="grammar\TSQLBaseListener.cs" />
@@ -93,9 +93,7 @@
     <Compile Include="antlr\ParseTreeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="visitors\ReturnTypeVisitor.cs" />
-    <Compile Include="visitors\TableNameConverter.cs" />
     <Compile Include="visitors\VariableNameConverter.cs" />
-    <Compile Include="visitors\VariableScanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

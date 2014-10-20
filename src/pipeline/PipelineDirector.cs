@@ -3,10 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Common.Logging;
+
 namespace tsql2pgsql.pipeline
 {
     internal class PipelineDirector
     {
+        /// <summary>
+        /// Logger for instance
+        /// </summary>
+        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+
         /// <summary>
         /// The pipeline
         /// </summary>
@@ -41,6 +48,8 @@ namespace tsql2pgsql.pipeline
 
             try
             {
+                Log.DebugFormat("Process: Executing {0} pipeline", visitor.GetType().FullName);
+
                 visitor.Pipeline = _pipeline;
                 var pipelineResult = visitor.Visit(_pipeline);
                 if (pipelineResult.Contents != null)
