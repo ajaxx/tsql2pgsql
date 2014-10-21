@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="antlr\VariableContextExtensions.cs" />
+    <Compile Include="CapitalizationStyle.cs" />
     <Compile Include="pipeline\Pipeline.cs" />
     <Compile Include="pipeline\PipelineDirector.cs" />
     <Compile Include="pipeline\PipelineResult.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="antlr\ParseTreeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="visitors\ReturnTypeVisitor.cs" />
+    <Compile Include="visitors\SingleLineDeclarationVisitor.cs" />
     <Compile Include="visitors\VariableNameConverter.cs" />
   </ItemGroup>
   <ItemGroup>

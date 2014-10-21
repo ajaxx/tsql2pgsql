@@ -85,7 +85,7 @@ namespace tsql2pgsql.visitors
         /// <summary>
         /// Creates a pgsql converter.
         /// </summary>
-        public PgsqlConverter()
+        public PgsqlConverter() : base(false)
         {
             Variables = new Dictionary<string, TSQLParser.VariableDeclarationContext>();
             VariablePrefix = "_v";
@@ -94,8 +94,9 @@ namespace tsql2pgsql.visitors
             // basic function mapping
             BasicFunctionMapTable = new Dictionary<string, string>();
             BasicFunctionMapTable["getdate"] = "utcnow";
-            BasicFunctionMapTable["ERROR_NUMBER"] = "SQLSTATE";
-            BasicFunctionMapTable["ERROR_MESSAGE"] = "SQLERRM";
+            BasicFunctionMapTable["scope_identity"] = "lastval";
+            BasicFunctionMapTable["error_number"] = "SQLSTATE";
+            BasicFunctionMapTable["error_message"] = "SQLERRM";
 
             // advanced function mapping
             AdvancedFunctionMapTable = new Dictionary<string, Func<string, string>>();
@@ -236,14 +237,17 @@ namespace tsql2pgsql.visitors
 
                 foreach (var variableDeclarationContext in Variables.Values)
                 {
-                    var pgsqlDeclaration = new StringBuilder();
-                    pgsqlDeclaration.Append('\t');
-                    pgsqlDeclaration.Append(PortVariableName(variableDeclarationContext.variable().GetText()));
-                    pgsqlDeclaration.Append(' ');
-                    pgsqlDeclaration.Append(PortDataType(variableDeclarationContext.type().GetText()));
-                    pgsqlDeclaration.Append(';');
+                    if (variableDeclarationContext.type() != null)
+                    {
+                        var pgsqlDeclaration = new StringBuilder();
+                        pgsqlDeclaration.Append('\t');
+                        pgsqlDeclaration.Append(PortVariableName(variableDeclarationContext.variable().GetText()));
+                        pgsqlDeclaration.Append(' ');
+                        pgsqlDeclaration.Append(PortDataType(variableDeclarationContext.type().GetText()));
+                        pgsqlDeclaration.Append(';');
 
-                    yield return pgsqlDeclaration.ToString();
+                        yield return pgsqlDeclaration.ToString();
+                    }
                 }
             }
         }
@@ -272,26 +276,6 @@ namespace tsql2pgsql.visitors
         }
 
         /// <summary>
-        /// Gets the indentation for a given parse tree.
-        /// </summary>
-        /// <param name="parseTree">The parse tree.</param>
-        public string GetIndentationFor(IParseTree parseTree)
-        {
-            if (parseTree is TerminalNodeImpl)
-            {
-                var terminalNode = (TerminalNodeImpl)parseTree;
-                return GetLine(terminalNode.Symbol.Line).Substring(0, terminalNode.Symbol.Column);
-            }
-            else if (parseTree is ParserRuleContext)
-            {
-                var ruleContext = (ParserRuleContext)parseTree;
-                return GetLine(ruleContext.Start.Line).Substring(0, ruleContext.Start.Column);
-            }
-
-            throw new InvalidOperationException();
-        }
-
-        /// <summary>
         /// Visits the variable declaration.
         /// </summary>
         /// <param name="context">The context.</param>
@@ -302,7 +286,9 @@ namespace tsql2pgsql.visitors
 
             if (context.TABLE() != null)
             {
-
+                var parentContext = (TSQLParser.DeclareStatementContext)context.Parent;
+                ReplaceToken(parentContext.DECLARE(), "CREATE TEMPORARY TABLE");
+                Remove(context.TABLE());
             }
             else
             {

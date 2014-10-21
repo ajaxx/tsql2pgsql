@@ -38,16 +38,44 @@ namespace tsql2pgsql.visitors
         /// <value>
         /// The parameters.
         /// </value>
-        internal ISet<string> Parameters { get; set; } 
+        internal ISet<string> Parameters { get; set; }
+
+        /// <summary>
+        /// Gets or sets the capitalization style.
+        /// </summary>
+        /// <value>
+        /// The capitalization style.
+        /// </value>
+        internal CapitalizationStyle CapitalizationStyle { get; set; }
 
         /// <summary>
         /// Creates a pgsql converter.
         /// </summary>
         public VariableNameConverter()
         {
+            CapitalizationStyle = CapitalizationStyle.PascalCase;
             Parameters = new HashSet<string>();
             ParameterPrefix = "_p";
             VariablePrefix = "_v";
+        }
+
+        /// <summary>
+        /// Capitalizes to style.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        private string Capitalize(string value)
+        {
+            switch (CapitalizationStyle)
+            {
+                case CapitalizationStyle.None:
+                    return value;
+                case CapitalizationStyle.PascalCase:
+                    return Char.ToUpperInvariant(value[0]) + value.Substring(1);
+                case CapitalizationStyle.CamelCase:
+                    return Char.ToLowerInvariant(value[0]) + value.Substring(1);
+            }
+
+            return value;
         }
 
         /// <summary>
@@ -61,8 +89,8 @@ namespace tsql2pgsql.visitors
             {
                 return
                     Parameters.Contains(variableName) ?
-                    ParameterPrefix + variableName.Substring(1) :
-                    VariablePrefix + variableName.Substring(1);
+                    ParameterPrefix + Capitalize(variableName.Substring(1)) :
+                    VariablePrefix + Capitalize(variableName.Substring(1));
             }
             return variableName;
         }
@@ -74,7 +102,8 @@ namespace tsql2pgsql.visitors
         /// <returns></returns>
         public override object VisitProcedureParameter(TSQLParser.ProcedureParameterContext context)
         {
-            Parameters.Add(Unwrap(context.procedureParameterName().variable()));
+            if (context != null)
+                Parameters.Add(Unwrap(context.procedureParameterName().variable()));
             return base.VisitProcedureParameter(context);
         }
 

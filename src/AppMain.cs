@@ -46,16 +46,23 @@ namespace tsql2pgsql
         {
             Console.WriteLine("> {0}", filePath);
 
+            var oFileName =
+                string.IsNullOrWhiteSpace(_options.Extension) ?
+                Path.Combine(_options.OutputDir, Path.GetFileName(filePath)) :
+                Path.Combine(_options.OutputDir, string.Format("{0}.{1}", Path.GetFileNameWithoutExtension(filePath), _options.Extension));
+
+            if (File.Exists(oFileName) && !_options.Overwrite)
+                return;
+
             var fileContent = File.ReadAllLines(filePath);
             var pipelineDirector = new PipelineDirector(fileContent)
                 .Process<ParentheticalRepairVisitor>()
+                .Process<SingleLineDeclarationVisitor>()
                 .Process<VariableNameConverter>()
-                .Process<PgsqlConverter>();
-            
-            foreach (var line in pipelineDirector.Contents)
-            {
-                Console.WriteLine(line);
-            }
+                .Process<PgsqlConverter>()
+                ;
+
+            File.WriteAllLines(oFileName, pipelineDirector.Contents);
         }
 
         static void Main(string[] args)

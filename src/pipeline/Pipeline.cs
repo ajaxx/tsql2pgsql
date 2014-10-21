@@ -57,6 +57,7 @@ namespace tsql2pgsql.pipeline
                 if (_unitContext == null)
                 {
                     var source = string.Join("\n", _contents);
+                    Console.WriteLine(source);
                     var stream = new CaseInsensitiveStream(source);
                     var lexer = new TSQLLexer(stream);
                     var parser = new TSQLParser(new CommonTokenStream(lexer));
@@ -98,12 +99,12 @@ namespace tsql2pgsql.pipeline
         {
             if (displacement == 0)
                 return;
-            if (line >= _lineDisplacementActions.Count)
+            if (line > _lineDisplacementActions.Count)
                 throw new InvalidOperationException();
 
-            var actionList = _lineDisplacementActions[line];
+            var actionList = _lineDisplacementActions[line - 1];
             if (actionList == null)
-                actionList = _lineDisplacementActions[line] = new List<Func<int, int>>();
+                actionList = _lineDisplacementActions[line - 1] = new List<Func<int, int>>();
 
             Log.DebugFormat("AddLineDisplacement: line={0}, column={1}, displacement={2}", line, column, displacement);
 
@@ -134,11 +135,47 @@ namespace tsql2pgsql.pipeline
         {
             if (line >= _lineDisplacementActions.Count)
                 return;
-            if (_lineDisplacementActions[line] != null)
+            if (_lineDisplacementActions[line - 1] != null)
             {
                 Log.DebugFormat("ApplyLineDisplacement: D({0}|{1})", line, column);
-                column = _lineDisplacementActions[line]
+                column = _lineDisplacementActions[line - 1]
                     .Aggregate(column, (current, action) => action.Invoke(current));
+            }
+        }
+
+        /// <summary>
+        /// Eats any whitespace at the given location.
+        /// </summary>
+        /// <param name="tLine">The line.</param>
+        /// <param name="tColumn">The column.</param>
+        internal void EatWhitespace(
+            int tLine,
+            int tColumn)
+        {
+            ApplyLineDisplacement(ref tLine, ref tColumn);
+
+            var line = _contents[tLine - 1];
+            var tlen = 0;
+            var tpos = Math.Min(tColumn, line.Length);
+
+            while ((tpos < line.Length) && (char.IsWhiteSpace(line[tpos])))
+            {
+                tlen++;
+                line = line.Remove(tpos, 1);
+            }
+
+            _contents[tLine - 1] = line;
+
+            // Adjust the line displacement
+            if (tlen > 0)
+            {
+                Log.DebugFormat("EatWhitespace: d#|{0}|{1}|{2}|{3}", tLine, tColumn, tlen, tColumn + tlen);
+                AddLineDisplacement(tLine, tColumn + tlen, -tlen);
+            }
+            else
+            {
+                Log.DebugFormat("EatWhitespace: d*|{0}|{1}|{2}|{3}", tLine, tColumn, tlen, tColumn - tlen);
+                AddLineDisplacement(tLine, tColumn, -tlen);
             }
         }
 
@@ -450,11 +487,11 @@ namespace tsql2pgsql.pipeline
         {
             ApplyLineDisplacement(ref iLine, ref iColumn);
 
-            var tlen = 0;
-            var tpos = iColumn;
             var line = _contents[iLine - 1];
+            var tlen = 0;
+            var tpos = Math.Min(iColumn, line.Length);
             var head = line.Substring(0, tpos);
-            var tail = line.Substring(tpos + tlen);
+            var tail = (tpos + tlen) < line.Length ? line.Substring(tpos + tlen) : string.Empty;
 
             tlen -= text.Length;
 

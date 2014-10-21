@@ -18,17 +18,6 @@ namespace tsql2pgsql.visitors
     internal class ParentheticalRepairVisitor : PipelineVisitor
     {
         /// <summary>
-        /// Visits the specified pipeline.
-        /// </summary>
-        /// <param name="pipeline">The pipeline.</param>
-        /// <returns></returns>
-        public override PipelineResult Visit(Pipeline pipeline)
-        {
-            base.Visit(pipeline);
-            return new PipelineResult { RebuildPipeline = true };
-        }
-
-        /// <summary>
         /// Determines whether the parse tree is wrapped in parenthesis.
         /// </summary>
         /// <param name="parseTree">The parse tree.</param>
@@ -87,7 +76,7 @@ namespace tsql2pgsql.visitors
             var procedureParameters = context.procedureParameters();
             if (!IsWrappedInParenthesis(procedureParameters))
             {
-                if (procedureParameters.procedureParameter().Length == 0)
+                if (procedureParameters == null || procedureParameters.procedureParameter().Length == 0)
                 {
                     InsertAfter(context.qualifiedName(), "()", false);
                 }

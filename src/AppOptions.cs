@@ -27,7 +27,8 @@ namespace tsql2pgsql
         {
             Files = new List<string>();
             OutputDir = Environment.CurrentDirectory;
-            Extension = ".pgsql";
+            Overwrite = false;
+            Extension = "pgsql";
         }
 
 		[Option("threads", 't')]
@@ -37,6 +38,9 @@ namespace tsql2pgsql
         public bool Echo { get; set; }
         [Option("tokens", OptionArgument.None)]
         public bool Tokens { get; set; }
+
+        [Option("overwrite", OptionArgument.None)]
+        public bool Overwrite { get; set; }
 
         [Option("outdir", OptionArgument.Required)]
         public string OutputDir { get; set; }

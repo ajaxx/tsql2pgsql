@@ -60,7 +60,11 @@ namespace tsql2pgsql.antlr
         /// <returns></returns>
         public static IToken LeftMostToken(this IParseTree context)
         {
-            if (context is TerminalNodeImpl)
+            if (context == null)
+            {
+                return null;
+            }
+            else if (context is TerminalNodeImpl)
             {
                 var terminalNode = (TerminalNodeImpl)context;
                 return terminalNode.Symbol;
@@ -87,7 +91,11 @@ namespace tsql2pgsql.antlr
         /// <returns></returns>
         public static IToken RightMostToken(this IParseTree context)
         {
-            if (context is TerminalNodeImpl)
+            if (context == null)
+            {
+                return null;
+            }
+            else if (context is TerminalNodeImpl)
             {
                 var terminalNode = (TerminalNodeImpl)context;
                 return terminalNode.Symbol;

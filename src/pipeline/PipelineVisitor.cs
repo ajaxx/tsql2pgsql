@@ -26,6 +26,31 @@ namespace tsql2pgsql.pipeline
         public Pipeline Pipeline { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to rebuild the pipeline.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [rebuild pipeline]; otherwise, <c>false</c>.
+        /// </value>
+        public bool RebuildPipeline { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PipelineVisitor"/> class.
+        /// </summary>
+        public PipelineVisitor()
+        {
+            RebuildPipeline = true;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PipelineVisitor"/> class.
+        /// </summary>
+        /// <param name="rebuildPipeline">if set to <c>true</c> [rebuild pipeline].</param>
+        public PipelineVisitor(bool rebuildPipeline)
+        {
+            RebuildPipeline = rebuildPipeline;
+        }
+
+        /// <summary>
         /// Visits the specified pipeline.
         /// </summary>
         /// <param name="pipeline">The pipeline.</param>
@@ -34,7 +59,7 @@ namespace tsql2pgsql.pipeline
             base.Visit(pipeline.ParseTree);
             return new PipelineResult
             {
-                RebuildPipeline = false
+                RebuildPipeline = this.RebuildPipeline
             };
         }
 
@@ -46,6 +71,18 @@ namespace tsql2pgsql.pipeline
         public virtual string GetLine(int iLine)
         {
             return Pipeline.GetLine(iLine);
+        }
+
+        /// <summary>
+        /// Eats any whitespace at the given location.
+        /// </summary>
+        /// <param name="tLine">The line.</param>
+        /// <param name="tColumn">The column.</param>
+        public virtual void EatWhitespace(
+            int tLine,
+            int tColumn)
+        {
+            Pipeline.EatWhitespace(tLine, tColumn);
         }
 
         /// <summary>
@@ -349,6 +386,26 @@ namespace tsql2pgsql.pipeline
         public virtual string Unwrap(TSQLParser.VariableContext context)
         {
             return context.Unwrap();
+        }
+
+        /// <summary>
+        /// Gets the indentation for a given parse tree.
+        /// </summary>
+        /// <param name="parseTree">The parse tree.</param>
+        public string GetIndentationFor(IParseTree parseTree)
+        {
+            if (parseTree is TerminalNodeImpl)
+            {
+                var terminalNode = (TerminalNodeImpl)parseTree;
+                return GetLine(terminalNode.Symbol.Line).Substring(0, terminalNode.Symbol.Column);
+            }
+            else if (parseTree is ParserRuleContext)
+            {
+                var ruleContext = (ParserRuleContext)parseTree;
+                return GetLine(ruleContext.Start.Line).Substring(0, ruleContext.Start.Column);
+            }
+
+            throw new InvalidOperationException();
         }
     }
 }

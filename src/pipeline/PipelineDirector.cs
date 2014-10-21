@@ -51,8 +51,9 @@ namespace tsql2pgsql.pipeline
                 Log.DebugFormat("Process: Executing {0} pipeline", visitor.GetType().FullName);
 
                 visitor.Pipeline = _pipeline;
+
                 var pipelineResult = visitor.Visit(_pipeline);
-                if (pipelineResult.Contents != null)
+                if (pipelineResult.Contents != null && pipelineResult.RebuildPipeline)
                 {
                     _pipeline = new Pipeline(
                         string.Join("\n", pipelineResult.Contents).Split('\n'));
