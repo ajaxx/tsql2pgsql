@@ -57,7 +57,6 @@ namespace tsql2pgsql.pipeline
                 if (_unitContext == null)
                 {
                     var source = string.Join("\n", _contents);
-                    Console.WriteLine(source);
                     var stream = new CaseInsensitiveStream(source);
                     var lexer = new TSQLLexer(stream);
                     var parser = new TSQLParser(new CommonTokenStream(lexer));
@@ -72,7 +71,7 @@ namespace tsql2pgsql.pipeline
         /// <summary>
         /// Creates a common mutation engine.
         /// </summary>
-        public Pipeline(IEnumerable<string> lines) : base()
+        public Pipeline(IEnumerable<string> lines)
         {
             _contents = new List<string>(lines);
             for (int ii = 0; ii < _contents.Count; ii++)

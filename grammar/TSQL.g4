@@ -380,8 +380,7 @@ procedureBody
 	;
 
 procedureParameters
-	:	LPAREN RPAREN
-	|	LPAREN procedureParameter (',' procedureParameter)* RPAREN
+	:	LPAREN (procedureParameter (',' procedureParameter)*)? RPAREN
 	|	procedureParameter (',' procedureParameter)*
 	;
 

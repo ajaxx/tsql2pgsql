@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Src\tsql2pgsql\grammar\TSQL.g4 by ANTLR 4.3
+// Generated from D:\src\Patchwork\tsql2pgsql\grammar\TSQL.g4 by ANTLR 4.3
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -30,1293 +30,6 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface ITSQLListener : IParseTreeListener {
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.dml"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDml([NotNull] TSQLParser.DmlContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.dml"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDml([NotNull] TSQLParser.DmlContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.xmlWithOption"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterXmlWithOption([NotNull] TSQLParser.XmlWithOptionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.xmlWithOption"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitXmlWithOption([NotNull] TSQLParser.XmlWithOptionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.alterTableDropConstraint"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAlterTableDropConstraint([NotNull] TSQLParser.AlterTableDropConstraintContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.alterTableDropConstraint"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAlterTableDropConstraint([NotNull] TSQLParser.AlterTableDropConstraintContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.convertExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterConvertExpression([NotNull] TSQLParser.ConvertExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.convertExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitConvertExpression([NotNull] TSQLParser.ConvertExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.selectVariableAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSelectVariableAssignment([NotNull] TSQLParser.SelectVariableAssignmentContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.selectVariableAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSelectVariableAssignment([NotNull] TSQLParser.SelectVariableAssignmentContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.integerType"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterIntegerType([NotNull] TSQLParser.IntegerTypeContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.integerType"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitIntegerType([NotNull] TSQLParser.IntegerTypeContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.propertyOrField"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterPropertyOrField([NotNull] TSQLParser.PropertyOrFieldContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.propertyOrField"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitPropertyOrField([NotNull] TSQLParser.PropertyOrFieldContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.columnDefinition"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterColumnDefinition([NotNull] TSQLParser.ColumnDefinitionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.columnDefinition"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitColumnDefinition([NotNull] TSQLParser.ColumnDefinitionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.type"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterType([NotNull] TSQLParser.TypeContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.type"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitType([NotNull] TSQLParser.TypeContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.cursorFetch"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCursorFetch([NotNull] TSQLParser.CursorFetchContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.cursorFetch"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCursorFetch([NotNull] TSQLParser.CursorFetchContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.alterIndex"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAlterIndex([NotNull] TSQLParser.AlterIndexContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.alterIndex"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAlterIndex([NotNull] TSQLParser.AlterIndexContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.cursorDeallocate"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCursorDeallocate([NotNull] TSQLParser.CursorDeallocateContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.cursorDeallocate"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCursorDeallocate([NotNull] TSQLParser.CursorDeallocateContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.obscureCommands"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterObscureCommands([NotNull] TSQLParser.ObscureCommandsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.obscureCommands"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitObscureCommands([NotNull] TSQLParser.ObscureCommandsContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.columnAlias"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterColumnAlias([NotNull] TSQLParser.ColumnAliasContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.columnAlias"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitColumnAlias([NotNull] TSQLParser.ColumnAliasContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.dropIndex"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDropIndex([NotNull] TSQLParser.DropIndexContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.dropIndex"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDropIndex([NotNull] TSQLParser.DropIndexContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.insertPreamble"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterInsertPreamble([NotNull] TSQLParser.InsertPreambleContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.insertPreamble"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitInsertPreamble([NotNull] TSQLParser.InsertPreambleContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.transactionIsolationLevel"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTransactionIsolationLevel([NotNull] TSQLParser.TransactionIsolationLevelContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.transactionIsolationLevel"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTransactionIsolationLevel([NotNull] TSQLParser.TransactionIsolationLevelContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.argumentList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterArgumentList([NotNull] TSQLParser.ArgumentListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.argumentList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitArgumentList([NotNull] TSQLParser.ArgumentListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.createStatistics"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCreateStatistics([NotNull] TSQLParser.CreateStatisticsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.createStatistics"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCreateStatistics([NotNull] TSQLParser.CreateStatisticsContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.stringExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterStringExpression([NotNull] TSQLParser.StringExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.stringExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitStringExpression([NotNull] TSQLParser.StringExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.setVariableAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSetVariableAssignment([NotNull] TSQLParser.SetVariableAssignmentContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.setVariableAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSetVariableAssignment([NotNull] TSQLParser.SetVariableAssignmentContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.dropProcedure"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDropProcedure([NotNull] TSQLParser.DropProcedureContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.dropProcedure"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDropProcedure([NotNull] TSQLParser.DropProcedureContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.unaryExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterUnaryExpression([NotNull] TSQLParser.UnaryExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.unaryExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitUnaryExpression([NotNull] TSQLParser.UnaryExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.orderByClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterOrderByClause([NotNull] TSQLParser.OrderByClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.orderByClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitOrderByClause([NotNull] TSQLParser.OrderByClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.updateTop"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterUpdateTop([NotNull] TSQLParser.UpdateTopContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.updateTop"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitUpdateTop([NotNull] TSQLParser.UpdateTopContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.selectListElement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSelectListElement([NotNull] TSQLParser.SelectListElementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.selectListElement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSelectListElement([NotNull] TSQLParser.SelectListElementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.procedureOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterProcedureOptions([NotNull] TSQLParser.ProcedureOptionsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.procedureOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitProcedureOptions([NotNull] TSQLParser.ProcedureOptionsContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedColumnName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterQualifiedColumnName([NotNull] TSQLParser.QualifiedColumnNameContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedColumnName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitQualifiedColumnName([NotNull] TSQLParser.QualifiedColumnNameContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.procedureParameter"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterProcedureParameter([NotNull] TSQLParser.ProcedureParameterContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.procedureParameter"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitProcedureParameter([NotNull] TSQLParser.ProcedureParameterContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.minSelectElement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMinSelectElement([NotNull] TSQLParser.MinSelectElementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.minSelectElement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMinSelectElement([NotNull] TSQLParser.MinSelectElementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.executeArgumentList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterExecuteArgumentList([NotNull] TSQLParser.ExecuteArgumentListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.executeArgumentList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitExecuteArgumentList([NotNull] TSQLParser.ExecuteArgumentListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.orderedIndexColumn"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterOrderedIndexColumn([NotNull] TSQLParser.OrderedIndexColumnContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.orderedIndexColumn"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitOrderedIndexColumn([NotNull] TSQLParser.OrderedIndexColumnContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.insertDataSource"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterInsertDataSource([NotNull] TSQLParser.InsertDataSourceContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.insertDataSource"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitInsertDataSource([NotNull] TSQLParser.InsertDataSourceContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.xmlDefinition"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterXmlDefinition([NotNull] TSQLParser.XmlDefinitionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.xmlDefinition"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitXmlDefinition([NotNull] TSQLParser.XmlDefinitionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.columnIndexOrName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterColumnIndexOrName([NotNull] TSQLParser.ColumnIndexOrNameContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.columnIndexOrName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitColumnIndexOrName([NotNull] TSQLParser.ColumnIndexOrNameContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.likeTestExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterLikeTestExpression([NotNull] TSQLParser.LikeTestExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.likeTestExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitLikeTestExpression([NotNull] TSQLParser.LikeTestExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.insertStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterInsertStatement([NotNull] TSQLParser.InsertStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.insertStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitInsertStatement([NotNull] TSQLParser.InsertStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.deleteTop"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDeleteTop([NotNull] TSQLParser.DeleteTopContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.deleteTop"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDeleteTop([NotNull] TSQLParser.DeleteTopContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedNamePart"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterQualifiedNamePart([NotNull] TSQLParser.QualifiedNamePartContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedNamePart"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitQualifiedNamePart([NotNull] TSQLParser.QualifiedNamePartContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.compileUnit"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCompileUnit([NotNull] TSQLParser.CompileUnitContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.compileUnit"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCompileUnit([NotNull] TSQLParser.CompileUnitContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.updateStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterUpdateStatement([NotNull] TSQLParser.UpdateStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.updateStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitUpdateStatement([NotNull] TSQLParser.UpdateStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.functionCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFunctionCall([NotNull] TSQLParser.FunctionCallContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.functionCall"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFunctionCall([NotNull] TSQLParser.FunctionCallContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.equalityExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterEqualityExpression([NotNull] TSQLParser.EqualityExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.equalityExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitEqualityExpression([NotNull] TSQLParser.EqualityExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.intoClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterIntoClause([NotNull] TSQLParser.IntoClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.intoClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitIntoClause([NotNull] TSQLParser.IntoClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.procedureParameters"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterProcedureParameters([NotNull] TSQLParser.ProcedureParametersContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.procedureParameters"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitProcedureParameters([NotNull] TSQLParser.ProcedureParametersContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.forXmlClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterForXmlClause([NotNull] TSQLParser.ForXmlClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.forXmlClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitForXmlClause([NotNull] TSQLParser.ForXmlClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.alterTableAddConstraint"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAlterTableAddConstraint([NotNull] TSQLParser.AlterTableAddConstraintContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.alterTableAddConstraint"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAlterTableAddConstraint([NotNull] TSQLParser.AlterTableAddConstraintContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.primary"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterPrimary([NotNull] TSQLParser.PrimaryContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.primary"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitPrimary([NotNull] TSQLParser.PrimaryContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedColumnNameList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterQualifiedColumnNameList([NotNull] TSQLParser.QualifiedColumnNameListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedColumnNameList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitQualifiedColumnNameList([NotNull] TSQLParser.QualifiedColumnNameListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.additiveExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAdditiveExpression([NotNull] TSQLParser.AdditiveExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.additiveExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAdditiveExpression([NotNull] TSQLParser.AdditiveExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.relationalExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterRelationalExpression([NotNull] TSQLParser.RelationalExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.relationalExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitRelationalExpression([NotNull] TSQLParser.RelationalExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tableTargetOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTableTargetOptions([NotNull] TSQLParser.TableTargetOptionsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tableTargetOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTableTargetOptions([NotNull] TSQLParser.TableTargetOptionsContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.procedureParameterInitialValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterProcedureParameterInitialValue([NotNull] TSQLParser.ProcedureParameterInitialValueContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.procedureParameterInitialValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitProcedureParameterInitialValue([NotNull] TSQLParser.ProcedureParameterInitialValueContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.characterStringType"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCharacterStringType([NotNull] TSQLParser.CharacterStringTypeContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.characterStringType"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCharacterStringType([NotNull] TSQLParser.CharacterStringTypeContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.mergeNotMatched"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMergeNotMatched([NotNull] TSQLParser.MergeNotMatchedContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.mergeNotMatched"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMergeNotMatched([NotNull] TSQLParser.MergeNotMatchedContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tryBlock"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTryBlock([NotNull] TSQLParser.TryBlockContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tryBlock"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTryBlock([NotNull] TSQLParser.TryBlockContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.cursorId"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCursorId([NotNull] TSQLParser.CursorIdContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.cursorId"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCursorId([NotNull] TSQLParser.CursorIdContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tableTargetWithOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTableTargetWithOptions([NotNull] TSQLParser.TableTargetWithOptionsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tableTargetWithOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTableTargetWithOptions([NotNull] TSQLParser.TableTargetWithOptionsContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.deleteStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDeleteStatement([NotNull] TSQLParser.DeleteStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.deleteStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDeleteStatement([NotNull] TSQLParser.DeleteStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.createProcedure"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCreateProcedure([NotNull] TSQLParser.CreateProcedureContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.createProcedure"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCreateProcedure([NotNull] TSQLParser.CreateProcedureContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.identitySpec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterIdentitySpec([NotNull] TSQLParser.IdentitySpecContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.identitySpec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitIdentitySpec([NotNull] TSQLParser.IdentitySpecContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.setStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSetStatement([NotNull] TSQLParser.SetStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.setStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSetStatement([NotNull] TSQLParser.SetStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.overClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterOverClause([NotNull] TSQLParser.OverClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.overClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitOverClause([NotNull] TSQLParser.OverClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.moreInnerJoin"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMoreInnerJoin([NotNull] TSQLParser.MoreInnerJoinContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.moreInnerJoin"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMoreInnerJoin([NotNull] TSQLParser.MoreInnerJoinContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.basicOptionList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterBasicOptionList([NotNull] TSQLParser.BasicOptionListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.basicOptionList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitBasicOptionList([NotNull] TSQLParser.BasicOptionListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.postfixExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterPostfixExpression([NotNull] TSQLParser.PostfixExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.postfixExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitPostfixExpression([NotNull] TSQLParser.PostfixExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.deleteOutput"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDeleteOutput([NotNull] TSQLParser.DeleteOutputContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.deleteOutput"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDeleteOutput([NotNull] TSQLParser.DeleteOutputContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.havingClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterHavingClause([NotNull] TSQLParser.HavingClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.havingClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitHavingClause([NotNull] TSQLParser.HavingClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterExpression([NotNull] TSQLParser.ExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.expression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitExpression([NotNull] TSQLParser.ExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.expressionSet"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterExpressionSet([NotNull] TSQLParser.ExpressionSetContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.expressionSet"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitExpressionSet([NotNull] TSQLParser.ExpressionSetContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.fromClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFromClause([NotNull] TSQLParser.FromClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.fromClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFromClause([NotNull] TSQLParser.FromClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.insertOutputClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterInsertOutputClause([NotNull] TSQLParser.InsertOutputClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.insertOutputClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitInsertOutputClause([NotNull] TSQLParser.InsertOutputClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedNameList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterQualifiedNameList([NotNull] TSQLParser.QualifiedNameListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedNameList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitQualifiedNameList([NotNull] TSQLParser.QualifiedNameListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.subSelectExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSubSelectExpression([NotNull] TSQLParser.SubSelectExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.subSelectExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSubSelectExpression([NotNull] TSQLParser.SubSelectExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tempIndex"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTempIndex([NotNull] TSQLParser.TempIndexContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tempIndex"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTempIndex([NotNull] TSQLParser.TempIndexContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.columnList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterColumnList([NotNull] TSQLParser.ColumnListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.columnList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitColumnList([NotNull] TSQLParser.ColumnListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.insertValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterInsertValue([NotNull] TSQLParser.InsertValueContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.insertValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitInsertValue([NotNull] TSQLParser.InsertValueContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.conditionalAndExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterConditionalAndExpression([NotNull] TSQLParser.ConditionalAndExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.conditionalAndExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitConditionalAndExpression([NotNull] TSQLParser.ConditionalAndExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.multiplicativeExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMultiplicativeExpression([NotNull] TSQLParser.MultiplicativeExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.multiplicativeExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMultiplicativeExpression([NotNull] TSQLParser.MultiplicativeExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.alterTableSwitchPartition"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAlterTableSwitchPartition([NotNull] TSQLParser.AlterTableSwitchPartitionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.alterTableSwitchPartition"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAlterTableSwitchPartition([NotNull] TSQLParser.AlterTableSwitchPartitionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.createIndex"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCreateIndex([NotNull] TSQLParser.CreateIndexContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.createIndex"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCreateIndex([NotNull] TSQLParser.CreateIndexContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.columnDefinitionList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterColumnDefinitionList([NotNull] TSQLParser.ColumnDefinitionListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.columnDefinitionList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitColumnDefinitionList([NotNull] TSQLParser.ColumnDefinitionListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.variableDeclaration"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterVariableDeclaration([NotNull] TSQLParser.VariableDeclarationContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.variableDeclaration"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitVariableDeclaration([NotNull] TSQLParser.VariableDeclarationContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.procedureBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterProcedureBody([NotNull] TSQLParser.ProcedureBodyContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.procedureBody"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitProcedureBody([NotNull] TSQLParser.ProcedureBodyContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.partitionName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterPartitionName([NotNull] TSQLParser.PartitionNameContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.partitionName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitPartitionName([NotNull] TSQLParser.PartitionNameContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.mergeStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMergeStatement([NotNull] TSQLParser.MergeStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.mergeStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMergeStatement([NotNull] TSQLParser.MergeStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.variableDeclarationAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterVariableDeclarationAssignment([NotNull] TSQLParser.VariableDeclarationAssignmentContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.variableDeclarationAssignment"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitVariableDeclarationAssignment([NotNull] TSQLParser.VariableDeclarationAssignmentContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.updateStatementSetClauseRest"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterUpdateStatementSetClauseRest([NotNull] TSQLParser.UpdateStatementSetClauseRestContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.updateStatementSetClauseRest"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitUpdateStatementSetClauseRest([NotNull] TSQLParser.UpdateStatementSetClauseRestContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.joinOrApply"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterJoinOrApply([NotNull] TSQLParser.JoinOrApplyContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.joinOrApply"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitJoinOrApply([NotNull] TSQLParser.JoinOrApplyContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.orderedIndexColumnList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterOrderedIndexColumnList([NotNull] TSQLParser.OrderedIndexColumnListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.orderedIndexColumnList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitOrderedIndexColumnList([NotNull] TSQLParser.OrderedIndexColumnListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.columnName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterColumnName([NotNull] TSQLParser.ColumnNameContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.columnName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitColumnName([NotNull] TSQLParser.ColumnNameContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.executeArgument"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterExecuteArgument([NotNull] TSQLParser.ExecuteArgumentContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.executeArgument"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitExecuteArgument([NotNull] TSQLParser.ExecuteArgumentContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.argument"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterArgument([NotNull] TSQLParser.ArgumentContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.argument"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitArgument([NotNull] TSQLParser.ArgumentContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.whereClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterWhereClause([NotNull] TSQLParser.WhereClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.whereClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitWhereClause([NotNull] TSQLParser.WhereClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.mergeMatched"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterMergeMatched([NotNull] TSQLParser.MergeMatchedContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.mergeMatched"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitMergeMatched([NotNull] TSQLParser.MergeMatchedContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.partitionIdent"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterPartitionIdent([NotNull] TSQLParser.PartitionIdentContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.partitionIdent"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitPartitionIdent([NotNull] TSQLParser.PartitionIdentContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.assignmentOperator"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAssignmentOperator([NotNull] TSQLParser.AssignmentOperatorContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.assignmentOperator"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAssignmentOperator([NotNull] TSQLParser.AssignmentOperatorContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.dmlOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDmlOptions([NotNull] TSQLParser.DmlOptionsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.dmlOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDmlOptions([NotNull] TSQLParser.DmlOptionsContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tableSourceWithOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTableSourceWithOptions([NotNull] TSQLParser.TableSourceWithOptionsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tableSourceWithOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTableSourceWithOptions([NotNull] TSQLParser.TableSourceWithOptionsContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tableAlias"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTableAlias([NotNull] TSQLParser.TableAliasContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tableAlias"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTableAlias([NotNull] TSQLParser.TableAliasContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.alterPartitionScheme"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAlterPartitionScheme([NotNull] TSQLParser.AlterPartitionSchemeContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.alterPartitionScheme"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAlterPartitionScheme([NotNull] TSQLParser.AlterPartitionSchemeContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.stringValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterStringValue([NotNull] TSQLParser.StringValueContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.stringValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitStringValue([NotNull] TSQLParser.StringValueContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.conditionalOrExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterConditionalOrExpression([NotNull] TSQLParser.ConditionalOrExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.conditionalOrExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitConditionalOrExpression([NotNull] TSQLParser.ConditionalOrExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.characterStringTypeLength"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCharacterStringTypeLength([NotNull] TSQLParser.CharacterStringTypeLengthContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.characterStringTypeLength"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCharacterStringTypeLength([NotNull] TSQLParser.CharacterStringTypeLengthContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.predicateList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterPredicateList([NotNull] TSQLParser.PredicateListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.predicateList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitPredicateList([NotNull] TSQLParser.PredicateListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tempTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTempTable([NotNull] TSQLParser.TempTableContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tempTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTempTable([NotNull] TSQLParser.TempTableContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.statementList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterStatementList([NotNull] TSQLParser.StatementListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.statementList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitStatementList([NotNull] TSQLParser.StatementListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.groupByClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterGroupByClause([NotNull] TSQLParser.GroupByClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.groupByClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitGroupByClause([NotNull] TSQLParser.GroupByClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.groupByElement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterGroupByElement([NotNull] TSQLParser.GroupByElementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.groupByElement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitGroupByElement([NotNull] TSQLParser.GroupByElementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.createIndexPartition"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCreateIndexPartition([NotNull] TSQLParser.CreateIndexPartitionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.createIndexPartition"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCreateIndexPartition([NotNull] TSQLParser.CreateIndexPartitionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.integerValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterIntegerValue([NotNull] TSQLParser.IntegerValueContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.integerValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitIntegerValue([NotNull] TSQLParser.IntegerValueContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.selectStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSelectStatement([NotNull] TSQLParser.SelectStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.selectStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSelectStatement([NotNull] TSQLParser.SelectStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.selectTopLimit"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSelectTopLimit([NotNull] TSQLParser.SelectTopLimitContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.selectTopLimit"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSelectTopLimit([NotNull] TSQLParser.SelectTopLimitContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.keyword"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterKeyword([NotNull] TSQLParser.KeywordContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.keyword"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitKeyword([NotNull] TSQLParser.KeywordContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.waitFor"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterWaitFor([NotNull] TSQLParser.WaitForContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.waitFor"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitWaitFor([NotNull] TSQLParser.WaitForContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tableTarget"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTableTarget([NotNull] TSQLParser.TableTargetContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tableTarget"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTableTarget([NotNull] TSQLParser.TableTargetContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.deleteFromClauseLoose"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDeleteFromClauseLoose([NotNull] TSQLParser.DeleteFromClauseLooseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.deleteFromClauseLoose"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDeleteFromClauseLoose([NotNull] TSQLParser.DeleteFromClauseLooseContext context);
-
-	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.clusterType"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -1326,468 +39,6 @@ public interface ITSQLListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitClusterType([NotNull] TSQLParser.ClusterTypeContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.cursorClose"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCursorClose([NotNull] TSQLParser.CursorCloseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.cursorClose"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCursorClose([NotNull] TSQLParser.CursorCloseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.typeInBracket"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTypeInBracket([NotNull] TSQLParser.TypeInBracketContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.typeInBracket"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTypeInBracket([NotNull] TSQLParser.TypeInBracketContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.inclusiveOrExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterInclusiveOrExpression([NotNull] TSQLParser.InclusiveOrExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.inclusiveOrExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitInclusiveOrExpression([NotNull] TSQLParser.InclusiveOrExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterQualifiedName([NotNull] TSQLParser.QualifiedNameContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitQualifiedName([NotNull] TSQLParser.QualifiedNameContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.xmlDefinitionList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterXmlDefinitionList([NotNull] TSQLParser.XmlDefinitionListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.xmlDefinitionList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitXmlDefinitionList([NotNull] TSQLParser.XmlDefinitionListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.expressionInRest"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterExpressionInRest([NotNull] TSQLParser.ExpressionInRestContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.expressionInRest"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitExpressionInRest([NotNull] TSQLParser.ExpressionInRestContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.commonTableExpressionAtom"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCommonTableExpressionAtom([NotNull] TSQLParser.CommonTableExpressionAtomContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.commonTableExpressionAtom"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCommonTableExpressionAtom([NotNull] TSQLParser.CommonTableExpressionAtomContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.collate"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCollate([NotNull] TSQLParser.CollateContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.collate"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCollate([NotNull] TSQLParser.CollateContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.dmlOption"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDmlOption([NotNull] TSQLParser.DmlOptionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.dmlOption"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDmlOption([NotNull] TSQLParser.DmlOptionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.exclusiveOrExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterExclusiveOrExpression([NotNull] TSQLParser.ExclusiveOrExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.exclusiveOrExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitExclusiveOrExpression([NotNull] TSQLParser.ExclusiveOrExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.caseElse"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCaseElse([NotNull] TSQLParser.CaseElseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.caseElse"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCaseElse([NotNull] TSQLParser.CaseElseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.procedureParameterName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterProcedureParameterName([NotNull] TSQLParser.ProcedureParameterNameContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.procedureParameterName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitProcedureParameterName([NotNull] TSQLParser.ProcedureParameterNameContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.raiseError"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterRaiseError([NotNull] TSQLParser.RaiseErrorContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.raiseError"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitRaiseError([NotNull] TSQLParser.RaiseErrorContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.computeStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterComputeStatement([NotNull] TSQLParser.ComputeStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.computeStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitComputeStatement([NotNull] TSQLParser.ComputeStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.alterTableTrigger"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAlterTableTrigger([NotNull] TSQLParser.AlterTableTriggerContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.alterTableTrigger"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAlterTableTrigger([NotNull] TSQLParser.AlterTableTriggerContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tableDeclarationOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTableDeclarationOptions([NotNull] TSQLParser.TableDeclarationOptionsContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tableDeclarationOptions"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTableDeclarationOptions([NotNull] TSQLParser.TableDeclarationOptionsContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.alterTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAlterTable([NotNull] TSQLParser.AlterTableContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.alterTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAlterTable([NotNull] TSQLParser.AlterTableContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.literalValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterLiteralValue([NotNull] TSQLParser.LiteralValueContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.literalValue"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitLiteralValue([NotNull] TSQLParser.LiteralValueContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.createTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCreateTable([NotNull] TSQLParser.CreateTableContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.createTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCreateTable([NotNull] TSQLParser.CreateTableContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.declareStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDeclareStatement([NotNull] TSQLParser.DeclareStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.declareStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDeclareStatement([NotNull] TSQLParser.DeclareStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.caseWhen"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCaseWhen([NotNull] TSQLParser.CaseWhenContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.caseWhen"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCaseWhen([NotNull] TSQLParser.CaseWhenContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.insertValueList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterInsertValueList([NotNull] TSQLParser.InsertValueListContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.insertValueList"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitInsertValueList([NotNull] TSQLParser.InsertValueListContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.unaryExpressionNotPlusMinus"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterUnaryExpressionNotPlusMinus([NotNull] TSQLParser.UnaryExpressionNotPlusMinusContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.unaryExpressionNotPlusMinus"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitUnaryExpressionNotPlusMinus([NotNull] TSQLParser.UnaryExpressionNotPlusMinusContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.andExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAndExpression([NotNull] TSQLParser.AndExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.andExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAndExpression([NotNull] TSQLParser.AndExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.identityType"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterIdentityType([NotNull] TSQLParser.IdentityTypeContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.identityType"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitIdentityType([NotNull] TSQLParser.IdentityTypeContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.alterPartitionFunction"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterAlterPartitionFunction([NotNull] TSQLParser.AlterPartitionFunctionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.alterPartitionFunction"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitAlterPartitionFunction([NotNull] TSQLParser.AlterPartitionFunctionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.statement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterStatement([NotNull] TSQLParser.StatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.statement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitStatement([NotNull] TSQLParser.StatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.truncateTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTruncateTable([NotNull] TSQLParser.TruncateTableContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.truncateTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTruncateTable([NotNull] TSQLParser.TruncateTableContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.cursorStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCursorStatement([NotNull] TSQLParser.CursorStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.cursorStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCursorStatement([NotNull] TSQLParser.CursorStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.dropTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDropTable([NotNull] TSQLParser.DropTableContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.dropTable"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDropTable([NotNull] TSQLParser.DropTableContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.commonTableExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterCommonTableExpression([NotNull] TSQLParser.CommonTableExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.commonTableExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitCommonTableExpression([NotNull] TSQLParser.CommonTableExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.selectStatementPart"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSelectStatementPart([NotNull] TSQLParser.SelectStatementPartContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.selectStatementPart"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSelectStatementPart([NotNull] TSQLParser.SelectStatementPartContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.functionName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFunctionName([NotNull] TSQLParser.FunctionNameContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.functionName"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFunctionName([NotNull] TSQLParser.FunctionNameContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.conditionalExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterConditionalExpression([NotNull] TSQLParser.ConditionalExpressionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.conditionalExpression"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitConditionalExpression([NotNull] TSQLParser.ConditionalExpressionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tableDeclarationOption"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTableDeclarationOption([NotNull] TSQLParser.TableDeclarationOptionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tableDeclarationOption"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTableDeclarationOption([NotNull] TSQLParser.TableDeclarationOptionContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.ifStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterIfStatement([NotNull] TSQLParser.IfStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.ifStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitIfStatement([NotNull] TSQLParser.IfStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.ddl"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDdl([NotNull] TSQLParser.DdlContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.ddl"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDdl([NotNull] TSQLParser.DdlContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.setSessionOther"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSetSessionOther([NotNull] TSQLParser.SetSessionOtherContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.setSessionOther"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSetSessionOther([NotNull] TSQLParser.SetSessionOtherContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.whileStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterWhileStatement([NotNull] TSQLParser.WhileStatementContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.whileStatement"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitWhileStatement([NotNull] TSQLParser.WhileStatementContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.deleteFromClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterDeleteFromClause([NotNull] TSQLParser.DeleteFromClauseContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.deleteFromClause"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitDeleteFromClause([NotNull] TSQLParser.DeleteFromClauseContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.setVariableToCursor"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSetVariableToCursor([NotNull] TSQLParser.SetVariableToCursorContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.setVariableToCursor"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSetVariableToCursor([NotNull] TSQLParser.SetVariableToCursorContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.basicOption"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterBasicOption([NotNull] TSQLParser.BasicOptionContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.basicOption"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitBasicOption([NotNull] TSQLParser.BasicOptionContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.createIndexIncludeList"/>.
@@ -1801,37 +52,730 @@ public interface ITSQLListener : IParseTreeListener {
 	void ExitCreateIndexIncludeList([NotNull] TSQLParser.CreateIndexIncludeListContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.selectList"/>.
+	/// Enter a parse tree produced by <see cref="TSQLParser.alterTable"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterSelectList([NotNull] TSQLParser.SelectListContext context);
+	void EnterAlterTable([NotNull] TSQLParser.AlterTableContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.selectList"/>.
+	/// Exit a parse tree produced by <see cref="TSQLParser.alterTable"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitSelectList([NotNull] TSQLParser.SelectListContext context);
+	void ExitAlterTable([NotNull] TSQLParser.AlterTableContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.orderByElement"/>.
+	/// Enter a parse tree produced by <see cref="TSQLParser.insertStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterOrderByElement([NotNull] TSQLParser.OrderByElementContext context);
+	void EnterInsertStatement([NotNull] TSQLParser.InsertStatementContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.orderByElement"/>.
+	/// Exit a parse tree produced by <see cref="TSQLParser.insertStatement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitOrderByElement([NotNull] TSQLParser.OrderByElementContext context);
+	void ExitInsertStatement([NotNull] TSQLParser.InsertStatementContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.transactionBlock"/>.
+	/// Enter a parse tree produced by <see cref="TSQLParser.overClause"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterTransactionBlock([NotNull] TSQLParser.TransactionBlockContext context);
+	void EnterOverClause([NotNull] TSQLParser.OverClauseContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.transactionBlock"/>.
+	/// Exit a parse tree produced by <see cref="TSQLParser.overClause"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitTransactionBlock([NotNull] TSQLParser.TransactionBlockContext context);
+	void ExitOverClause([NotNull] TSQLParser.OverClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.setStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSetStatement([NotNull] TSQLParser.SetStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.setStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSetStatement([NotNull] TSQLParser.SetStatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.predicateList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPredicateList([NotNull] TSQLParser.PredicateListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.predicateList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPredicateList([NotNull] TSQLParser.PredicateListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.orderedIndexColumn"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterOrderedIndexColumn([NotNull] TSQLParser.OrderedIndexColumnContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.orderedIndexColumn"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitOrderedIndexColumn([NotNull] TSQLParser.OrderedIndexColumnContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tableTargetOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTableTargetOptions([NotNull] TSQLParser.TableTargetOptionsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tableTargetOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTableTargetOptions([NotNull] TSQLParser.TableTargetOptionsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.moreInnerJoin"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMoreInnerJoin([NotNull] TSQLParser.MoreInnerJoinContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.moreInnerJoin"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMoreInnerJoin([NotNull] TSQLParser.MoreInnerJoinContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.truncateTable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTruncateTable([NotNull] TSQLParser.TruncateTableContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.truncateTable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTruncateTable([NotNull] TSQLParser.TruncateTableContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.integerValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIntegerValue([NotNull] TSQLParser.IntegerValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.integerValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIntegerValue([NotNull] TSQLParser.IntegerValueContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.cursorClose"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCursorClose([NotNull] TSQLParser.CursorCloseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.cursorClose"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCursorClose([NotNull] TSQLParser.CursorCloseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedColumnNameList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterQualifiedColumnNameList([NotNull] TSQLParser.QualifiedColumnNameListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedColumnNameList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitQualifiedColumnNameList([NotNull] TSQLParser.QualifiedColumnNameListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedColumnName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterQualifiedColumnName([NotNull] TSQLParser.QualifiedColumnNameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedColumnName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitQualifiedColumnName([NotNull] TSQLParser.QualifiedColumnNameContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.dropProcedure"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDropProcedure([NotNull] TSQLParser.DropProcedureContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.dropProcedure"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDropProcedure([NotNull] TSQLParser.DropProcedureContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.stringExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStringExpression([NotNull] TSQLParser.StringExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.stringExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStringExpression([NotNull] TSQLParser.StringExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.selectStatementPart"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSelectStatementPart([NotNull] TSQLParser.SelectStatementPartContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.selectStatementPart"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSelectStatementPart([NotNull] TSQLParser.SelectStatementPartContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.basicOptionList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBasicOptionList([NotNull] TSQLParser.BasicOptionListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.basicOptionList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBasicOptionList([NotNull] TSQLParser.BasicOptionListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.cursorId"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCursorId([NotNull] TSQLParser.CursorIdContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.cursorId"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCursorId([NotNull] TSQLParser.CursorIdContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.deleteFromClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeleteFromClause([NotNull] TSQLParser.DeleteFromClauseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.deleteFromClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeleteFromClause([NotNull] TSQLParser.DeleteFromClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.createIndexPartition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCreateIndexPartition([NotNull] TSQLParser.CreateIndexPartitionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.createIndexPartition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCreateIndexPartition([NotNull] TSQLParser.CreateIndexPartitionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.waitFor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWaitFor([NotNull] TSQLParser.WaitForContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.waitFor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWaitFor([NotNull] TSQLParser.WaitForContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.setSessionOther"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSetSessionOther([NotNull] TSQLParser.SetSessionOtherContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.setSessionOther"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSetSessionOther([NotNull] TSQLParser.SetSessionOtherContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.columnList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterColumnList([NotNull] TSQLParser.ColumnListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.columnList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitColumnList([NotNull] TSQLParser.ColumnListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tableTarget"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTableTarget([NotNull] TSQLParser.TableTargetContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tableTarget"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTableTarget([NotNull] TSQLParser.TableTargetContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.dmlOption"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDmlOption([NotNull] TSQLParser.DmlOptionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.dmlOption"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDmlOption([NotNull] TSQLParser.DmlOptionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.transactionIsolationLevel"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTransactionIsolationLevel([NotNull] TSQLParser.TransactionIsolationLevelContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.transactionIsolationLevel"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTransactionIsolationLevel([NotNull] TSQLParser.TransactionIsolationLevelContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.exclusiveOrExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterExclusiveOrExpression([NotNull] TSQLParser.ExclusiveOrExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.exclusiveOrExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitExclusiveOrExpression([NotNull] TSQLParser.ExclusiveOrExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.procedureOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterProcedureOptions([NotNull] TSQLParser.ProcedureOptionsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.procedureOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitProcedureOptions([NotNull] TSQLParser.ProcedureOptionsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.deleteFromClauseLoose"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeleteFromClauseLoose([NotNull] TSQLParser.DeleteFromClauseLooseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.deleteFromClauseLoose"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeleteFromClauseLoose([NotNull] TSQLParser.DeleteFromClauseLooseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.columnDefinition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterColumnDefinition([NotNull] TSQLParser.ColumnDefinitionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.columnDefinition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitColumnDefinition([NotNull] TSQLParser.ColumnDefinitionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.insertValueList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterInsertValueList([NotNull] TSQLParser.InsertValueListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.insertValueList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitInsertValueList([NotNull] TSQLParser.InsertValueListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.functionName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFunctionName([NotNull] TSQLParser.FunctionNameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.functionName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFunctionName([NotNull] TSQLParser.FunctionNameContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.dml"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDml([NotNull] TSQLParser.DmlContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.dml"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDml([NotNull] TSQLParser.DmlContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.variableDeclarationAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterVariableDeclarationAssignment([NotNull] TSQLParser.VariableDeclarationAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.variableDeclarationAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitVariableDeclarationAssignment([NotNull] TSQLParser.VariableDeclarationAssignmentContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tempIndex"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTempIndex([NotNull] TSQLParser.TempIndexContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tempIndex"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTempIndex([NotNull] TSQLParser.TempIndexContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.alterTableTrigger"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAlterTableTrigger([NotNull] TSQLParser.AlterTableTriggerContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.alterTableTrigger"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAlterTableTrigger([NotNull] TSQLParser.AlterTableTriggerContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.createTable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCreateTable([NotNull] TSQLParser.CreateTableContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.createTable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCreateTable([NotNull] TSQLParser.CreateTableContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tableDeclarationOption"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTableDeclarationOption([NotNull] TSQLParser.TableDeclarationOptionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tableDeclarationOption"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTableDeclarationOption([NotNull] TSQLParser.TableDeclarationOptionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.xmlWithOption"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterXmlWithOption([NotNull] TSQLParser.XmlWithOptionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.xmlWithOption"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitXmlWithOption([NotNull] TSQLParser.XmlWithOptionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tableDeclarationOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTableDeclarationOptions([NotNull] TSQLParser.TableDeclarationOptionsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tableDeclarationOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTableDeclarationOptions([NotNull] TSQLParser.TableDeclarationOptionsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.dropIndex"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDropIndex([NotNull] TSQLParser.DropIndexContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.dropIndex"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDropIndex([NotNull] TSQLParser.DropIndexContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.minSelectElement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMinSelectElement([NotNull] TSQLParser.MinSelectElementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.minSelectElement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMinSelectElement([NotNull] TSQLParser.MinSelectElementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.raiseError"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRaiseError([NotNull] TSQLParser.RaiseErrorContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.raiseError"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRaiseError([NotNull] TSQLParser.RaiseErrorContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.commonTableExpressionAtom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCommonTableExpressionAtom([NotNull] TSQLParser.CommonTableExpressionAtomContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.commonTableExpressionAtom"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCommonTableExpressionAtom([NotNull] TSQLParser.CommonTableExpressionAtomContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.computeStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterComputeStatement([NotNull] TSQLParser.ComputeStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.computeStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitComputeStatement([NotNull] TSQLParser.ComputeStatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.havingClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterHavingClause([NotNull] TSQLParser.HavingClauseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.havingClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitHavingClause([NotNull] TSQLParser.HavingClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.dmlOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDmlOptions([NotNull] TSQLParser.DmlOptionsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.dmlOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDmlOptions([NotNull] TSQLParser.DmlOptionsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.conditionalExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterConditionalExpression([NotNull] TSQLParser.ConditionalExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.conditionalExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitConditionalExpression([NotNull] TSQLParser.ConditionalExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.mergeNotMatched"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMergeNotMatched([NotNull] TSQLParser.MergeNotMatchedContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.mergeNotMatched"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMergeNotMatched([NotNull] TSQLParser.MergeNotMatchedContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.andExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAndExpression([NotNull] TSQLParser.AndExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.andExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAndExpression([NotNull] TSQLParser.AndExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.alterIndex"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAlterIndex([NotNull] TSQLParser.AlterIndexContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.alterIndex"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAlterIndex([NotNull] TSQLParser.AlterIndexContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.createStatistics"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCreateStatistics([NotNull] TSQLParser.CreateStatisticsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.createStatistics"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCreateStatistics([NotNull] TSQLParser.CreateStatisticsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.columnName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterColumnName([NotNull] TSQLParser.ColumnNameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.columnName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitColumnName([NotNull] TSQLParser.ColumnNameContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.updateStatementSetClauseRest"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUpdateStatementSetClauseRest([NotNull] TSQLParser.UpdateStatementSetClauseRestContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.updateStatementSetClauseRest"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUpdateStatementSetClauseRest([NotNull] TSQLParser.UpdateStatementSetClauseRestContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.intoClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIntoClause([NotNull] TSQLParser.IntoClauseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.intoClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIntoClause([NotNull] TSQLParser.IntoClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.characterStringTypeLength"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCharacterStringTypeLength([NotNull] TSQLParser.CharacterStringTypeLengthContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.characterStringTypeLength"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCharacterStringTypeLength([NotNull] TSQLParser.CharacterStringTypeLengthContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.deleteStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeleteStatement([NotNull] TSQLParser.DeleteStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.deleteStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeleteStatement([NotNull] TSQLParser.DeleteStatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.partitionName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPartitionName([NotNull] TSQLParser.PartitionNameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.partitionName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPartitionName([NotNull] TSQLParser.PartitionNameContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.likeTestExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLikeTestExpression([NotNull] TSQLParser.LikeTestExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.likeTestExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLikeTestExpression([NotNull] TSQLParser.LikeTestExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.convertExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterConvertExpression([NotNull] TSQLParser.ConvertExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.convertExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitConvertExpression([NotNull] TSQLParser.ConvertExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.alterPartitionFunction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAlterPartitionFunction([NotNull] TSQLParser.AlterPartitionFunctionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.alterPartitionFunction"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAlterPartitionFunction([NotNull] TSQLParser.AlterPartitionFunctionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.expressionInRest"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterExpressionInRest([NotNull] TSQLParser.ExpressionInRestContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.expressionInRest"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitExpressionInRest([NotNull] TSQLParser.ExpressionInRestContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterQualifiedName([NotNull] TSQLParser.QualifiedNameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitQualifiedName([NotNull] TSQLParser.QualifiedNameContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.orderByClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterOrderByClause([NotNull] TSQLParser.OrderByClauseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.orderByClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitOrderByClause([NotNull] TSQLParser.OrderByClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.procedureParameters"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterProcedureParameters([NotNull] TSQLParser.ProcedureParametersContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.procedureParameters"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitProcedureParameters([NotNull] TSQLParser.ProcedureParametersContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedNamePart"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterQualifiedNamePart([NotNull] TSQLParser.QualifiedNamePartContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedNamePart"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitQualifiedNamePart([NotNull] TSQLParser.QualifiedNamePartContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.cursorOpen"/>.
@@ -1845,15 +789,92 @@ public interface ITSQLListener : IParseTreeListener {
 	void ExitCursorOpen([NotNull] TSQLParser.CursorOpenContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.joinType"/>.
+	/// Enter a parse tree produced by <see cref="TSQLParser.inclusiveOrExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterJoinType([NotNull] TSQLParser.JoinTypeContext context);
+	void EnterInclusiveOrExpression([NotNull] TSQLParser.InclusiveOrExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.joinType"/>.
+	/// Exit a parse tree produced by <see cref="TSQLParser.inclusiveOrExpression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitJoinType([NotNull] TSQLParser.JoinTypeContext context);
+	void ExitInclusiveOrExpression([NotNull] TSQLParser.InclusiveOrExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.orderedIndexColumnList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterOrderedIndexColumnList([NotNull] TSQLParser.OrderedIndexColumnListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.orderedIndexColumnList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitOrderedIndexColumnList([NotNull] TSQLParser.OrderedIndexColumnListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.selectStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSelectStatement([NotNull] TSQLParser.SelectStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.selectStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSelectStatement([NotNull] TSQLParser.SelectStatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.equalityExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterEqualityExpression([NotNull] TSQLParser.EqualityExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.equalityExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitEqualityExpression([NotNull] TSQLParser.EqualityExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.xmlDefinitionList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterXmlDefinitionList([NotNull] TSQLParser.XmlDefinitionListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.xmlDefinitionList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitXmlDefinitionList([NotNull] TSQLParser.XmlDefinitionListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.updateTop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUpdateTop([NotNull] TSQLParser.UpdateTopContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.updateTop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUpdateTop([NotNull] TSQLParser.UpdateTopContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.alterTableSwitchPartition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAlterTableSwitchPartition([NotNull] TSQLParser.AlterTableSwitchPartitionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.alterTableSwitchPartition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAlterTableSwitchPartition([NotNull] TSQLParser.AlterTableSwitchPartitionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.literalValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLiteralValue([NotNull] TSQLParser.LiteralValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.literalValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLiteralValue([NotNull] TSQLParser.LiteralValueContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.variable"/>.
@@ -1867,15 +888,15 @@ public interface ITSQLListener : IParseTreeListener {
 	void ExitVariable([NotNull] TSQLParser.VariableContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tableSource"/>.
+	/// Enter a parse tree produced by <see cref="TSQLParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterTableSource([NotNull] TSQLParser.TableSourceContext context);
+	void EnterExpression([NotNull] TSQLParser.ExpressionContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tableSource"/>.
+	/// Exit a parse tree produced by <see cref="TSQLParser.expression"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitTableSource([NotNull] TSQLParser.TableSourceContext context);
+	void ExitExpression([NotNull] TSQLParser.ExpressionContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.numericType"/>.
@@ -1889,15 +910,796 @@ public interface ITSQLListener : IParseTreeListener {
 	void ExitNumericType([NotNull] TSQLParser.NumericTypeContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.returnExpression"/>.
+	/// Enter a parse tree produced by <see cref="TSQLParser.whereClause"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterReturnExpression([NotNull] TSQLParser.ReturnExpressionContext context);
+	void EnterWhereClause([NotNull] TSQLParser.WhereClauseContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.returnExpression"/>.
+	/// Exit a parse tree produced by <see cref="TSQLParser.whereClause"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitReturnExpression([NotNull] TSQLParser.ReturnExpressionContext context);
+	void ExitWhereClause([NotNull] TSQLParser.WhereClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.obscureCommands"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterObscureCommands([NotNull] TSQLParser.ObscureCommandsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.obscureCommands"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitObscureCommands([NotNull] TSQLParser.ObscureCommandsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.alterTableAddConstraint"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAlterTableAddConstraint([NotNull] TSQLParser.AlterTableAddConstraintContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.alterTableAddConstraint"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAlterTableAddConstraint([NotNull] TSQLParser.AlterTableAddConstraintContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.propertyOrField"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPropertyOrField([NotNull] TSQLParser.PropertyOrFieldContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.propertyOrField"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPropertyOrField([NotNull] TSQLParser.PropertyOrFieldContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.subSelectExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSubSelectExpression([NotNull] TSQLParser.SubSelectExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.subSelectExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSubSelectExpression([NotNull] TSQLParser.SubSelectExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.insertDataSource"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterInsertDataSource([NotNull] TSQLParser.InsertDataSourceContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.insertDataSource"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitInsertDataSource([NotNull] TSQLParser.InsertDataSourceContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.unaryExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUnaryExpression([NotNull] TSQLParser.UnaryExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.unaryExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUnaryExpression([NotNull] TSQLParser.UnaryExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.basicOption"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBasicOption([NotNull] TSQLParser.BasicOptionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.basicOption"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBasicOption([NotNull] TSQLParser.BasicOptionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tableSourceOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTableSourceOptions([NotNull] TSQLParser.TableSourceOptionsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tableSourceOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTableSourceOptions([NotNull] TSQLParser.TableSourceOptionsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.columnDefinitionList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterColumnDefinitionList([NotNull] TSQLParser.ColumnDefinitionListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.columnDefinitionList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitColumnDefinitionList([NotNull] TSQLParser.ColumnDefinitionListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.forXmlClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterForXmlClause([NotNull] TSQLParser.ForXmlClauseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.forXmlClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitForXmlClause([NotNull] TSQLParser.ForXmlClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.setVariableToCursor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSetVariableToCursor([NotNull] TSQLParser.SetVariableToCursorContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.setVariableToCursor"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSetVariableToCursor([NotNull] TSQLParser.SetVariableToCursorContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.stringValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStringValue([NotNull] TSQLParser.StringValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.stringValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStringValue([NotNull] TSQLParser.StringValueContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.collate"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCollate([NotNull] TSQLParser.CollateContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.collate"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCollate([NotNull] TSQLParser.CollateContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.procedureParameterName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterProcedureParameterName([NotNull] TSQLParser.ProcedureParameterNameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.procedureParameterName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitProcedureParameterName([NotNull] TSQLParser.ProcedureParameterNameContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.orderByElement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterOrderByElement([NotNull] TSQLParser.OrderByElementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.orderByElement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitOrderByElement([NotNull] TSQLParser.OrderByElementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterType([NotNull] TSQLParser.TypeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.type"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitType([NotNull] TSQLParser.TypeContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.procedureParameter"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterProcedureParameter([NotNull] TSQLParser.ProcedureParameterContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.procedureParameter"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitProcedureParameter([NotNull] TSQLParser.ProcedureParameterContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.expressionSet"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterExpressionSet([NotNull] TSQLParser.ExpressionSetContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.expressionSet"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitExpressionSet([NotNull] TSQLParser.ExpressionSetContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.createProcedure"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCreateProcedure([NotNull] TSQLParser.CreateProcedureContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.createProcedure"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCreateProcedure([NotNull] TSQLParser.CreateProcedureContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.mergeStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMergeStatement([NotNull] TSQLParser.MergeStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.mergeStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMergeStatement([NotNull] TSQLParser.MergeStatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.variableDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterVariableDeclaration([NotNull] TSQLParser.VariableDeclarationContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.variableDeclaration"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitVariableDeclaration([NotNull] TSQLParser.VariableDeclarationContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFunctionCall([NotNull] TSQLParser.FunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.functionCall"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFunctionCall([NotNull] TSQLParser.FunctionCallContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tableTargetWithOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTableTargetWithOptions([NotNull] TSQLParser.TableTargetWithOptionsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tableTargetWithOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTableTargetWithOptions([NotNull] TSQLParser.TableTargetWithOptionsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.cursorDeallocate"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCursorDeallocate([NotNull] TSQLParser.CursorDeallocateContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.cursorDeallocate"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCursorDeallocate([NotNull] TSQLParser.CursorDeallocateContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.selectVariableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSelectVariableAssignment([NotNull] TSQLParser.SelectVariableAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.selectVariableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSelectVariableAssignment([NotNull] TSQLParser.SelectVariableAssignmentContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.primary"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPrimary([NotNull] TSQLParser.PrimaryContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.primary"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPrimary([NotNull] TSQLParser.PrimaryContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.deleteTop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeleteTop([NotNull] TSQLParser.DeleteTopContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.deleteTop"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeleteTop([NotNull] TSQLParser.DeleteTopContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.partitionIdent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPartitionIdent([NotNull] TSQLParser.PartitionIdentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.partitionIdent"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPartitionIdent([NotNull] TSQLParser.PartitionIdentContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.columnIndexOrName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterColumnIndexOrName([NotNull] TSQLParser.ColumnIndexOrNameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.columnIndexOrName"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitColumnIndexOrName([NotNull] TSQLParser.ColumnIndexOrNameContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.argument"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterArgument([NotNull] TSQLParser.ArgumentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.argument"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitArgument([NotNull] TSQLParser.ArgumentContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tempTable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTempTable([NotNull] TSQLParser.TempTableContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tempTable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTempTable([NotNull] TSQLParser.TempTableContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.xmlDefinition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterXmlDefinition([NotNull] TSQLParser.XmlDefinitionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.xmlDefinition"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitXmlDefinition([NotNull] TSQLParser.XmlDefinitionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.setVariableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSetVariableAssignment([NotNull] TSQLParser.SetVariableAssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.setVariableAssignment"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSetVariableAssignment([NotNull] TSQLParser.SetVariableAssignmentContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.conditionalAndExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterConditionalAndExpression([NotNull] TSQLParser.ConditionalAndExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.conditionalAndExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitConditionalAndExpression([NotNull] TSQLParser.ConditionalAndExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.additiveExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAdditiveExpression([NotNull] TSQLParser.AdditiveExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.additiveExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAdditiveExpression([NotNull] TSQLParser.AdditiveExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.postfixExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterPostfixExpression([NotNull] TSQLParser.PostfixExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.postfixExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitPostfixExpression([NotNull] TSQLParser.PostfixExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.characterStringType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCharacterStringType([NotNull] TSQLParser.CharacterStringTypeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.characterStringType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCharacterStringType([NotNull] TSQLParser.CharacterStringTypeContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.identitySpec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIdentitySpec([NotNull] TSQLParser.IdentitySpecContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.identitySpec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIdentitySpec([NotNull] TSQLParser.IdentitySpecContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.joinOrApply"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterJoinOrApply([NotNull] TSQLParser.JoinOrApplyContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.joinOrApply"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitJoinOrApply([NotNull] TSQLParser.JoinOrApplyContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.procedureBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterProcedureBody([NotNull] TSQLParser.ProcedureBodyContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.procedureBody"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitProcedureBody([NotNull] TSQLParser.ProcedureBodyContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.statementList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStatementList([NotNull] TSQLParser.StatementListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.statementList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStatementList([NotNull] TSQLParser.StatementListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStatement([NotNull] TSQLParser.StatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStatement([NotNull] TSQLParser.StatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tableSourceWithOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTableSourceWithOptions([NotNull] TSQLParser.TableSourceWithOptionsContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tableSourceWithOptions"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTableSourceWithOptions([NotNull] TSQLParser.TableSourceWithOptionsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.dropTable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDropTable([NotNull] TSQLParser.DropTableContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.dropTable"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDropTable([NotNull] TSQLParser.DropTableContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.caseWhen"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCaseWhen([NotNull] TSQLParser.CaseWhenContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.caseWhen"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCaseWhen([NotNull] TSQLParser.CaseWhenContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.compileUnit"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCompileUnit([NotNull] TSQLParser.CompileUnitContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.compileUnit"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCompileUnit([NotNull] TSQLParser.CompileUnitContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.commonTableExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCommonTableExpression([NotNull] TSQLParser.CommonTableExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.commonTableExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCommonTableExpression([NotNull] TSQLParser.CommonTableExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.selectListElement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSelectListElement([NotNull] TSQLParser.SelectListElementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.selectListElement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSelectListElement([NotNull] TSQLParser.SelectListElementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.groupByElement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterGroupByElement([NotNull] TSQLParser.GroupByElementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.groupByElement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitGroupByElement([NotNull] TSQLParser.GroupByElementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.procedureParameterInitialValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterProcedureParameterInitialValue([NotNull] TSQLParser.ProcedureParameterInitialValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.procedureParameterInitialValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitProcedureParameterInitialValue([NotNull] TSQLParser.ProcedureParameterInitialValueContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tryBlock"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTryBlock([NotNull] TSQLParser.TryBlockContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tryBlock"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTryBlock([NotNull] TSQLParser.TryBlockContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.insertPreamble"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterInsertPreamble([NotNull] TSQLParser.InsertPreambleContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.insertPreamble"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitInsertPreamble([NotNull] TSQLParser.InsertPreambleContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.cursorStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCursorStatement([NotNull] TSQLParser.CursorStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.cursorStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCursorStatement([NotNull] TSQLParser.CursorStatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.columnAlias"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterColumnAlias([NotNull] TSQLParser.ColumnAliasContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.columnAlias"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitColumnAlias([NotNull] TSQLParser.ColumnAliasContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.fromClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFromClause([NotNull] TSQLParser.FromClauseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.fromClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFromClause([NotNull] TSQLParser.FromClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.multiplicativeExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMultiplicativeExpression([NotNull] TSQLParser.MultiplicativeExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.multiplicativeExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMultiplicativeExpression([NotNull] TSQLParser.MultiplicativeExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.cursorFetch"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCursorFetch([NotNull] TSQLParser.CursorFetchContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.cursorFetch"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCursorFetch([NotNull] TSQLParser.CursorFetchContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.assignmentOperator"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAssignmentOperator([NotNull] TSQLParser.AssignmentOperatorContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.assignmentOperator"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAssignmentOperator([NotNull] TSQLParser.AssignmentOperatorContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tableSource"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTableSource([NotNull] TSQLParser.TableSourceContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tableSource"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTableSource([NotNull] TSQLParser.TableSourceContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.deleteOutput"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeleteOutput([NotNull] TSQLParser.DeleteOutputContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.deleteOutput"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeleteOutput([NotNull] TSQLParser.DeleteOutputContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.typeInBracket"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTypeInBracket([NotNull] TSQLParser.TypeInBracketContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.typeInBracket"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTypeInBracket([NotNull] TSQLParser.TypeInBracketContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.unaryExpressionNotPlusMinus"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUnaryExpressionNotPlusMinus([NotNull] TSQLParser.UnaryExpressionNotPlusMinusContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.unaryExpressionNotPlusMinus"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUnaryExpressionNotPlusMinus([NotNull] TSQLParser.UnaryExpressionNotPlusMinusContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.selectList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSelectList([NotNull] TSQLParser.SelectListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.selectList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSelectList([NotNull] TSQLParser.SelectListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.ddl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDdl([NotNull] TSQLParser.DdlContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.ddl"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDdl([NotNull] TSQLParser.DdlContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.alterPartitionScheme"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAlterPartitionScheme([NotNull] TSQLParser.AlterPartitionSchemeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.alterPartitionScheme"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAlterPartitionScheme([NotNull] TSQLParser.AlterPartitionSchemeContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.executeArgument"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterExecuteArgument([NotNull] TSQLParser.ExecuteArgumentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.executeArgument"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitExecuteArgument([NotNull] TSQLParser.ExecuteArgumentContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.qualifiedNameList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterQualifiedNameList([NotNull] TSQLParser.QualifiedNameListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.qualifiedNameList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitQualifiedNameList([NotNull] TSQLParser.QualifiedNameListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.relationalExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRelationalExpression([NotNull] TSQLParser.RelationalExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.relationalExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRelationalExpression([NotNull] TSQLParser.RelationalExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.conditionalOrExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterConditionalOrExpression([NotNull] TSQLParser.ConditionalOrExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.conditionalOrExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitConditionalOrExpression([NotNull] TSQLParser.ConditionalOrExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.declareStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDeclareStatement([NotNull] TSQLParser.DeclareStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.declareStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDeclareStatement([NotNull] TSQLParser.DeclareStatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.updateStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterUpdateStatement([NotNull] TSQLParser.UpdateStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.updateStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitUpdateStatement([NotNull] TSQLParser.UpdateStatementContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.executeStatement"/>.
@@ -1911,14 +1713,212 @@ public interface ITSQLListener : IParseTreeListener {
 	void ExitExecuteStatement([NotNull] TSQLParser.ExecuteStatementContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TSQLParser.tableSourceOptions"/>.
+	/// Enter a parse tree produced by <see cref="TSQLParser.identityType"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterTableSourceOptions([NotNull] TSQLParser.TableSourceOptionsContext context);
+	void EnterIdentityType([NotNull] TSQLParser.IdentityTypeContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TSQLParser.tableSourceOptions"/>.
+	/// Exit a parse tree produced by <see cref="TSQLParser.identityType"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitTableSourceOptions([NotNull] TSQLParser.TableSourceOptionsContext context);
+	void ExitIdentityType([NotNull] TSQLParser.IdentityTypeContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.mergeMatched"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMergeMatched([NotNull] TSQLParser.MergeMatchedContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.mergeMatched"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMergeMatched([NotNull] TSQLParser.MergeMatchedContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.caseElse"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCaseElse([NotNull] TSQLParser.CaseElseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.caseElse"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCaseElse([NotNull] TSQLParser.CaseElseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.keyword"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterKeyword([NotNull] TSQLParser.KeywordContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.keyword"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitKeyword([NotNull] TSQLParser.KeywordContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.createIndex"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCreateIndex([NotNull] TSQLParser.CreateIndexContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.createIndex"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCreateIndex([NotNull] TSQLParser.CreateIndexContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.argumentList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterArgumentList([NotNull] TSQLParser.ArgumentListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.argumentList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitArgumentList([NotNull] TSQLParser.ArgumentListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.alterTableDropConstraint"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAlterTableDropConstraint([NotNull] TSQLParser.AlterTableDropConstraintContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.alterTableDropConstraint"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAlterTableDropConstraint([NotNull] TSQLParser.AlterTableDropConstraintContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.insertValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterInsertValue([NotNull] TSQLParser.InsertValueContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.insertValue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitInsertValue([NotNull] TSQLParser.InsertValueContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.ifStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIfStatement([NotNull] TSQLParser.IfStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.ifStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIfStatement([NotNull] TSQLParser.IfStatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.returnExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterReturnExpression([NotNull] TSQLParser.ReturnExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.returnExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitReturnExpression([NotNull] TSQLParser.ReturnExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.insertOutputClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterInsertOutputClause([NotNull] TSQLParser.InsertOutputClauseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.insertOutputClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitInsertOutputClause([NotNull] TSQLParser.InsertOutputClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.whileStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWhileStatement([NotNull] TSQLParser.WhileStatementContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.whileStatement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWhileStatement([NotNull] TSQLParser.WhileStatementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.tableAlias"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTableAlias([NotNull] TSQLParser.TableAliasContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.tableAlias"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTableAlias([NotNull] TSQLParser.TableAliasContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.transactionBlock"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTransactionBlock([NotNull] TSQLParser.TransactionBlockContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.transactionBlock"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTransactionBlock([NotNull] TSQLParser.TransactionBlockContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.joinType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterJoinType([NotNull] TSQLParser.JoinTypeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.joinType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitJoinType([NotNull] TSQLParser.JoinTypeContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.groupByClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterGroupByClause([NotNull] TSQLParser.GroupByClauseContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.groupByClause"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitGroupByClause([NotNull] TSQLParser.GroupByClauseContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.executeArgumentList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterExecuteArgumentList([NotNull] TSQLParser.ExecuteArgumentListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.executeArgumentList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitExecuteArgumentList([NotNull] TSQLParser.ExecuteArgumentListContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.selectTopLimit"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSelectTopLimit([NotNull] TSQLParser.SelectTopLimitContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.selectTopLimit"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSelectTopLimit([NotNull] TSQLParser.SelectTopLimitContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.integerType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIntegerType([NotNull] TSQLParser.IntegerTypeContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.integerType"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIntegerType([NotNull] TSQLParser.IntegerTypeContext context);
 }
 } // namespace tsql2pgsql.grammar

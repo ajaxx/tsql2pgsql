@@ -59,7 +59,7 @@ namespace tsql2pgsql
                 .Process<ParentheticalRepairVisitor>()
                 .Process<SingleLineDeclarationVisitor>()
                 .Process<VariableNameConverter>()
-                .Process<PgsqlConverter>()
+                //.Process<PgsqlConverter>()
                 ;
 
             File.WriteAllLines(oFileName, pipelineDirector.Contents);
