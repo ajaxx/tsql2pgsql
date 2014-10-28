@@ -31,7 +31,7 @@ namespace tsql2pgsql.visitors
 
     /// <summary>
     /// This class is used to rearrange and otherwise clean up a TSQL grammar prior to running
-    /// it through the mutation visitor.
+    /// it through the pgsql converter.
     /// </summary>
     internal class ProcedureFormatVisitor : PipelineVisitor
     {
@@ -140,6 +140,17 @@ namespace tsql2pgsql.visitors
                 (context.qualifiedName().Stop.Line == asTerminal.Line))
             {
                 InsertBefore(asTerminal, "\n", false);
+            }
+
+            // the statementList portion of the block should be wrapped in a BEGIN and END token
+            // this makes downstream processing of the procedure body easier for the PgsqlConverter
+
+            var procedureBody = context.procedureBody().statementList();
+            var procedureParts = procedureBody.statement();
+            if (procedureParts.Length > 1 || procedureParts[0].BEGIN() == null)
+            {
+                InsertAfter(asTerminal, "\nBEGIN", false);
+                InsertAfter(procedureBody, "\nEND;", false);
             }
 
             return base.VisitCreateProcedure(context);

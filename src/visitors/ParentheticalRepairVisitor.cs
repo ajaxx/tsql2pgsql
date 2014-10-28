@@ -61,7 +61,7 @@ namespace tsql2pgsql.visitors
         /// <return>The visitor result.</return>
         public override object VisitIfStatement(TSQLParser.IfStatementContext context)
         {
-            WrapInParenthesis(context.predicateList().expression());
+            WrapInParenthesis(context.predicateList());
             return base.VisitIfStatement(context);
         }
 

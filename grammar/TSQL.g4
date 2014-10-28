@@ -176,7 +176,7 @@ primary
 		(	minSelectElement
 		|	'(' DISTINCT minSelectElement ')'
 		)
-	|	EXISTS '(' selectStatement ')'
+	|	existsExpression
 	|	CASE caseWhen+ caseElse? END
 	|	CASE expression caseWhen+ caseElse? END
 	|	LPAREN expression RPAREN
@@ -186,6 +186,10 @@ primary
 expression
 	:	primary
 	|	conditionalExpression
+	;
+	
+existsExpression
+	:	NOT? EXISTS '(' selectStatement ')'
 	;
 
 convertExpression
@@ -444,16 +448,28 @@ dml
 	|	waitFor
 	|	commonTableExpression
 	|	cursorStatement
-	|	PRINT expression
+	|	printExpression
 	|	ifStatement
 	|	whileStatement
 	|	BREAK qualifiedName?
 	|	CONTINUE qualifiedName?
-	|	COMMIT TRANSACTION? qualifiedName?
+	|	commitTransaction
 	|	GOTO qualifiedName?
-	|	ROLLBACK TRANSACTION? qualifiedName?
+	|	rollbackTransaction
 	|	returnExpression
 	|	Identifier COLON  /* Label */
+	;
+
+commitTransaction
+	:	COMMIT TRANSACTION? qualifiedName?
+	;
+
+rollbackTransaction
+	:	ROLLBACK TRANSACTION? qualifiedName?
+	;
+	
+printExpression
+	:	PRINT expression
 	;
 
 returnExpression
@@ -473,7 +489,7 @@ waitFor
 	;
 
 raiseError
-	:	RAISE_ERROR '(' argumentList ')' (WITH LOG)?
+	:	RAISE_ERROR LPAREN argumentList RPAREN (WITH LOG)?
 	|	RAISE_ERROR argument+ (WITH LOG)?
 	;
 
@@ -563,7 +579,7 @@ variableDeclaration
 	;
 
 variableDeclarationAssignment
-	:	('=' expression)?
+	:	('=' expression)
 	;
 
 columnList
@@ -608,10 +624,14 @@ setStatement
 setSessionOther
 	:	ROWCOUNT integerValue
 	|	TRANSACTION ISOLATION LEVEL transactionIsolationLevel
-	|	qualifiedName+ (ON|OFF)
-	|	qualifiedName
+	|	setSessionParameter+ (ON|OFF)
+	|	setSessionParameter
 	;
 
+setSessionParameter
+	:	qualifiedNamePart ('.'+ qualifiedNamePart)*
+	;
+	
 setVariableAssignment
 	:	variable propertyOrField? assignmentOperator expression
 	;
@@ -882,7 +902,7 @@ executeArgumentList
 	;
 
 executeArgument
-	:	variable '=' expression?
+	:	variable EQUALS expression?
 	|	expression (OUTPUT | OUT)?
 	;
 

@@ -38,41 +38,6 @@ namespace tsql2pgsql.pipeline
         }
 
         /// <summary>
-        /// Processes the specified visitor.
-        /// </summary>
-        /// <param name="visitor">The visitor.</param>
-        /// <returns></returns>
-        public PipelineDirector Process(PipelineVisitor visitor)
-        {
-            var savePipeline = visitor.Pipeline;
-
-            try
-            {
-                Log.DebugFormat("Process: Executing {0} pipeline", visitor.GetType().FullName);
-
-                visitor.Pipeline = _pipeline;
-
-                var pipelineResult = visitor.Visit(_pipeline);
-                if (pipelineResult.Contents != null && pipelineResult.RebuildPipeline)
-                {
-                    _pipeline = new Pipeline(
-                        string.Join("\n", pipelineResult.Contents).Split('\n'));
-                }
-                else if (pipelineResult.RebuildPipeline)
-                {
-                    _pipeline = new Pipeline(
-                        string.Join("\n", _pipeline.Contents).Split('\n'));
-                }
-
-                return this;
-            }
-            finally
-            {
-                visitor.Pipeline = savePipeline;
-            }
-        }
-
-        /// <summary>
         /// Processes this instance.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -80,6 +45,44 @@ namespace tsql2pgsql.pipeline
         public PipelineDirector Process<T>() where T : PipelineVisitor
         {
             return Process(Activator.CreateInstance<T>());
+        }
+
+        /// <summary>
+        /// Processes the specified visitors.
+        /// </summary>
+        /// <param name="visitors">The visitors.</param>
+        /// <returns></returns>
+        public PipelineDirector Process(params PipelineVisitor[] visitors)
+        {
+            foreach (var visitor in visitors)
+            {
+                var savePipeline = visitor.Pipeline;
+
+                try
+                {
+                    Log.DebugFormat("Process: Executing {0} pipeline", visitor.GetType().FullName);
+
+                    visitor.Pipeline = _pipeline;
+
+                    var pipelineResult = visitor.Visit(_pipeline);
+                    if (pipelineResult.Contents != null)
+                    {
+                        _pipeline = new Pipeline(
+                            string.Join("\n", pipelineResult.Contents).Split('\n'));
+                    }
+                    else if (pipelineResult.RebuildPipeline)
+                    {
+                        _pipeline = new Pipeline(
+                            string.Join("\n", _pipeline.Contents).Split('\n'));
+                    }
+                }
+                finally
+                {
+                    visitor.Pipeline = savePipeline;
+                }
+            }
+
+            return this;
         }
     }
 }

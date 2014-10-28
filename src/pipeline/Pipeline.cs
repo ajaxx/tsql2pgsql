@@ -507,9 +507,13 @@ namespace tsql2pgsql.pipeline
             _contents[iLine - 1] = line;
 
             // Adjust the line displacement
-            if (tlen != 0)
+            if (tlen > 0)
             {
                 AddLineDisplacement(iLine, iColumn + tlen, -tlen);
+            }
+            else
+            {
+                AddLineDisplacement(iLine, iColumn, -tlen);
             }
         }
 

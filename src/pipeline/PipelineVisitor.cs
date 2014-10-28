@@ -86,7 +86,25 @@ namespace tsql2pgsql.pipeline
         }
 
         /// <summary>
-        /// Replaces the text at the specified token with the new text.  This method assumes that you
+        /// Replaces the text at the specified location with the new text.
+        /// </summary>
+        /// <param name="tLine">The t line.</param>
+        /// <param name="tColumn">The t column.</param>
+        /// <param name="tLength">Length of the t.</param>
+        /// <param name="newText">The new text.</param>
+        /// <param name="eatsTrailingWhitespace">if set to <c>true</c> [eats trailing whitespace].</param>
+        public virtual void ReplaceText(
+            int tLine,
+            int tColumn,
+            int tLength,
+            string newText,
+            bool eatsTrailingWhitespace = true)
+        {
+            Pipeline.ReplaceText(tLine, tColumn, tLength, newText, eatsTrailingWhitespace);
+        }
+
+        /// <summary>
+        /// Replaces the text at the specified location with the new text.  This method assumes that you
         /// know the old text and can provide it.  See other versions for more common use cases.
         /// </summary>
         /// <param name="tLine">The line.</param>
@@ -176,7 +194,8 @@ namespace tsql2pgsql.pipeline
         {
             if (parseTree is ITerminalNode)
             {
-                Replace((IParseTree) parseTree, newText, eatTrailingWhitespace);
+                var terminal = (ITerminalNode)parseTree;
+                Pipeline.ReplaceToken(terminal.Symbol, newText, eatTrailingWhitespace);
             }
             else if (parseTree is ParserRuleContext)
             {
@@ -198,6 +217,16 @@ namespace tsql2pgsql.pipeline
         public virtual void RemoveToken(IToken token, bool eatTrailingWhitespace = true)
         {
             Pipeline.RemoveToken(token, eatTrailingWhitespace);
+        }
+
+        /// <summary>
+        /// Removes the content associated with the given terminal.
+        /// </summary>
+        /// <param name="terminal">The terminal.</param>
+        /// <param name="eatTrailingWhitespace">if set to <c>true</c> [eat trailing whitespace].</param>
+        public virtual void RemoveToken(ITerminalNode terminal, bool eatTrailingWhitespace = true)
+        {
+            Pipeline.RemoveToken(terminal.Symbol, eatTrailingWhitespace);
         }
 
         /// <summary>
@@ -332,63 +361,6 @@ namespace tsql2pgsql.pipeline
         }
 
         /// <summary>
-        /// Unwraps a string that may have been bound with TSQL brackets for quoting.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public virtual string Unwrap(string value)
-        {
-            if (value.StartsWith("[") && value.EndsWith("]"))
-            {
-                value = value.Substring(1, value.Length - 2);
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// Unwraps a qualified name part.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public virtual string Unwrap(TSQLParser.QualifiedNamePartContext context)
-        {
-            var identifier = context.Identifier();
-            if (identifier != null)
-            {
-                return Unwrap(identifier.GetText());
-            }
-
-            return string.Join(" ", context.keyword().Select(k => k.GetText()));
-        }
-
-        /// <summary>
-        /// Unwraps the qualified name.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public virtual string Unwrap(TSQLParser.QualifiedNameContext context)
-        {
-            var nameParts = context.qualifiedNamePart();
-            if (nameParts != null)
-            {
-                return string.Join(".", context.qualifiedNamePart().Select(Unwrap));
-            }
-
-            return context.keyword().GetText();
-        }
-
-        /// <summary>
-        /// Unwraps a variable context and returns the variable name.
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public virtual string Unwrap(TSQLParser.VariableContext context)
-        {
-            return context.Unwrap();
-        }
-
-        /// <summary>
         /// Gets the indentation for a given parse tree.
         /// </summary>
         /// <param name="parseTree">The parse tree.</param>
@@ -406,6 +378,21 @@ namespace tsql2pgsql.pipeline
             }
 
             throw new InvalidOperationException();
+        }
+
+        /// <summary>
+        /// Indents the region.
+        /// </summary>
+        /// <param name="startToken">The start token.</param>
+        /// <param name="endToken">The end token.</param>
+        /// <param name="indentFirstLine">if set to <c>true</c> [indent first line].</param>
+        public void IndentRegion(IToken startToken, IToken endToken, bool indentFirstLine = true)
+        {
+            var startLine = startToken.Line + (indentFirstLine ? 0 : 1);
+            for (int iLine = startLine; iLine <= endToken.Line; iLine++)
+            {
+                InsertAt(iLine, 0, "\t", false);
+            }
         }
     }
 }

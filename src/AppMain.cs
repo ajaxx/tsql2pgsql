@@ -55,12 +55,13 @@ namespace tsql2pgsql
                 return;
 
             var fileContent = File.ReadAllLines(filePath);
-            var pipelineDirector = new PipelineDirector(fileContent)
-                .Process<ParentheticalRepairVisitor>()
-                .Process<SingleLineDeclarationVisitor>()
-                .Process<VariableNameConverter>()
-                //.Process<PgsqlConverter>()
-                ;
+            var pipelineDirector = new PipelineDirector(fileContent).Process(
+                new ParentheticalRepairVisitor(),
+                new SingleLineDeclarationVisitor(),
+                new ProcedureFormatVisitor(),
+                new StatementTerminatorVisitor(),
+                new PgsqlConverter()
+                );
 
             File.WriteAllLines(oFileName, pipelineDirector.Contents);
         }

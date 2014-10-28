@@ -9,6 +9,7 @@ using tsql2pgsql.grammar;
 
 namespace tsql2pgsql.visitors
 {
+    using antlr;
     using pipeline;
 
     /// <summary>
@@ -103,7 +104,7 @@ namespace tsql2pgsql.visitors
         public override object VisitProcedureParameter(TSQLParser.ProcedureParameterContext context)
         {
             if (context != null)
-                Parameters.Add(Unwrap(context.procedureParameterName().variable()));
+                Parameters.Add(context.procedureParameterName().variable().Unwrap());
             return base.VisitProcedureParameter(context);
         }
 

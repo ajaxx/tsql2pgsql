@@ -8,10 +8,30 @@ using System.Text;
 namespace tsql2pgsql.visitors
 {
     using antlr;
+    using collections;
     using grammar;
 
     internal class ExpressionTypeVisitor : TSQLBaseVisitor<Type>
     {
+        /// <summary>
+        /// An optional set of variables to consider as part of the evaluation.
+        /// </summary>
+        private IDictionary<string, TSQLParser.VariableDeclarationContext> _variables;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpressionTypeVisitor"/> class.
+        /// </summary>
+        internal ExpressionTypeVisitor() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpressionTypeVisitor"/> class.
+        /// </summary>
+        /// <param name="variables">The variables.</param>
+        internal ExpressionTypeVisitor(IDictionary<string, TSQLParser.VariableDeclarationContext> variables)
+        {
+            _variables = variables;
+        }
+
         /// <summary>
         /// Visit a parse tree produced by <see cref="TSQLParser.expression" />.
         /// </summary>
@@ -218,7 +238,7 @@ namespace tsql2pgsql.visitors
         /// <return>The visitor result.</return>
         public override Type VisitPrimary(TSQLParser.PrimaryContext context)
         {
-            if (context.EXISTS() != null)
+            if (context.existsExpression() != null)
                 return typeof(bool);
             if (context.COUNT() != null)
                 return typeof(int);
@@ -237,11 +257,32 @@ namespace tsql2pgsql.visitors
             if (context.functionCall() != null)
                 return typeof(void);
             if (context.variable() != null)
-                return typeof(void);
+                return VisitVariable(context.variable());
             if (context.qualifiedColumnName() != null)
                 return typeof(void);
 
             throw new ArgumentException("invalid primary object");
+        }
+
+        /// <summary>
+        /// Visits the variable.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override Type VisitVariable(TSQLParser.VariableContext context)
+        {
+            if (_variables == null)
+                return typeof(void);
+
+            var variableName = context.Unwrap();
+            var variableDecl = _variables.Get(variableName);
+            if (variableDecl == null)
+                return typeof(void);
+
+            if (variableDecl.TABLE() != null)
+                return typeof(IDataRecord);
+
+            return VisitType(variableDecl.type());
         }
 
         /// <summary>

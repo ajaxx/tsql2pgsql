@@ -40,11 +40,6 @@ namespace tsql2pgsql.visitors
         private static readonly ILog Log = LogManager.GetCurrentClassLogger();
 
         /// <summary>
-        /// Collection of all known parameters.
-        /// </summary>
-        private readonly ISet<string> _parameters = new HashSet<string>();
-
-        /// <summary>
         /// Map of all variables.
         /// </summary>
         private IDictionary<string, TSQLParser.VariableDeclarationContext> Variables;
@@ -67,6 +62,22 @@ namespace tsql2pgsql.visitors
         public string VariablePrefix { get; set; }
 
         /// <summary>
+        /// Gets or sets the parameters.
+        /// </summary>
+        /// <value>
+        /// The parameters.
+        /// </value>
+        public ISet<string> Parameters { get; set; }
+
+        /// <summary>
+        /// Gets or sets the capitalization style.
+        /// </summary>
+        /// <value>
+        /// The capitalization style.
+        /// </value>
+        public CapitalizationStyle CapitalizationStyle { get; set; }
+
+        /// <summary>
         /// Gets the basic function map table.
         /// </summary>
         /// <value>
@@ -87,9 +98,11 @@ namespace tsql2pgsql.visitors
         /// </summary>
         public PgsqlConverter() : base(false)
         {
+            CapitalizationStyle = CapitalizationStyle.PascalCase;
+            Parameters = new HashSet<string>();
+            ParameterPrefix = "_p";
             Variables = new Dictionary<string, TSQLParser.VariableDeclarationContext>();
             VariablePrefix = "_v";
-            ParameterPrefix = "_p";
 
             // basic function mapping
             BasicFunctionMapTable = new Dictionary<string, string>();
@@ -149,29 +162,18 @@ namespace tsql2pgsql.visitors
             foreach (var line in GetDeclareBlock())
                 yield return line;
 
-            yield return "BEGIN";
-
             var bodyLines = string.Join("\n", contents.Skip(_declareBlockAfter)).Split('\n');
-            foreach (var line in bodyLines.Select(l => "\t" + l))
+
+            // next line should be the "BEGIN" token for the block
+            yield return bodyLines[0];
+
+            foreach (var line in bodyLines.Skip(1).Take(bodyLines.Length - 2).Select(l => "\t" + l))
                 yield return line;
 
-            yield return "END";
+            // next line should be the "END" token for the block
+            yield return bodyLines[bodyLines.Length - 1];
+
             yield return "$$ LANGUAGE plpgsql";
-        }
-
-        /// <summary>
-        /// Unwraps a function name
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        private string Unwrap(TSQLParser.FunctionNameContext context)
-        {
-            var functionName = 
-                context.qualifiedName() != null ?
-                Unwrap(context.qualifiedName()) :
-                Unwrap(context.keyword().GetText());
-
-            return functionName;
         }
 
         /// <summary>
@@ -195,6 +197,25 @@ namespace tsql2pgsql.visitors
         }
 
         /// <summary>
+        /// Capitalizes to style.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        private string Capitalize(string value)
+        {
+            switch (CapitalizationStyle)
+            {
+                case CapitalizationStyle.None:
+                    return value;
+                case CapitalizationStyle.PascalCase:
+                    return Char.ToUpperInvariant(value[0]) + value.Substring(1);
+                case CapitalizationStyle.CamelCase:
+                    return Char.ToLowerInvariant(value[0]) + value.Substring(1);
+            }
+
+            return value;
+        }
+
+        /// <summary>
         /// Ports the name of the variable.
         /// </summary>
         /// <param name="variableName">Name of the variable.</param>
@@ -204,9 +225,9 @@ namespace tsql2pgsql.visitors
             if (variableName[0] == '@')
             {
                 return 
-                    (_parameters.Contains(variableName)) ?
-                    ParameterPrefix + variableName.Substring(1) : 
-                    VariablePrefix + variableName.Substring(1) ;
+                    Parameters.Contains(variableName) ?
+                    ParameterPrefix + Capitalize(variableName.Substring(1)) : 
+                    VariablePrefix + Capitalize(variableName.Substring(1)) ;
             }
             return variableName;
         }
@@ -282,7 +303,7 @@ namespace tsql2pgsql.visitors
         /// <returns></returns>
         public override object VisitVariableDeclaration(TSQLParser.VariableDeclarationContext context)
         {
-            Variables[Unwrap(context.variable())] = context;
+            Variables[context.variable().Unwrap()] = context;
 
             if (context.TABLE() != null)
             {
@@ -318,13 +339,38 @@ namespace tsql2pgsql.visitors
         }
 
         /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.variable" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitVariable(TSQLParser.VariableContext context)
+        {
+            var variableName = context.GetText();
+            if (variableName.StartsWith("@@"))
+            {
+
+            }
+            else if (ConfirmConsistency(context))
+            {
+                ReplaceText(
+                    context.Start.Line,
+                    context.Start.Column,
+                    context.GetText(),
+                    PortVariableName(variableName),
+                    true);
+            }
+
+            return base.VisitVariable(context);
+        }
+
+        /// <summary>
         /// Called when we encounter a type that has been quoted according to TSQL convention.
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
         public override object VisitTypeInBracket(TSQLParser.TypeInBracketContext context)
         {
-            Console.WriteLine(context.type().GetText());
             return base.VisitTypeInBracket(context);
         }
 
@@ -367,27 +413,42 @@ namespace tsql2pgsql.visitors
             if (context.qualifiedName() != null)
             {
                 var name = context.qualifiedName();
-                var nameTextA = name.GetText().ToLowerInvariant();
-                var nameTextB = GetTextFor(name).ToLowerInvariant();
-                if (nameTextB != nameTextA)
-                    return null;
-
-                switch (nameTextA)
+                if (ConfirmConsistency(name))
                 {
-                    case "bit":
-                        ReplaceToken(name.Start, "boolean");
-                        break;
-                    case "datetime":
-                        ReplaceToken(name.Start, "date");
-                        break;
+                    var nameText = name.Unwrap();
+                    var nameTextNew = PortDataType(nameText);
+                    if (nameText != nameTextNew)
+                    {
+                        ReplaceText(
+                            name.Start.Line,
+                            name.Start.Column,
+                            nameText.Length,
+                            nameTextNew);
+                    }
                 }
             }
 
             return base.VisitType(context);
         }
 
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.characterStringType" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
         public override object VisitCharacterStringType(TSQLParser.CharacterStringTypeContext context)
         {
+            var characterStringTypeLength = context.characterStringTypeLength();
+            if (characterStringTypeLength != null)
+            {
+                if (characterStringTypeLength.MAX() != null)
+                {
+                    Replace(context, "text");
+                    return null;
+                }
+            }
+
             if (context.NVARCHAR() != null)
                 ReplaceToken(context.NVARCHAR(), "varchar");
             else if (context.NCHAR() != null)
@@ -471,6 +532,71 @@ namespace tsql2pgsql.visitors
         }
 
         /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.insertStatement" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitInsertStatement(TSQLParser.InsertStatementContext context)
+        {
+            // there is a case, where T-SQL can use an insert with an OUTPUT clause.  to my
+            // knowledge, there is no exact equivalent in PGSQL, however, the RETURNING keyword
+            // should be more than adequate for providing equivalent behavior.  The catch is that
+            // the RETURNING clause returns the value to the caller which can then insert
+            // that data into a table if that's what desired.
+
+            var insertOutputClause = context.insertOutputClause();
+            if (insertOutputClause != null)
+            {
+                if (insertOutputClause.INTO() != null)
+                {
+                    var indentation = GetIndentationFor(context);
+                    var selectListText = GetTextFor(insertOutputClause.selectList());
+                    var targetTable = insertOutputClause.tableTarget();
+                    var targetColumns = insertOutputClause.qualifiedColumnNameList();
+                    var targetName =
+                        targetTable.variable() != null ?
+                        PortVariableName(targetTable.variable().Unwrap()) :
+                        targetTable.tempTable() != null ?
+                        PortTableName(targetTable.tempTable().Unwrap()) :
+                        targetTable.Unwrap();
+
+                    var returningText = string.Format("\n{0}\tRETURNING {1}", indentation, selectListText);
+
+                    var insertText = string.Format("\n{0}) INSERT INTO {1} SELECT * FROM _tempContext", indentation, targetName);
+                    if (targetColumns != null)
+                        insertText = insertText + '(' + targetColumns + ')';
+
+                    InsertBefore(context.insertPreamble(), "WITH _tempContext AS (\n" + indentation);
+                    InsertAfter(context.RightMostToken(), returningText, false);
+                    InsertAfter(context.RightMostToken(), insertText, false);
+                    IndentRegion(context.insertPreamble().Start, context.RightMostToken());
+
+                    RemoveLeaves(insertOutputClause);
+                }
+                else
+                {
+                    ReplaceToken(insertOutputClause.OUTPUT(), "RETURNING", false);
+                }
+            }
+
+            return base.VisitInsertStatement(context);
+        }
+
+        /// <summary>
+        /// Visits the transaction block.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override object VisitTransactionBlock(TSQLParser.TransactionBlockContext context)
+        {
+            // PL/PGSQL functions are automatically enrolled into transactions
+            RemoveToken(context.BEGIN(), false);
+            RemoveToken(context.TRANSACTION(), false);
+            return base.VisitTransactionBlock(context);
+        }
+
+        /// <summary>
         /// Visits the set session other.
         /// </summary>
         /// <param name="context">The context.</param>
@@ -485,15 +611,15 @@ namespace tsql2pgsql.visitors
             {
                 RemoveStatement(context);
             }
-            else if (!context.qualifiedName().IsNullOrEmpty())
+            else if (!context.setSessionParameter().IsNullOrEmpty())
             {
-                var qualifiedNameList = context.qualifiedName();
-                if (qualifiedNameList.Length == 1)
+                var sessionParameterList = context.setSessionParameter();
+                if (sessionParameterList.Length == 1)
                 {
-                    switch (qualifiedNameList[0].GetText().ToLower())
+                    switch (sessionParameterList[0].GetText().ToLower())
                     {
                         case "nocount":
-                            // delete the item
+                        case "quoted_identifier":
                             RemoveStatement(context);
                             return null;
                     }
@@ -513,7 +639,9 @@ namespace tsql2pgsql.visitors
         /// <return>The visitor result.</return>
         public override object VisitRaiseError(TSQLParser.RaiseErrorContext context)
         {
-            ReplaceToken(context.RAISE_ERROR().Symbol, "RAISE NOTICE");
+            ReplaceToken(context.RAISE_ERROR().Symbol, "RAISE EXCEPTION ");
+            if (context.LPAREN() != null) RemoveToken(context.LPAREN());
+            if (context.RPAREN() != null) RemoveToken(context.RPAREN());
             return base.VisitRaiseError(context);
         }
 
@@ -595,11 +723,11 @@ namespace tsql2pgsql.visitors
                 var tmpTableSuffix = string.Empty;
                 if (context.qualifiedNamePart() != null)
                 {
-                    tmpTableSuffix = Unwrap(context.qualifiedNamePart());
+                    tmpTableSuffix = context.qualifiedNamePart().Unwrap();
                 }
                 else
                 {
-                    tmpTableSuffix = Unwrap(context.keyword().GetText());
+                    tmpTableSuffix = context.keyword().Unwrap();
                 }
 
                 if (ConfirmConsistency(context))
@@ -652,11 +780,81 @@ namespace tsql2pgsql.visitors
         /// <returns></returns>
         public override object VisitProcedureParameter(TSQLParser.ProcedureParameterContext context)
         {
-            _parameters.Add(Unwrap(context.procedureParameterName().variable()));
+            if (context != null)
+            {
+                Parameters.Add(context.procedureParameterName().variable().Unwrap());
+
+                var procedureParameterInitialValue = context.procedureParameterInitialValue();
+                if (procedureParameterInitialValue != null)
+                {
+                    switch(context.type().Unwrap())
+                    {
+                        case "bit":
+                            // we know that bits are converted into booleans and that the
+                            // default values are not portable as a result.  convert the
+                            // bit value to a boolean value.
+
+                            if (procedureParameterInitialValue.literalValue() != null && 
+                                procedureParameterInitialValue.literalValue().integerValue() != null)
+                            {
+                                var integerValue = procedureParameterInitialValue.literalValue().integerValue();
+                                var integerValueText = integerValue.GetText().Replace("(", "").Replace(")", "");
+                                var integerValueValue = Int32.Parse(integerValueText);
+                                Replace(procedureParameterInitialValue.literalValue(), integerValueValue == 1 ? "TRUE" : "FALSE");
+                            }
+
+                            break;
+                    }
+                }
+
+                var outputToken = context.OUT() ?? context.OUTPUT();
+                if (outputToken != null)
+                {
+                    InsertBefore(context, "OUT ", false);
+                    RemoveToken(outputToken.Symbol, false);
+                }
+            }
+
             return base.VisitProcedureParameter(context);
         }
 
         #endregion
+
+        /// <summary>
+        /// Visits the execute statement.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override object VisitExecuteStatement(TSQLParser.ExecuteStatementContext context)
+        {
+            Replace(context.EXECUTE(), "EXECUTE", false);
+
+            if (context.qualifiedName() != null)
+            {
+                InsertBefore(context.executeArgumentList(), "(");
+                InsertAfter(context.executeArgumentList(), ")");
+
+                // the argument list in T-SQL is a stream of named arguments... in
+                // pgsql, the arguments are unnamed and assumed to positional.  this
+                // makes ensuring soundness more difficult as we actually need the
+                // order of positional arguments for the given stored procedure.
+
+                // for the time-being, we assume that the named order matches the positional
+                // order... this is a *bad* assumption but we will need to get the positional
+                // argument order in order to make the magic happen.
+
+                foreach (var executeArgument in context.executeArgumentList().executeArgument())
+                {
+                    if (executeArgument.EQUALS() != null)
+                    {
+                        RemoveLeaves(executeArgument.variable());
+                        RemoveToken(executeArgument.EQUALS());
+                    }
+                }
+            }
+
+            return base.VisitExecuteStatement(context);
+        }
 
         /// <summary>
         /// Visit a parse tree produced by <see cref="TSQLParser.ifStatement" />.
@@ -676,6 +874,20 @@ namespace tsql2pgsql.visitors
 
             InsertAfter(context.predicateList(), thenText, false);
 
+            var topStatement = context.statement(0);
+            if (topStatement.BEGIN() != null)
+            {
+                RemoveToken(topStatement.BEGIN());
+                RemoveToken(topStatement.END());
+            }
+
+            var botStatement = context.statement(1);
+            if (botStatement != null && botStatement.BEGIN() != null)
+            {
+                RemoveToken(botStatement.BEGIN());
+                RemoveToken(botStatement.END());
+            }
+
             if (context.ELSE() == null)
             {
                 InsertAfter(context.statement(0), endIfText, false);
@@ -683,36 +895,6 @@ namespace tsql2pgsql.visitors
             else
             {
                 InsertAfter(context.statement(1), endIfText, false);
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Visit a parse tree produced by <see cref="TSQLParser.statement" />.
-        /// </summary>
-        /// <param name="context">The parse tree.</param>
-        /// <returns></returns>
-        /// <return>The visitor result.</return>
-        public override object VisitStatement(TSQLParser.StatementContext context)
-        {
-            var result = base.VisitStatement(context);
-
-            if (context.SEMICOLON() == null)
-            {
-                var dml = context.dml();
-                if (dml != null)
-                {
-                    InsertAfter(dml, ";");
-                    return result;
-                }
-
-                var ddl = context.ddl();
-                if (ddl != null)
-                {
-                    InsertAfter(ddl, ";");
-                    return result;
-                }
             }
 
             return result;
@@ -752,7 +934,7 @@ namespace tsql2pgsql.visitors
         /// <return>The visitor result.</return>
         public override object VisitFunctionCall(TSQLParser.FunctionCallContext context)
         {
-            var functionName = Unwrap(context.functionName()).ToLowerInvariant();
+            var functionName = context.functionName().Unwrap().ToLowerInvariant();
             var functionArgs = context.argumentList();
             
             // use a lookup table to determine how we map from T-SQL functions to PL/PGSQL functions
@@ -767,6 +949,59 @@ namespace tsql2pgsql.visitors
             }
 
             return base.VisitFunctionCall(context);
+        }
+
+        /// <summary>
+        /// Visits the additive expression.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override object VisitAdditiveExpression(TSQLParser.AdditiveExpressionContext context)
+        {
+            // check additive expressions ... if they contain string literals, then the additive form must be
+            // modified to use the '||' operator rather than the '+' operator.
+            if (context.additiveExpression() != null && context.GetToken(TSQLParser.PLUS, 0) != null)
+            {
+                var expressionTypeVisitor = new ExpressionTypeVisitor(Variables);
+                var expressionType = expressionTypeVisitor.VisitAdditiveExpression(context);
+                if (expressionType == typeof(string))
+                {
+                    ReplaceToken(context.GetToken(TSQLParser.PLUS, 0), "||", false);
+                }
+            }
+
+            return base.VisitAdditiveExpression(context);
+        }
+
+        /// <summary>
+        /// Visits the conditional expression.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override object VisitConditionalExpression(TSQLParser.ConditionalExpressionContext context)
+        {
+            return base.VisitConditionalExpression(context);
+        }
+
+        /// <summary>
+        /// Visits the return expression.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override object VisitReturnExpression(TSQLParser.ReturnExpressionContext context)
+        {
+            return base.VisitReturnExpression(context);
+        }
+
+        /// <summary>
+        /// Visits the print expression.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override object VisitPrintExpression(TSQLParser.PrintExpressionContext context)
+        {
+            ReplaceToken(context.PRINT(), "RAISE DEBUG '%',");
+            return base.VisitPrintExpression(context);
         }
     }
 }
