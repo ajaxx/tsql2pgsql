@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Src\tsql2pgsql\grammar\TSQL.g4 by ANTLR 4.3
+// Generated from C:\src\tsql2pgsql\grammar\TSQL.g4 by ANTLR 4.3
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -316,6 +316,17 @@ public interface ITSQLListener : IParseTreeListener {
 	void ExitUpdateTop([NotNull] TSQLParser.UpdateTopContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.escapedKeyword"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterEscapedKeyword([NotNull] TSQLParser.EscapedKeywordContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.escapedKeyword"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitEscapedKeyword([NotNull] TSQLParser.EscapedKeywordContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.selectListElement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -435,6 +446,17 @@ public interface ITSQLListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitLikeTestExpression([NotNull] TSQLParser.LikeTestExpressionContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.embeddedParameter"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterEmbeddedParameter([NotNull] TSQLParser.EmbeddedParameterContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.embeddedParameter"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitEmbeddedParameter([NotNull] TSQLParser.EmbeddedParameterContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.insertStatement"/>.
@@ -1185,6 +1207,17 @@ public interface ITSQLListener : IParseTreeListener {
 	void ExitAlterPartitionScheme([NotNull] TSQLParser.AlterPartitionSchemeContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.castExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCastExpression([NotNull] TSQLParser.CastExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.castExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCastExpression([NotNull] TSQLParser.CastExpressionContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.stringValue"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -1427,6 +1460,17 @@ public interface ITSQLListener : IParseTreeListener {
 	void ExitXmlDefinitionList([NotNull] TSQLParser.XmlDefinitionListContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.countExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCountExpression([NotNull] TSQLParser.CountExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.countExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCountExpression([NotNull] TSQLParser.CountExpressionContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.expressionInRest"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -1658,6 +1702,17 @@ public interface ITSQLListener : IParseTreeListener {
 	void ExitAlterPartitionFunction([NotNull] TSQLParser.AlterPartitionFunctionContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.caseExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCaseExpression([NotNull] TSQLParser.CaseExpressionContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.caseExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCaseExpression([NotNull] TSQLParser.CaseExpressionContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -1876,6 +1931,17 @@ public interface ITSQLListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitOrderByElement([NotNull] TSQLParser.OrderByElementContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.embeddedParameterList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterEmbeddedParameterList([NotNull] TSQLParser.EmbeddedParameterListContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.embeddedParameterList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitEmbeddedParameterList([NotNull] TSQLParser.EmbeddedParameterListContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.transactionBlock"/>.

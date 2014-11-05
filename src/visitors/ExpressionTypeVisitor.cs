@@ -40,10 +40,11 @@ namespace tsql2pgsql.visitors
         /// <return>The visitor result.</return>
         public override Type VisitExpression(TSQLParser.ExpressionContext context)
         {
-            return
-                context.primary() != null ?
-                VisitPrimary(context.primary()) :
-                VisitConditionalExpression(context.conditionalExpression());
+            if (context == null)
+                return typeof (void);
+            if (context.primary() != null)
+                return VisitPrimary(context.primary());
+            return VisitConditionalExpression(context.conditionalExpression());
         }
 
         /// <summary>
@@ -238,30 +239,72 @@ namespace tsql2pgsql.visitors
         /// <return>The visitor result.</return>
         public override Type VisitPrimary(TSQLParser.PrimaryContext context)
         {
-            if (context.existsExpression() != null)
-                return typeof(bool);
-            if (context.COUNT() != null)
-                return typeof(int);
-            if (context.COUNT_BIG() != null)
-                return typeof(long);
             if (context.literalValue() != null)
                 return VisitLiteralValue(context.literalValue());
+            if (context.qualifiedColumnName() != null)
+                return typeof(void);
+            if (context.variable() != null)
+                return VisitVariable(context.variable());
             if (context.convertExpression() != null)
                 return VisitConvertExpression(context.convertExpression());
-            if (context.CAST() != null)
-                return VisitType(context.type());
+            if (context.functionCall() != null)
+                return typeof(void);
+            if (context.castExpression() != null)
+                return VisitCastExpression(context.castExpression());
+            if (context.countExpression() != null)
+                return VisitCountExpression(context.countExpression());
+            if (context.existsExpression() != null)
+                return typeof(bool);
+            if (context.caseExpression() != null)
+                return VisitCaseExpression(context.caseExpression());
+
             if (context.LPAREN() != null)
                 return VisitExpression(context.expression());
             if (context.subSelectExpression() != null)
                 return typeof(IDataRecord);
-            if (context.functionCall() != null)
-                return typeof(void);
-            if (context.variable() != null)
-                return VisitVariable(context.variable());
-            if (context.qualifiedColumnName() != null)
-                return typeof(void);
 
             throw new ArgumentException("invalid primary object");
+        }
+
+        /// <summary>
+        /// Visits the case expression.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override Type VisitCaseExpression(TSQLParser.CaseExpressionContext context)
+        {
+            var caseWhen = context.caseWhen();
+            var caseElse = context.caseElse();
+
+            if (caseWhen.Length > 0)
+                return VisitExpression(caseWhen[0].expression(0));
+
+            return VisitExpression(caseElse.expression());
+        }
+
+        /// <summary>
+        /// Visits the count expression.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override Type VisitCountExpression(TSQLParser.CountExpressionContext context)
+        {
+            if (context.COUNT() != null)
+                return typeof(int);
+            if (context.COUNT_BIG() != null)
+                return typeof(long);
+
+            throw new ArgumentException("invalid count expression");
+        }
+
+        /// <summary>
+        /// Visits the cast expression.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        public override Type VisitCastExpression(TSQLParser.CastExpressionContext context)
+        {
+            return VisitType(context.type());
         }
 
         /// <summary>

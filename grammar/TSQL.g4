@@ -165,22 +165,16 @@ predicateList
 
 primary
 	:	literalValue
-	|	qualifiedColumnName collate?
 	|	variable collate?
 	|	convertExpression
 	|	functionCall
-	|	CAST '(' expression AS type ')'
-	|	(	COUNT 
-		|	COUNT_BIG
-		)
-		(	minSelectElement
-		|	'(' DISTINCT minSelectElement ')'
-		)
+	|	castExpression
+	|	countExpression
 	|	existsExpression
-	|	CASE caseWhen+ caseElse? END
-	|	CASE expression caseWhen+ caseElse? END
+	|	caseExpression
 	|	LPAREN expression RPAREN
 	|	subSelectExpression
+	|	qualifiedColumnName collate?
 	;
 
 expression
@@ -192,6 +186,24 @@ existsExpression
 	:	NOT? EXISTS '(' selectStatement ')'
 	;
 
+castExpression
+	:	CAST '(' expression AS type ')'
+	;
+	
+caseExpression
+	:	CASE caseWhen+ caseElse? END
+	|	CASE expression caseWhen+ caseElse? END
+	;
+	
+countExpression
+	:	(	COUNT 
+		|	COUNT_BIG
+		)
+		(	minSelectElement
+		|	'(' DISTINCT minSelectElement ')'
+		)
+	;
+	
 convertExpression
 	:	CONVERT LPAREN type ',' expression (',' Style = integerValue)? RPAREN
 	;
@@ -358,7 +370,7 @@ qualifiedNamePart
 
 qualifiedName
     :   qualifiedNamePart ('.'+ qualifiedNamePart)*
-	|	keyword
+	|	escapedKeyword
     ;
 
 qualifiedNameList
@@ -715,7 +727,7 @@ forXmlClause
 
 selectTopLimit
 	:	DISTINCT? TOP
-		(	integerValue 'percent'?
+		(	integerValue PERCENT = 'percent'?
 		|	variable
 		|	'(' variable ')'
 		)
@@ -728,15 +740,15 @@ selectVariableAssignment
 selectList
 	:	selectListElement (',' selectListElement)*
 	;
-
+	
 selectListElement
-	:	DISTINCT?
+	:	variable op = ('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=') expression (AS? columnAlias)?
+	|	qualifiedColumnName ('=') expression
+	|	DISTINCT?
 		(	expression overClause? (AS? columnAlias)?
 		|	qualifiedName DOT STAR
 		|	STAR
 		)
-	|	variable ('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=') expression (AS? columnAlias)?
-	|	qualifiedColumnName ('=') expression
 	;
 
 dmlOptions
@@ -906,6 +918,14 @@ executeArgument
 	|	expression (OUTPUT | OUT)?
 	;
 
+embeddedParameterList
+	:	embeddedParameter (',' embeddedParameter)*
+	;
+	
+embeddedParameter
+	:	variable type (OUTPUT | OUT)?
+	;
+	
 characterStringTypeLength
 	:	LPAREN (integerValue | MAX) RPAREN
 	;
@@ -950,7 +970,7 @@ qualifiedColumnNameList
 
 qualifiedColumnName
 	:	qualifiedName
-	|	qualifiedName '.' keyword
+	|	qualifiedName '.' keyword 
 	|	tempTable '.' qualifiedNamePart
 	;
 
@@ -1025,6 +1045,10 @@ clusterType
 	|	NONCLUSTERED
 	;
 
+escapedKeyword
+	:	LBRACKET keyword RBRACKET
+	;
+	
 keyword
 	:	READONLY
 	|	TRY

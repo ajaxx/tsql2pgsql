@@ -155,5 +155,30 @@ namespace tsql2pgsql.antlr
             throw new InvalidOperationException();
         }
 
+        public static bool IsParentChain<T>(this IParseTree node) where T : IParseTree
+        {
+            return node.Parent is T;
+        }
+
+        public static bool IsParentChain<T1, T2>(this IParseTree node)
+            where T1 : IParseTree
+            where T2 : IParseTree
+        {
+            return
+                node.Parent is T1 &&
+                node.Parent.Parent is T2;
+        }
+
+        public static bool IsParentChain<T1, T2, T3>(this IParseTree node)
+            where T1 : IParseTree
+            where T2 : IParseTree
+        {
+            return
+                node.Parent is T1 &&
+                node.Parent.Parent is T2 &&
+                node.Parent.Parent.Parent is T3;
+        }
+
+
     }
 }

@@ -86,6 +86,31 @@ namespace tsql2pgsql.pipeline
         }
 
         /// <summary>
+        /// Eats the whitespace at the token.
+        /// </summary>
+        /// <param name="token">The token.</param>
+        public virtual void EatWhitespaceAt(IToken token)
+        {
+            EatWhitespace(token.Line, token.Column);
+        }
+
+        /// <summary>
+        /// Eats the whitespace at the parse tree.
+        /// </summary>
+        /// <param name="parseTree">The parse tree.</param>
+        public virtual void EatWhitespaceAt(IParseTree parseTree)
+        {
+            if (parseTree is ITerminalNode)
+            {
+                EatWhitespaceAt(((ITerminalNode)parseTree).Symbol);
+            }
+            else if (parseTree is ParserRuleContext)
+            {
+                EatWhitespaceAt(((ParserRuleContext)parseTree).Start);
+            }
+        }
+
+        /// <summary>
         /// Replaces the text at the specified location with the new text.
         /// </summary>
         /// <param name="tLine">The t line.</param>
@@ -200,10 +225,13 @@ namespace tsql2pgsql.pipeline
             else if (parseTree is ParserRuleContext)
             {
                 var ruleContext = (ParserRuleContext) parseTree;
+                var ruleContextStart = ruleContext.Start.Column;
+                var ruleContextEnd = ruleContext.Stop.Column + ruleContext.Stop.StopIndex - ruleContext.Stop.StartIndex + 1;
+                var ruleContextLen = ruleContextEnd - ruleContextStart;
                 Pipeline.ReplaceText(
                     ruleContext.Start.Line,
                     ruleContext.Start.Column,
-                    ruleContext.GetText().Length,
+                    ruleContextLen,
                     newText,
                     eatTrailingWhitespace);
             }
@@ -216,7 +244,8 @@ namespace tsql2pgsql.pipeline
         /// <param name="eatTrailingWhitespace"></param>
         public virtual void RemoveToken(IToken token, bool eatTrailingWhitespace = true)
         {
-            Pipeline.RemoveToken(token, eatTrailingWhitespace);
+            if (token != null)
+                Pipeline.RemoveToken(token, eatTrailingWhitespace);
         }
 
         /// <summary>
@@ -226,7 +255,8 @@ namespace tsql2pgsql.pipeline
         /// <param name="eatTrailingWhitespace">if set to <c>true</c> [eat trailing whitespace].</param>
         public virtual void RemoveToken(ITerminalNode terminal, bool eatTrailingWhitespace = true)
         {
-            Pipeline.RemoveToken(terminal.Symbol, eatTrailingWhitespace);
+            if (terminal != null)
+                Pipeline.RemoveToken(terminal.Symbol, eatTrailingWhitespace);
         }
 
         /// <summary>
@@ -236,7 +266,8 @@ namespace tsql2pgsql.pipeline
         /// <param name="tree">The tree.</param>
         public virtual void RemoveLeaves(IParseTree tree)
         {
-            Pipeline.RemoveLeaves(tree);
+            if (tree != null)
+                Pipeline.RemoveLeaves(tree);
         }
 
         /// <summary>
@@ -246,7 +277,8 @@ namespace tsql2pgsql.pipeline
         /// <param name="eatTrailingWhitespace"></param>
         public virtual void Remove(IParseTree tree, bool eatTrailingWhitespace = true)
         {
-            Pipeline.Remove(tree, eatTrailingWhitespace);
+            if (tree != null)
+                Pipeline.Remove(tree, eatTrailingWhitespace);
         }
 
         /// <summary>

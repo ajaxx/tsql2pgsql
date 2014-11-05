@@ -75,6 +75,7 @@
     <Compile Include="antlr\VariableContextExtensions.cs" />
     <Compile Include="CapitalizationStyle.cs" />
     <Compile Include="collections\DictionaryExtensions.cs" />
+    <Compile Include="collections\Pair.cs" />
     <Compile Include="pipeline\Pipeline.cs" />
     <Compile Include="pipeline\PipelineDirector.cs" />
     <Compile Include="pipeline\PipelineResult.cs" />

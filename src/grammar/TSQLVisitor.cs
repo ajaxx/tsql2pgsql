@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Src\tsql2pgsql\grammar\TSQL.g4 by ANTLR 4.3
+// Generated from C:\src\tsql2pgsql\grammar\TSQL.g4 by ANTLR 4.3
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -213,6 +213,13 @@ public interface ITSQLVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitUpdateTop([NotNull] TSQLParser.UpdateTopContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="TSQLParser.escapedKeyword"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitEscapedKeyword([NotNull] TSQLParser.EscapedKeywordContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="TSQLParser.selectListElement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -288,6 +295,13 @@ public interface ITSQLVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitLikeTestExpression([NotNull] TSQLParser.LikeTestExpressionContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TSQLParser.embeddedParameter"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitEmbeddedParameter([NotNull] TSQLParser.EmbeddedParameterContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="TSQLParser.insertStatement"/>.
@@ -766,6 +780,13 @@ public interface ITSQLVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitAlterPartitionScheme([NotNull] TSQLParser.AlterPartitionSchemeContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="TSQLParser.castExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCastExpression([NotNull] TSQLParser.CastExpressionContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="TSQLParser.stringValue"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -920,6 +941,13 @@ public interface ITSQLVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitXmlDefinitionList([NotNull] TSQLParser.XmlDefinitionListContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="TSQLParser.countExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCountExpression([NotNull] TSQLParser.CountExpressionContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="TSQLParser.expressionInRest"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -1067,6 +1095,13 @@ public interface ITSQLVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitAlterPartitionFunction([NotNull] TSQLParser.AlterPartitionFunctionContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="TSQLParser.caseExpression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCaseExpression([NotNull] TSQLParser.CaseExpressionContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="TSQLParser.statement"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -1205,6 +1240,13 @@ public interface ITSQLVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitOrderByElement([NotNull] TSQLParser.OrderByElementContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TSQLParser.embeddedParameterList"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitEmbeddedParameterList([NotNull] TSQLParser.EmbeddedParameterListContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="TSQLParser.transactionBlock"/>.

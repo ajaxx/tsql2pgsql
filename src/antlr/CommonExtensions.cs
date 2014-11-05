@@ -48,12 +48,12 @@ namespace tsql2pgsql.antlr
         public static string Unwrap(this TSQLParser.QualifiedNameContext context)
         {
             var nameParts = context.qualifiedNamePart();
-            if (nameParts != null)
+            if (nameParts != null && nameParts.Length > 0)
             {
                 return string.Join(".", context.qualifiedNamePart().Select(Unwrap));
             }
 
-            return context.keyword().GetText();
+            return context.escapedKeyword().keyword().GetText();
         }
 
         /// <summary>

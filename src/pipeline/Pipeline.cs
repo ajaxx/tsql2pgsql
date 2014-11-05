@@ -236,11 +236,13 @@ namespace tsql2pgsql.pipeline
             // Adjust the line displacement
             if (tlen > 0)
             {
+                // left edge displacement
                 Log.DebugFormat("ReplaceText: d#|{0}|{1}|{2}|{3}", tLine, tColumn, tlen, tColumn + tlen);
                 AddLineDisplacement(tLine, tColumn + tlen, -tlen);
             }
             else
             {
+                // right edge displacement
                 Log.DebugFormat("ReplaceText: d*|{0}|{1}|{2}|{3}", tLine, tColumn, tlen, tColumn - tlen);
                 AddLineDisplacement(tLine, tColumn, -tlen);
             }
@@ -304,9 +306,9 @@ namespace tsql2pgsql.pipeline
             bool eatTrailingWhitespace = true)
         {
             var stLine = startToken.Line;
-            var stColumn = startToken.Column + 1;
+            var stColumn = startToken.Column;
             var etLine = endToken.Line;
-            var etColumn = endToken.Column;
+            var etColumn = endToken.Column + endToken.StopIndex - endToken.StartIndex + 1;
 
             ApplyLineDisplacement(ref stLine, ref stColumn);
             ApplyLineDisplacement(ref etLine, ref etColumn);
@@ -435,8 +437,7 @@ namespace tsql2pgsql.pipeline
             }
             else if (tree is ParserRuleContext)
             {
-                RemoveToken(
-                    ((ParserRuleContext) tree).Start);
+                RemoveLeaves(tree);
             }
             else
             {

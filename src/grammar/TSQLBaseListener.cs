@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from C:\Src\tsql2pgsql\grammar\TSQL.g4 by ANTLR 4.3
+// Generated from C:\src\tsql2pgsql\grammar\TSQL.g4 by ANTLR 4.3
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -372,6 +372,19 @@ public partial class TSQLBaseListener : ITSQLListener {
 	public virtual void ExitUpdateTop([NotNull] TSQLParser.UpdateTopContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.escapedKeyword"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterEscapedKeyword([NotNull] TSQLParser.EscapedKeywordContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.escapedKeyword"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitEscapedKeyword([NotNull] TSQLParser.EscapedKeywordContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.selectListElement"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -513,6 +526,19 @@ public partial class TSQLBaseListener : ITSQLListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitLikeTestExpression([NotNull] TSQLParser.LikeTestExpressionContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.embeddedParameter"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterEmbeddedParameter([NotNull] TSQLParser.EmbeddedParameterContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.embeddedParameter"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitEmbeddedParameter([NotNull] TSQLParser.EmbeddedParameterContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.insertStatement"/>.
@@ -1399,6 +1425,19 @@ public partial class TSQLBaseListener : ITSQLListener {
 	public virtual void ExitAlterPartitionScheme([NotNull] TSQLParser.AlterPartitionSchemeContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.castExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCastExpression([NotNull] TSQLParser.CastExpressionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.castExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCastExpression([NotNull] TSQLParser.CastExpressionContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.stringValue"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -1685,6 +1724,19 @@ public partial class TSQLBaseListener : ITSQLListener {
 	public virtual void ExitXmlDefinitionList([NotNull] TSQLParser.XmlDefinitionListContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.countExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCountExpression([NotNull] TSQLParser.CountExpressionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.countExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCountExpression([NotNull] TSQLParser.CountExpressionContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.expressionInRest"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -1958,6 +2010,19 @@ public partial class TSQLBaseListener : ITSQLListener {
 	public virtual void ExitAlterPartitionFunction([NotNull] TSQLParser.AlterPartitionFunctionContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.caseExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCaseExpression([NotNull] TSQLParser.CaseExpressionContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.caseExpression"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCaseExpression([NotNull] TSQLParser.CaseExpressionContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.statement"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -2216,6 +2281,19 @@ public partial class TSQLBaseListener : ITSQLListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitOrderByElement([NotNull] TSQLParser.OrderByElementContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TSQLParser.embeddedParameterList"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterEmbeddedParameterList([NotNull] TSQLParser.EmbeddedParameterListContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TSQLParser.embeddedParameterList"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitEmbeddedParameterList([NotNull] TSQLParser.EmbeddedParameterListContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TSQLParser.transactionBlock"/>.

@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -24,6 +25,7 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
 using Common.Logging;
+using Common.Logging.Configuration;
 
 namespace tsql2pgsql.visitors
 {
@@ -94,10 +96,17 @@ namespace tsql2pgsql.visitors
         public IDictionary<string, Func<string, string>> AdvancedFunctionMapTable { get; private set; }
 
         /// <summary>
+        /// Provides us with an indication that we have used a smart record.
+        /// </summary>
+        private bool _useSmartRecord;
+
+        /// <summary>
         /// Creates a pgsql converter.
         /// </summary>
         public PgsqlConverter() : base(false)
         {
+            _useSmartRecord = false;
+
             CapitalizationStyle = CapitalizationStyle.PascalCase;
             Parameters = new HashSet<string>();
             ParameterPrefix = "_p";
@@ -140,8 +149,11 @@ namespace tsql2pgsql.visitors
             foreach (var line in GetRawContent())
             {
                 var trimLine = line.TrimEnd();
+                while (trimLine.EndsWith(";;"))
+                    trimLine = trimLine.Substring(0, trimLine.Length - 1);
                 if (trimLine.TrimStart() == ";")
                     trimLine = string.Empty;
+
                 if (trimLine != string.Empty || prevLine != string.Empty)
                     yield return trimLine;
 
@@ -177,6 +189,19 @@ namespace tsql2pgsql.visitors
         }
 
         /// <summary>
+        /// Parses the embedded parameter list.
+        /// </summary>
+        /// <param name="content">The content.</param>
+        /// <returns></returns>
+        private TSQLParser.EmbeddedParameterListContext EmbeddedParameterList(string content)
+        {
+            var stream = new CaseInsensitiveStream(content);
+            var lexer = new TSQLLexer(stream);
+            var parser = new TSQLParser(new CommonTokenStream(lexer));
+            return parser.embeddedParameterList();
+        }
+
+        /// <summary>
         /// Ports the type.
         /// </summary>
         /// <param name="typeName">Name of the type.</param>
@@ -191,9 +216,77 @@ namespace tsql2pgsql.visitors
                 case "datetime":
                 case "smalldatetime":
                     return "date";
+                case "sysname":
+                    return "text";
             }
 
             return typeName;
+        }
+
+        /// <summary>
+        /// Ports the type of the data.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        private string PortDataType(TSQLParser.NumericTypeContext context)
+        {
+            return context.GetText();
+        }
+
+        /// <summary>
+        /// Ports the type of the data.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        private string PortDataType(TSQLParser.CharacterStringTypeContext context)
+        {
+            var characterStringTypeLength = context.characterStringTypeLength();
+            if (characterStringTypeLength != null)
+            {
+                if (characterStringTypeLength.MAX() != null)
+                {
+                    return "text";
+                }
+
+                if (context.NVARCHAR() != null)
+                    return string.Format("varchar{0}", characterStringTypeLength.GetText());
+                if (context.NCHAR() != null)
+                    return string.Format("char{0}", characterStringTypeLength.GetText());
+            }
+            else
+            {
+                if (context.NVARCHAR() != null)
+                    return "varchar";
+                if (context.NCHAR() != null)
+                    return "char";
+            }
+
+            return context.GetText();
+        }
+
+        /// <summary>
+        /// Ports the type.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns></returns>
+        private string PortDataType(TSQLParser.TypeContext context)
+        {
+            if (context.integerType() != null)
+                return PortDataType(context.integerType().GetText());
+            if (context.typeInBracket() != null)
+                return PortDataType(context.typeInBracket().type());
+            if (context.XML() != null)
+                return PortDataType(context.GetText());
+            if (context.CURSOR() != null)
+                return PortDataType(context.GetText());
+            if (context.qualifiedName() != null)
+                return PortDataType(context.GetText());
+            if (context.numericType() != null)
+                return PortDataType(context.numericType());
+            if (context.characterStringType() != null)
+                return PortDataType(context.characterStringType());
+
+            throw new ArgumentException("you used something we didnt plan on");
         }
 
         /// <summary>
@@ -256,21 +349,39 @@ namespace tsql2pgsql.visitors
             {
                 yield return "DECLARE";
 
-                foreach (var variableDeclarationContext in Variables.Values)
+                foreach (var variable in GetVariables())
                 {
-                    if (variableDeclarationContext.type() != null)
-                    {
-                        var pgsqlDeclaration = new StringBuilder();
-                        pgsqlDeclaration.Append('\t');
-                        pgsqlDeclaration.Append(PortVariableName(variableDeclarationContext.variable().GetText()));
-                        pgsqlDeclaration.Append(' ');
-                        pgsqlDeclaration.Append(PortDataType(variableDeclarationContext.type().GetText()));
-                        pgsqlDeclaration.Append(';');
+                    var pgsqlDeclaration = new StringBuilder();
+                    pgsqlDeclaration.Append('\t');
+                    pgsqlDeclaration.Append(variable.A);
+                    pgsqlDeclaration.Append(' ');
+                    pgsqlDeclaration.Append(variable.B);
+                    pgsqlDeclaration.Append(';');
 
-                        yield return pgsqlDeclaration.ToString();
-                    }
+                    yield return pgsqlDeclaration.ToString();
                 }
             }
+        }
+
+        public IEnumerable<Pair<string, string>> GetVariables()
+        {
+            foreach (var variableDeclarationContext in Variables.Values)
+            {
+                if (variableDeclarationContext.type() != null)
+                {
+                    yield return new Pair<string, string>(
+                        PortVariableName(variableDeclarationContext.variable().GetText()),
+                        PortDataType(variableDeclarationContext.type()));
+                }
+            }
+
+            if (_useSmartRecord)
+            {
+                yield return new Pair<string, string>(
+                    "_vSmartRecord",
+                    "RECORD");
+            }
+            
         }
 
         /// <summary>
@@ -314,20 +425,27 @@ namespace tsql2pgsql.visitors
             else
             {
                 var assignment = context.variableDeclarationAssignment();
-                var assignmentExpression = assignment.expression();
-                if (assignmentExpression != null)
+                if (assignment != null)
                 {
-                    // convert the statement into an assignment ... all variable declarations should be
-                    // single line by the time they get to this point.  this allows us to go up to the
-                    // parent and remove the unnecessary parts
-                    var parentContext = (TSQLParser.DeclareStatementContext) context.Parent;
-                    Remove(parentContext.DECLARE());
-                    InsertAfter(context.variable(), " := ", false);
+                    Console.WriteLine("assignment");
+                    var assignmentExpression = assignment.expression();
+                    if (assignmentExpression != null)
+                    {
+                        // convert the statement into an assignment ... all variable declarations should be
+                        // single line by the time they get to this point.  this allows us to go up to the
+                        // parent and remove the unnecessary parts
+                        var parentContext = (TSQLParser.DeclareStatementContext) context.Parent;
+                        Remove(parentContext.DECLARE());
+                        InsertAfter(context.variable(), " := ", false);
+                    }
                 }
                 else
                 {
                     Log.DebugFormat("VisitVariableDeclaration: Removing declaration {0}", context);
                     RemoveStatement(context);
+
+                    // no further processing to be performed
+                    return null;
                 }
             }
             //else
@@ -358,7 +476,7 @@ namespace tsql2pgsql.visitors
                     context.Start.Column,
                     context.GetText(),
                     PortVariableName(variableName),
-                    true);
+                    false);
             }
 
             return base.VisitVariable(context);
@@ -584,6 +702,22 @@ namespace tsql2pgsql.visitors
         }
 
         /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.insertPreamble" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitInsertPreamble(TSQLParser.InsertPreambleContext context)
+        {
+            if (context.INTO() == null)
+            {
+                InsertAfter(context.INSERT(), " INTO ", false);
+            }
+
+            return base.VisitInsertPreamble(context);
+        }
+        
+        /// <summary>
         /// Visits the transaction block.
         /// </summary>
         /// <param name="context">The context.</param>
@@ -642,7 +776,40 @@ namespace tsql2pgsql.visitors
             ReplaceToken(context.RAISE_ERROR().Symbol, "RAISE EXCEPTION ");
             if (context.LPAREN() != null) RemoveToken(context.LPAREN());
             if (context.RPAREN() != null) RemoveToken(context.RPAREN());
+
+            if (context.argumentList() != null)
+            {
+                RaiseErrorCheckArguments(context.argumentList().argument());
+            }
+            else if (context.argument() != null)
+            {
+                RaiseErrorCheckArguments(context.argument());
+            }
+
             return base.VisitRaiseError(context);
+        }
+
+        private void RaiseErrorCheckArguments(TSQLParser.ArgumentContext[] argumentList)
+        {
+            var argument0 = argumentList[0];
+            if (argument0.expression() != null &&
+                argument0.expression().primary() != null &&
+                argument0.expression().primary().literalValue() != null &&
+                argument0.expression().primary().literalValue().StringLiteral() != null)
+            {
+                // all this to determine if this is a valid argument0
+            }
+            else
+            {
+                // argument0 cannot be a variable or other like item...
+                var stringText = new StringBuilder("'");
+                for (int ii = 0; ii < argumentList.Length; ii++)
+                    stringText.Append('%');
+
+                stringText.Append("', ");
+
+                InsertBefore(argument0, stringText.ToString(), false);
+            }
         }
 
         /// <summary>
@@ -670,6 +837,12 @@ namespace tsql2pgsql.visitors
         }
 
         /// <summary>
+        /// Set of temp tables that have been declared.
+        /// </summary>
+        private readonly ISet<string> _declaredTempTables =
+            new HashSet<string>();
+
+        /// <summary>
         /// Visit a parse tree produced by <see cref="TSQLParser.createTable" />.
         /// </summary>
         /// <param name="context">The parse tree.</param>
@@ -679,10 +852,38 @@ namespace tsql2pgsql.visitors
         {
             if (context.tempTable() != null)
             {
+                _declaredTempTables.Add(context.tempTable().Unwrap());
                 InsertAfter(context.CREATE(), " TEMPORARY", false);
             }
 
             return base.VisitCreateTable(context);
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.columnDefinition" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitColumnDefinition(TSQLParser.ColumnDefinitionContext context)
+        {
+            var identity = context.identitySpec();
+            if (identity == null)
+            {
+                var type = context.type();
+                if (type != null && type.identityType() != null)
+                {
+                    identity = type.identityType().identitySpec();
+                }
+
+                if (identity != null)
+                {
+                    Replace(type, "SERIAL");
+                }
+            }
+
+
+            return base.VisitColumnDefinition(context);
         }
 
         /// <summary>
@@ -774,6 +975,44 @@ namespace tsql2pgsql.visitors
         }
 
         /// <summary>
+        /// A set of initial values to ignore.
+        /// </summary>
+        private readonly ISet<TSQLParser.ProcedureParameterInitialValueContext> _initialValuesToIgnore =
+            new HashSet<TSQLParser.ProcedureParameterInitialValueContext>(); 
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.procedureParameters" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitProcedureParameters(TSQLParser.ProcedureParametersContext context)
+        {
+            // PGSQL does not allow non-defaulted parameters after a defaulted parameter.  Therefore,
+            // if we detect a non-default parameter in one of the children, then any defaulted
+            // parameters that occur before that one will have their default values stripped.
+            var procedureParameters = context.procedureParameter();
+
+            // Find the last index that contains a non-defaulted parameter
+            var lastNonDefaultParameter = Array.FindLastIndex(procedureParameters, p => p.procedureParameterInitialValue() == null);
+            if (lastNonDefaultParameter != -1)
+            {
+                for (int ii = 0; ii < lastNonDefaultParameter; ii++)
+                {
+                    var procedureParam = procedureParameters[ii];
+                    var procedureParamInitial = procedureParam.procedureParameterInitialValue();
+                    if (procedureParamInitial != null)
+                    {
+                        _initialValuesToIgnore.Add(procedureParamInitial);
+                        RemoveLeaves(procedureParamInitial);
+                    }
+                }
+            }
+
+            return base.VisitProcedureParameters(context);
+        }
+
+        /// <summary>
         /// Visits the procedure parameter.
         /// </summary>
         /// <param name="context">The context.</param>
@@ -785,9 +1024,9 @@ namespace tsql2pgsql.visitors
                 Parameters.Add(context.procedureParameterName().variable().Unwrap());
 
                 var procedureParameterInitialValue = context.procedureParameterInitialValue();
-                if (procedureParameterInitialValue != null)
+                if (procedureParameterInitialValue != null && !_initialValuesToIgnore.Contains(procedureParameterInitialValue))
                 {
-                    switch(context.type().Unwrap())
+                    switch(context.type().Unwrap().ToLowerInvariant())
                     {
                         case "bit":
                             // we know that bits are converted into booleans and that the
@@ -827,33 +1066,116 @@ namespace tsql2pgsql.visitors
         /// <returns></returns>
         public override object VisitExecuteStatement(TSQLParser.ExecuteStatementContext context)
         {
-            Replace(context.EXECUTE(), "EXECUTE", false);
+            var result = base.VisitExecuteStatement(context);
 
             if (context.qualifiedName() != null)
             {
-                InsertBefore(context.executeArgumentList(), "(");
-                InsertAfter(context.executeArgumentList(), ")");
-
-                // the argument list in T-SQL is a stream of named arguments... in
-                // pgsql, the arguments are unnamed and assumed to positional.  this
-                // makes ensuring soundness more difficult as we actually need the
-                // order of positional arguments for the given stored procedure.
-
-                // for the time-being, we assume that the named order matches the positional
-                // order... this is a *bad* assumption but we will need to get the positional
-                // argument order in order to make the magic happen.
-
-                foreach (var executeArgument in context.executeArgumentList().executeArgument())
+                // this appears to be a function call...
+                var functionName = context.qualifiedName().Unwrap().ToLowerInvariant();
+                if (functionName == "sp_executesql")
                 {
-                    if (executeArgument.EQUALS() != null)
+                    // sp_executesql is special because we're being given a "command" to run and probably a
+                    // host of out parameters.  However, out parameters are different in pgsql than from tsql
+                    // instead, they are returned to the caller in the resulting rows.  As such, we need to
+                    // use EXECUTE instead of PERFORM
+                    Replace(context.EXECUTE(), "EXECUTE", false);
+                    RemoveLeaves(context.qualifiedName());
+
+                    var sargs = context.executeArgumentList().executeArgument();
+
+                    // @stmt is arg[0]
+                    var pstmt = sargs[0];
+                    // @params is args[1] - if it exists at all
+                    var pparams = sargs.Length > 1 ? sargs[1] : null;
+                    if (pparams != null)
                     {
-                        RemoveLeaves(executeArgument.variable());
-                        RemoveToken(executeArgument.EQUALS());
+                        // alright, we no longer care about this argument - not relevant to PGSQL execute,
+                        // so go ahead and remove it
+                        RemoveLeaves(pparams);
+                        RemoveToken(context.executeArgumentList().GetToken(TSQLParser.COMMA, 0));
+                    }
+                    // @param1+ are args[2+] and must match any parameters that are visible in stmt and
+                    //     subsequently declared in @params.  depending on direction, these may or may
+                    //     not need to be passed along.  out parameters are not translated as they are
+                    //     returned and must be part of the "INTO" conversion.
+                    var usingDelimiter = "";
+                    var usingBlock = new StringBuilder("");
+
+                    var intoBlock = false;
+
+                    var pparamValues = sargs.Skip(2).ToArray();
+                    // each argument must be rewritten in pstmt in addition to being added to a special
+                    // using block at the end of the execute call
+                    for (int ii = 0; ii < pparamValues.Length; ii++)
+                    {
+                        var pparamValue = pparamValues[ii];
+                        if (pparamValue.OUT() != null && pparamValue.OUTPUT() != null)
+                        {
+                            usingBlock.Append(usingDelimiter);
+                            usingBlock.Append(pparamValue.variable().Unwrap());
+                            usingDelimiter = ",";
+                        }
+                        else
+                        {
+                            // output parameters need to be removed ... at the same time they need to function
+                            // as part of the INTO portion of the return
+                            intoBlock = _useSmartRecord = true;
+                            RemoveBetween(
+                                context.executeArgumentList().GetToken(TSQLParser.COMMA, 1 + ii).Symbol,
+                                pparamValue.Stop);
+                        }
+                    }
+
+                    var insertAfter = intoBlock ? " INTO _vSmartRecord" : "";
+                    if (usingBlock.Length > 0)
+                    {
+                        insertAfter += " USING " + usingBlock;
+                    }
+
+                    if (! string.IsNullOrWhiteSpace(insertAfter))
+                    {
+                        InsertAfter(pparams, insertAfter, false);
+                    }
+                }
+                else
+                {
+                    Replace(context.EXECUTE(), "PERFORM", false);
+
+                    if (context.executeArgumentList() != null)
+                    {
+                        InsertBefore(context.executeArgumentList(), "(");
+                        InsertAfter(context.executeArgumentList(), ")");
+
+                        // the argument list in T-SQL is a stream of named arguments... in
+                        // pgsql, the arguments are unnamed and assumed to positional.  this
+                        // makes ensuring soundness more difficult as we actually need the
+                        // order of positional arguments for the given stored procedure.
+
+                        // for the time-being, we assume that the named order matches the positional
+                        // order... this is a *bad* assumption but we will need to get the positional
+                        // argument order in order to make the magic happen.
+
+                        foreach (var executeArgument in context.executeArgumentList().executeArgument())
+                        {
+                            if (executeArgument.EQUALS() != null)
+                            {
+                                RemoveLeaves(executeArgument.variable());
+                                RemoveToken(executeArgument.EQUALS());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        InsertAfter(context.qualifiedName(), "()");
                     }
                 }
             }
+            else
+            {
+                Replace(context.EXECUTE(), "PERFORM", false);
+            }
 
-            return base.VisitExecuteStatement(context);
+            return result;
         }
 
         /// <summary>
@@ -974,26 +1296,6 @@ namespace tsql2pgsql.visitors
         }
 
         /// <summary>
-        /// Visits the conditional expression.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <returns></returns>
-        public override object VisitConditionalExpression(TSQLParser.ConditionalExpressionContext context)
-        {
-            return base.VisitConditionalExpression(context);
-        }
-
-        /// <summary>
-        /// Visits the return expression.
-        /// </summary>
-        /// <param name="context">The context.</param>
-        /// <returns></returns>
-        public override object VisitReturnExpression(TSQLParser.ReturnExpressionContext context)
-        {
-            return base.VisitReturnExpression(context);
-        }
-
-        /// <summary>
         /// Visits the print expression.
         /// </summary>
         /// <param name="context">The context.</param>
@@ -1002,6 +1304,156 @@ namespace tsql2pgsql.visitors
         {
             ReplaceToken(context.PRINT(), "RAISE DEBUG '%',");
             return base.VisitPrintExpression(context);
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.selectStatementPart" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitSelectStatementPart(TSQLParser.SelectStatementPartContext context)
+        {
+            var result = base.VisitSelectStatementPart(context);
+
+            if (context.selectTopLimit() != null)
+            {
+                // limits under MS-SQL support a few options that dont translate well into ANSI
+                // limits ... look for percent as this doesnt translate
+                var topLimit = context.selectTopLimit();
+                if (topLimit.PERCENT != null)
+                {
+                    throw new ArgumentException("unable to handle percent based limits");
+                }
+
+                var limitLevel = topLimit.integerValue() != null
+                        ? topLimit.integerValue().GetText()
+                        : topLimit.variable().GetText();
+
+                var limitText = string.Format(" LIMIT {0}", limitLevel);
+                RemoveToken(topLimit.TOP());
+                Remove(topLimit.integerValue());
+                Remove(topLimit.GetToken(TSQLParser.LPAREN, 1));
+                Remove(topLimit.variable());
+                Remove(topLimit.GetToken(TSQLParser.RPAREN, 1));
+
+                InsertAfter(context.RightMostToken(), limitText, false);
+            }
+
+            if (context.selectList() != null)
+            {
+                // Look select statements that are saving state into a variable.  These are typically
+                // queries with a single-row result.  There must only be one assignment in the entire
+                // block for this to work.
+
+                var selectListElements = context.selectList().selectListElement();
+                if (selectListElements.Count(s => s.variable() != null) == 1)
+                {
+                    foreach (var selectListElement in selectListElements)
+                    {
+                        var selectListVariable = selectListElement.variable();
+                        if (selectListVariable != null)
+                        {
+                            // this needs to be moved into the "INTO" section of the query
+                            var insertText = string.Format(" INTO {0} ", PortVariableName(selectListVariable.Unwrap()));
+                            Remove(selectListVariable);
+                            RemoveToken(selectListElement.op);
+                            InsertAfter(context.selectList(), insertText, false);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public override object VisitCaseExpression(TSQLParser.CaseExpressionContext context)
+        {
+            return base.VisitCaseExpression(context);
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.tableTarget" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitTableTarget(TSQLParser.TableTargetContext context)
+        {
+            var result = base.VisitTableTarget(context);
+
+            if (context.tempTable() != null)
+            {
+                string tempTableName = context.tempTable().Unwrap();
+                if (!_declaredTempTables.Contains(tempTableName))
+                {
+                    // if my parent is part of a select into or an insert, then I can manufacture
+                    // the schema for the temporary table from the parent call.
+
+                    if (context.IsParentChain<TSQLParser.IntoClauseContext, TSQLParser.SelectStatementPartContext>())
+                    {
+                        InsertBefore(
+                            context.Parent.Parent,
+                            string.Format("CREATE TEMPORARY TABLE {0} ON COMMIT DROP AS ", PortTableName(tempTableName)));
+                        RemoveLeaves(context.Parent);
+                        EatWhitespaceAt(context.Parent);
+                    }
+                    else if (context.IsParentChain<TSQLParser.InsertPreambleContext>())
+                    {
+                        var insertPreamble = context.Parent as TSQLParser.InsertPreambleContext;
+                    }
+                    else if (context.IsParentChain<TSQLParser.InsertOutputClauseContext>())
+                    {
+                        var insertOutputClause = context.Parent as TSQLParser.InsertOutputClauseContext;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.joinOrApply" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitJoinOrApply(TSQLParser.JoinOrApplyContext context)
+        {
+            if (context.APPLY() != null)
+            {
+#if PG93
+                ReplaceToken(context.APPLY(), "LATERAL");
+#else
+                ReplaceToken(context.APPLY(), "JOIN");
+#endif
+            }
+
+            return base.VisitJoinOrApply(context);
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.tableTargetOptions" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitTableTargetOptions(TSQLParser.TableTargetOptionsContext context)
+        {
+            RemoveLeaves(context);
+            return base.VisitTableTargetOptions(context);
+        }
+
+        /// <summary>
+        /// Visit a parse tree produced by <see cref="TSQLParser.tableSourceOptions" />.
+        /// </summary>
+        /// <param name="context">The parse tree.</param>
+        /// <returns></returns>
+        /// <return>The visitor result.</return>
+        public override object VisitTableSourceOptions(TSQLParser.TableSourceOptionsContext context)
+        {
+            RemoveLeaves(context);
+            return base.VisitTableSourceOptions(context);
         }
     }
 }
