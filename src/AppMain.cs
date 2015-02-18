@@ -56,11 +56,11 @@ namespace tsql2pgsql
 
             var fileContent = File.ReadAllLines(filePath);
             var pipelineDirector = new PipelineDirector(fileContent).Process(
-                new ParentheticalRepairVisitor(),
-                new SingleLineDeclarationVisitor(),
-                new ProcedureFormatVisitor(),
-                new StatementTerminatorVisitor(),
-                new PgsqlConverter()
+                new ParentheticalRepairVisitor()//,
+                //new SingleLineDeclarationVisitor(),
+                //new ProcedureFormatVisitor(),
+                //new StatementTerminatorVisitor(),
+                //new PgsqlConverter()
                 );
 
             File.WriteAllLines(oFileName, pipelineDirector.Contents);
